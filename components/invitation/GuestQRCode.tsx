@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { QrCode, ShieldCheck } from 'lucide-react';
-import { FloralDivider } from '../ui/FloralDecoration';
+import { ShieldCheck } from 'lucide-react';
 
 interface GuestQRCodeProps {
   guestName: string;
@@ -11,49 +10,51 @@ interface GuestQRCodeProps {
 }
 
 export const GuestQRCode: React.FC<GuestQRCodeProps> = ({ guestName, tableNumber }) => {
-  // Generate a clean check-in token payload URL for Usher scanning
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://wedding-invitation-app.vercel.app';
   const qrData = `${siteUrl}/scan?token=${encodeURIComponent(guestName)}`;
 
   return (
-    <section className="relative py-14 px-6 bg-[#17335C] text-[#F7F3EA]">
-      <div className="max-w-md mx-auto text-center">
-        <span className="font-serif-title text-xs text-[#D4AF37] tracking-[0.2em]">
-          VENUE ACCESS
-        </span>
-        <h2 className="font-script text-4xl text-[#F7F3EA] mt-1 mb-2">
-          QR Code Check-in
-        </h2>
-        <p className="text-xs text-[#B7C7E3] mb-4">
-          Tunjukkan QR Code ini kepada Usher saat tiba di venue untuk verifikasi kedatangan.
-        </p>
-        <FloralDivider color="#D4AF37" />
+    <section className="relative py-14 px-6 bg-[#3B2B24] text-[#FAF6F0]">
+      <div className="max-w-md mx-auto text-center space-y-8">
+        <div>
+          <span className="font-serif-title text-xs text-[#C5A059] tracking-[0.25em] uppercase">
+            VENUE ACCESS PASS
+          </span>
+          <h2 className="font-script text-4xl text-[#FAF6F0] mt-1 italic">
+            QR Code Check-in
+          </h2>
+          <p className="text-xs text-[#D8C6B9] mt-2">
+            Tunjukkan QR Code ini kepada Usher saat tiba di venue untuk verifikasi kedatangan.
+          </p>
+          <div className="w-16 h-[1px] bg-[#C5A059] mx-auto mt-3" />
+        </div>
 
-        {/* QR Box Container */}
-        <div className="glass-panel p-6 rounded-3xl border-2 border-[#D4AF37]/50 max-w-xs mx-auto text-center shadow-2xl mt-6">
-          <div className="p-4 bg-white rounded-2xl shadow-inner inline-block">
+        <div className="paper-card p-6 relative max-w-xs mx-auto text-center shadow-2xl">
+          <div className="pearl-pin" />
+
+          <div className="p-4 bg-white rounded-2xl shadow-inner inline-block border border-[#C5A059]/40">
             <QRCodeSVG
               value={qrData}
               size={180}
               bgColor="#FFFFFF"
-              fgColor="#17335C"
+              fgColor="#2D1E18"
               level="H"
               includeMargin={false}
             />
           </div>
 
-          <h3 className="font-serif text-lg font-bold text-[#F7F3EA] mt-4">
+          <h3 className="font-serif text-xl font-bold text-[#2C1D18] mt-4">
             {guestName}
           </h3>
 
           {tableNumber && (
-            <span className="inline-block mt-1 px-3 py-1 rounded-full bg-[#D4AF37] text-[#17335C] text-xs font-bold uppercase">
+            <span className="inline-block mt-1 px-3 py-1 rounded-full bg-[#2D1E18] text-[#C5A059] text-xs font-bold uppercase">
               MEJA: {tableNumber}
             </span>
           )}
 
-          <div className="flex items-center justify-center gap-1 text-[11px] text-[#B7C7E3] mt-3">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
+          <div className="flex items-center justify-center gap-1 text-[11px] text-[#5A453C] mt-3">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#8C6D37]" />
             <span>Digital Pass Tiket Resepsi</span>
           </div>
         </div>

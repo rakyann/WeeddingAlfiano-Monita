@@ -3,7 +3,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Users, Instagram } from 'lucide-react';
-import { FloralDivider, FloralCorner } from '../ui/FloralDecoration';
 
 export const StoryEntourage: React.FC = () => {
   const entourage = [
@@ -22,51 +21,54 @@ export const StoryEntourage: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-14 px-6 bg-[#17335C] text-[#F7F3EA] overflow-hidden">
-      <FloralCorner className="absolute top-2 right-2 text-[#D4AF37] -scale-x-100 opacity-40" />
-
-      <div className="max-w-md mx-auto text-center space-y-12">
+    <section className="relative py-14 px-6 bg-[#3B2B24] text-[#FAF6F0]">
+      <div className="max-w-md mx-auto text-center space-y-8">
         <div>
-          <div className="w-10 h-10 mx-auto rounded-full bg-[#3E5C8A] text-[#D4AF37] flex items-center justify-center mb-3 shadow">
+          <div className="w-10 h-10 mx-auto rounded-full bg-[#2D1E18] text-[#C5A059] flex items-center justify-center mb-3 shadow">
             <Users className="w-5 h-5" />
           </div>
-          <span className="font-serif-title text-xs text-[#D4AF37] tracking-[0.2em]">
+          <span className="font-serif-title text-xs text-[#C5A059] tracking-[0.25em] uppercase">
             THE BRIDE &amp; GROOM
           </span>
-          <h2 className="font-script text-4xl text-[#F7F3EA] mt-1 mb-2">
+          <h2 className="font-script text-4xl text-[#FAF6F0] mt-1 italic">
             Pasangan Mempelai
           </h2>
-          <FloralDivider color="#D4AF37" />
+          <div className="w-16 h-[1px] bg-[#C5A059] mx-auto mt-3" />
+        </div>
 
-          <div className="space-y-6 mt-8">
-            {entourage.map((person, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="glass-panel p-6 rounded-2xl border border-[#D4AF37]/30 text-center space-y-2"
+        <div className="space-y-6">
+          {entourage.map((person, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="paper-card p-6 relative text-center text-[#2C1D18] shadow-xl"
+            >
+              <div className="pearl-pin" />
+
+              <span className="inline-block px-3 py-1 rounded-full bg-[#3B2B24] text-[#C5A059] font-mono text-[10px] font-bold uppercase tracking-wider mb-2">
+                {person.role}
+              </span>
+
+              <h3 className="font-serif text-2xl font-bold text-[#2C1D18]">
+                {person.name}
+              </h3>
+
+              <p className="text-xs text-[#5A453C] mt-1">
+                {person.parents}
+              </p>
+
+              <a
+                href={`https://instagram.com/${person.ig.replace('@', '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-xs text-[#8C6D37] hover:underline mt-3 font-mono font-bold"
               >
-                <span className="inline-block px-3 py-1 rounded-full bg-[#D4AF37] text-[#17335C] font-mono text-[10px] font-bold uppercase tracking-wider">
-                  {person.role}
-                </span>
-                <h3 className="font-serif text-xl font-bold text-[#F7F3EA]">
-                  {person.name}
-                </h3>
-                <p className="text-xs text-[#B7C7E3]">
-                  {person.parents}
-                </p>
-                <a
-                  href={`https://instagram.com/${person.ig.replace('@', '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-[#D4AF37] hover:underline mt-2 font-mono"
-                >
-                  <Instagram className="w-3.5 h-3.5" /> {person.ig}
-                </a>
-              </motion.div>
-            ))}
-          </div>
+                <Instagram className="w-3.5 h-3.5" /> {person.ig}
+              </a>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

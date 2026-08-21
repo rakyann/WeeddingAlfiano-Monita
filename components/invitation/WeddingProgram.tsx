@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Calendar, Clock, Sparkles } from 'lucide-react';
-import { FloralDivider } from '../ui/FloralDecoration';
+import { Clock, Heart } from 'lucide-react';
 
 export const WeddingProgram: React.FC = () => {
   const events = [
@@ -16,11 +15,11 @@ export const WeddingProgram: React.FC = () => {
     {
       title: 'RESEPSI PERNIKAHAN',
       time: '11:00 - 14:00 WIB',
-      location: 'Grand Ballroom Hotel Mulia',
+      location: 'Grand Ballroom',
       desc: 'Ramah tamah, ucapan selamat & santap siang.',
     },
     {
-      title: 'PRIVATE DINNER',
+      title: 'DINNER & RAMAH TAMAH',
       time: '18:30 - 21:00 WIB',
       location: 'Mulia Rooftop Lounge',
       desc: 'Acara keakraban bersama sahabat & kerabat dekat.',
@@ -28,18 +27,27 @@ export const WeddingProgram: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-14 px-6 bg-[#F7F3EA] text-[#1C2B3D]">
-      <div className="max-w-md mx-auto text-center">
-        <span className="font-serif-title text-xs text-[#3E5C8A] tracking-[0.2em]">
-          EVENT SCHEDULE
-        </span>
-        <h2 className="font-script text-4xl text-[#17335C] mt-1 mb-2">
-          Rangkaian Acara
-        </h2>
-        <FloralDivider color="#3E5C8A" />
+    <section className="relative py-14 px-6 bg-[#2D1E18] text-[#FAF6F0]">
+      <div className="max-w-md mx-auto text-center space-y-8">
+        <div>
+          <span className="font-serif-title text-xs text-[#C5A059] tracking-[0.25em] uppercase">
+            EVENT SCHEDULE
+          </span>
+          <h2 className="font-script text-4xl text-[#FAF6F0] mt-1 italic">
+            Rangkaian Acara
+          </h2>
+          <div className="w-16 h-[1px] bg-[#C5A059] mx-auto mt-3" />
+        </div>
 
-        {/* Event Cards */}
-        <div className="space-y-6 mt-8">
+        {/* Vintage Pocket Watch Icon Display */}
+        <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-b from-[#D4AF37] to-[#8C6D37] p-1 shadow-2xl flex items-center justify-center">
+          <div className="w-full h-full rounded-full bg-[#2D1E18] flex items-center justify-center text-[#C5A059]">
+            <Clock className="w-7 h-7 animate-pulse" />
+          </div>
+        </div>
+
+        {/* Timeline Events */}
+        <div className="space-y-6 text-center">
           {events.map((evt, idx) => (
             <motion.div
               key={idx}
@@ -47,26 +55,22 @@ export const WeddingProgram: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.15 }}
-              className="glass-card-light p-6 rounded-3xl border border-[#3E5C8A]/20 shadow-md relative overflow-hidden text-center"
+              className="paper-card p-6 relative text-[#2C1D18] shadow-xl"
             >
-              {/* Top Accent Icon */}
-              <div className="w-10 h-10 mx-auto rounded-full bg-[#17335C] text-[#D4AF37] flex items-center justify-center mb-3 shadow">
-                <Heart className="w-5 h-5 fill-current" />
-              </div>
+              <div className="pearl-pin" />
 
-              <h3 className="font-serif-title text-base font-bold text-[#17335C] tracking-widest">
+              <h3 className="font-serif text-lg font-bold text-[#2C1D18] tracking-widest uppercase">
                 {evt.title}
               </h3>
 
-              <div className="flex items-center justify-center gap-2 text-xs font-semibold text-[#3E5C8A] my-2">
-                <Clock className="w-3.5 h-3.5" />
-                <span>{evt.time}</span>
+              <div className="inline-block my-2 px-4 py-1 rounded-full bg-[#3B2B24] text-[#C5A059] font-mono text-xs font-bold">
+                {evt.time}
               </div>
 
-              <p className="text-xs text-[#1C2B3D] font-medium mb-1">
+              <p className="text-xs font-semibold text-[#5A453C]">
                 {evt.location}
               </p>
-              <p className="text-[11px] text-[#3E5C8A]/80 italic">
+              <p className="text-[11px] text-[#7A6458] italic mt-1">
                 {evt.desc}
               </p>
             </motion.div>

@@ -12,7 +12,7 @@ import { LivePhotoWall } from '@/components/invitation/LivePhotoWall';
 import { RSVPSection } from '@/components/invitation/RSVPSection';
 import { GuestQRCode } from '@/components/invitation/GuestQRCode';
 import { AudioPlayer } from '@/components/audio/AudioPlayer';
-import { TornPaperEdge } from '@/components/ui/TornPaperEdge';
+import { LaceEdgeDivider } from '@/components/ui/BaroqueFrame';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function InvitationPage({
@@ -52,36 +52,39 @@ export default function InvitationPage({
             transition={{ duration: 0.8 }}
             className="w-full relative"
           >
-            <TornPaperEdge position="top" fillColor="#F7F3EA" />
+            {/* Vintage Lace Edge Transitions between Sections */}
+            <LaceEdgeDivider position="top" color="#2D1E18" />
             <WeddingProgram />
 
+            <LaceEdgeDivider position="top" color="#3B2B24" />
             <GuestDetails />
 
-            <TornPaperEdge position="bottom" fillColor="#F7F3EA" />
+            <LaceEdgeDivider position="bottom" color="#2D1E18" />
             <VenuesSection />
 
+            <LaceEdgeDivider position="top" color="#3B2B24" />
             <StoryEntourage />
 
-            <TornPaperEdge position="top" fillColor="#F7F3EA" />
+            <LaceEdgeDivider position="top" color="#2D1E18" />
             <GallerySection />
 
-            <TornPaperEdge position="bottom" fillColor="#F7F3EA" />
+            <LaceEdgeDivider position="bottom" color="#3B2B24" />
             <LivePhotoWall guestName={guestName} />
 
-            <TornPaperEdge position="top" fillColor="#F7F3EA" />
+            <LaceEdgeDivider position="top" color="#2D1E18" />
             <RSVPSection guestName={guestName} />
 
-            <TornPaperEdge position="bottom" fillColor="#F7F3EA" />
+            <LaceEdgeDivider position="bottom" color="#3B2B24" />
             <GuestQRCode guestName={guestName} tableNumber={tableNumber} />
 
-            <footer className="py-8 px-4 bg-[#102443] text-center border-t border-[#D4AF37]/30">
-              <p className="font-script text-xl text-[#D4AF37]">
+            <footer className="py-8 px-4 bg-[#201410] text-center border-t border-[#C5A059]/30 text-[#FAF6F0]">
+              <p className="font-script text-2xl text-[#C5A059] italic">
                 Alifano &amp; Monita
               </p>
-              <p className="text-[10px] text-[#7C97C4] uppercase tracking-widest mt-1">
+              <p className="text-[10px] text-[#D8C6B9] uppercase tracking-widest mt-1">
                 Thank you for being part of our special day
               </p>
-              <p className="text-[9px] text-gray-500 mt-4">
+              <p className="text-[9px] text-[#7A6458] mt-4">
                 © 2026 Alifano &amp; Monita Wedding Invitation. All Rights Reserved.
               </p>
             </footer>

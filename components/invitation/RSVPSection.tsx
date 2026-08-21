@@ -3,9 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { Send, CheckCircle, Heart, MessageSquare, Users } from 'lucide-react';
+import { Send, CheckCircle, MessageSquare } from 'lucide-react';
 import { supabase } from '../../lib/supabase/client';
-import { FloralDivider } from '../ui/FloralDecoration';
 
 interface RSVPWish {
   id: string;
@@ -29,7 +28,6 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ guestName }) => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [wishesList, setWishesList] = useState<RSVPWish[]>([]);
 
-  // Fetch real-time wishes stream
   const fetchWishes = async () => {
     try {
       const { data, error } = await supabase
@@ -56,7 +54,7 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ guestName }) => {
         particleCount: 80,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#D4AF37', '#3E5C8A', '#F7F3EA', '#B7C7E3'],
+        colors: ['#C5A059', '#3B2B24', '#FAF6F0', '#E8DFC9'],
       });
     } catch {
       // Ignore if canvas-confetti fails
@@ -92,35 +90,35 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ guestName }) => {
   };
 
   return (
-    <section className="relative py-14 px-6 bg-[#F7F3EA] text-[#1C2B3D]">
+    <section className="relative py-14 px-6 bg-[#2D1E18] text-[#FAF6F0]">
       <div className="max-w-md mx-auto space-y-12">
-        {/* --- RSVP FORM CONTAINER --- */}
         <div className="text-center">
-          <span className="font-serif-title text-xs text-[#3E5C8A] tracking-[0.2em]">
+          <span className="font-serif-title text-xs text-[#C5A059] tracking-[0.25em] uppercase">
             ATTENDANCE CONFIRMATION
           </span>
-          <h2 className="font-script text-4xl text-[#17335C] mt-1 mb-2">
+          <h2 className="font-script text-4xl text-[#FAF6F0] mt-1 italic">
             Konfirmasi Kehadiran
           </h2>
-          <p className="text-xs text-[#3E5C8A] mb-4">
+          <p className="text-xs text-[#D8C6B9] mt-2 mb-4">
             Mohon konfirmasi kehadiran Anda sebelum tanggal 10 November 2026.
           </p>
-          <FloralDivider color="#3E5C8A" />
+          <div className="w-16 h-[1px] bg-[#C5A059] mx-auto mt-3" />
 
           {isSuccess ? (
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="mt-6 p-6 bg-emerald-50 rounded-3xl border-2 border-emerald-400 text-emerald-900 text-center shadow-lg"
+              className="mt-6 p-6 paper-card text-[#2C1D18] text-center shadow-xl relative"
             >
+              <div className="pearl-pin" />
               <CheckCircle className="w-12 h-12 text-emerald-600 mx-auto mb-2" />
               <h3 className="font-serif text-lg font-bold">Terima Kasih!</h3>
-              <p className="text-xs text-emerald-700 mt-1">
+              <p className="text-xs text-[#5A453C] mt-1">
                 Konfirmasi kehadiran &amp; ucapan Anda telah berhasil disimpan.
               </p>
               <button
                 onClick={() => setIsSuccess(false)}
-                className="mt-4 px-4 py-2 rounded-xl bg-emerald-700 text-white text-xs font-semibold"
+                className="mt-4 px-4 py-2 rounded-xl bg-[#2D1E18] text-[#C5A059] text-xs font-semibold"
               >
                 Kirim Ucapan Lain
               </button>
@@ -128,20 +126,20 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ guestName }) => {
           ) : (
             <form onSubmit={handleSubmitRSVP} className="mt-8 space-y-4 text-left">
               <div>
-                <label className="text-xs font-bold text-[#17335C] uppercase tracking-wider block mb-1">
+                <label className="text-xs font-bold text-[#C5A059] uppercase tracking-wider block mb-1">
                   Nama Anda
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-white border border-[#3E5C8A]/30 text-xs text-[#1C2B3D] focus:outline-none focus:border-[#17335C] shadow-sm"
+                  className="w-full px-4 py-3 rounded-xl bg-[#3B2B24] border border-[#C5A059]/40 text-xs text-[#FAF6F0] focus:outline-none focus:border-[#C5A059]"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-[#17335C] uppercase tracking-wider block mb-2">
+                <label className="text-xs font-bold text-[#C5A059] uppercase tracking-wider block mb-2">
                   Status Kehadiran
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -156,8 +154,8 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ guestName }) => {
                       onClick={() => setAttendance(opt.id)}
                       className={`py-2.5 px-2 rounded-xl border text-xs font-semibold text-center transition-all ${
                         attendance === opt.id
-                          ? 'bg-[#17335C] text-[#F7F3EA] border-[#17335C] shadow-md'
-                          : 'bg-white text-[#3E5C8A] border-[#3E5C8A]/30 hover:bg-gray-50'
+                          ? 'bg-[#C5A059] text-[#2C1D18] border-[#C5A059] shadow-md font-bold'
+                          : 'bg-[#3B2B24] text-[#D8C6B9] border-[#C5A059]/30 hover:bg-[#4A3B34]'
                       }`}
                     >
                       {opt.label}
@@ -168,13 +166,13 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ guestName }) => {
 
               {attendance === 'attending' && (
                 <div>
-                  <label className="text-xs font-bold text-[#17335C] uppercase tracking-wider block mb-1">
+                  <label className="text-xs font-bold text-[#C5A059] uppercase tracking-wider block mb-1">
                     Jumlah Pendamping (Termasuk Anda)
                   </label>
                   <select
                     value={pax}
                     onChange={(e) => setPax(Number(e.target.value))}
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-[#3E5C8A]/30 text-xs text-[#1C2B3D] focus:outline-none focus:border-[#17335C] shadow-sm"
+                    className="w-full px-4 py-3 rounded-xl bg-[#3B2B24] border border-[#C5A059]/40 text-xs text-[#FAF6F0] focus:outline-none focus:border-[#C5A059]"
                   >
                     <option value={1}>1 Orang</option>
                     <option value={2}>2 Orang</option>
@@ -185,57 +183,57 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ guestName }) => {
               )}
 
               <div>
-                <label className="text-xs font-bold text-[#17335C] uppercase tracking-wider block mb-1">
+                <label className="text-xs font-bold text-[#C5A059] uppercase tracking-wider block mb-1">
                   Ucapan &amp; Doa Restu
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="Tuliskan ucapan selamat & doa restu untuk Romeo & Juliet..."
+                  placeholder="Tuliskan ucapan selamat & doa restu untuk Alifano & Monita..."
                   value={wishes}
                   onChange={(e) => setWishes(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-white border border-[#3E5C8A]/30 text-xs text-[#1C2B3D] focus:outline-none focus:border-[#17335C] shadow-sm resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-[#3B2B24] border border-[#C5A059]/40 text-xs text-[#FAF6F0] focus:outline-none focus:border-[#C5A059] resize-none"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#17335C] to-[#3E5C8A] text-[#F7F3EA] font-serif-title tracking-widest text-xs font-bold shadow-xl flex items-center justify-center gap-2 hover:opacity-95 transition-opacity"
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#C5A059] to-[#D4AF37] text-[#2C1D18] font-serif-title tracking-widest text-xs font-bold shadow-xl flex items-center justify-center gap-2 hover:opacity-95 transition-opacity"
               >
-                <Send className="w-4 h-4 text-[#D4AF37]" />
+                <Send className="w-4 h-4 fill-current" />
                 {isSubmitting ? 'Menyimpan...' : 'Kirim Konfirmasi RSVP'}
               </button>
             </form>
           )}
         </div>
 
-        <FloralDivider color="#3E5C8A" />
+        <div className="w-20 h-[1px] bg-[#C5A059]/40 mx-auto" />
 
-        {/* --- LIVE GUESTBOOK & WISHES FEED STREAM --- */}
+        {/* --- GUESTBOOK WISHES STREAM --- */}
         <div>
-          <div className="w-10 h-10 mx-auto rounded-full bg-[#17335C] text-[#D4AF37] flex items-center justify-center mb-3 shadow">
+          <div className="w-10 h-10 mx-auto rounded-full bg-[#3B2B24] text-[#C5A059] flex items-center justify-center mb-3 shadow">
             <MessageSquare className="w-5 h-5" />
           </div>
-          <span className="font-serif-title text-xs text-[#3E5C8A] tracking-[0.2em]">
+          <span className="font-serif-title text-xs text-[#C5A059] tracking-[0.25em] uppercase">
             GUESTBOOK &amp; WISHES
           </span>
-          <h2 className="font-script text-3xl text-[#17335C] mt-1 mb-4">
+          <h2 className="font-script text-3xl text-[#FAF6F0] mt-1 mb-4 italic">
             Doa &amp; Ucapan Tamu
           </h2>
 
           <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
             {wishesList.length === 0 ? (
-              <p className="text-xs text-gray-500 italic text-center">
-                Belum ada ucapan. Jadilah yang pertama memberikan doa!
+              <p className="text-xs text-[#D8C6B9] italic text-center">
+                Belum ada ucapan. Jadilah yang first memberikan doa!
               </p>
             ) : (
               wishesList.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white p-4 rounded-2xl border border-[#3E5C8A]/15 shadow-sm text-left"
+                  className="paper-card p-4 relative text-left shadow-sm"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-bold text-[#17335C]">
+                    <p className="text-xs font-bold text-[#2C1D18]">
                       {item.guest_name}
                     </p>
                     <span
@@ -255,7 +253,7 @@ export const RSVPSection: React.FC<RSVPSectionProps> = ({ guestName }) => {
                     </span>
                   </div>
                   {item.wishes && (
-                    <p className="text-xs text-gray-600 mt-2 leading-relaxed italic">
+                    <p className="text-xs text-[#5A453C] mt-2 leading-relaxed italic">
                       "{item.wishes}"
                     </p>
                   )}

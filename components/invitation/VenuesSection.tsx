@@ -1,72 +1,64 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { MapPin, Navigation, Compass } from 'lucide-react';
-import { FloralDivider } from '../ui/FloralDecoration';
 
 export const VenuesSection: React.FC = () => {
   const googleMapsUrl = 'https://maps.google.com/?q=Hotel+Mulia+Jakarta';
   const wazeUrl = 'https://waze.com/ul?ll=-6.2163,106.7975&navigate=yes';
 
   return (
-    <section className="relative py-14 px-6 bg-[#17335C] text-[#F7F3EA]">
-      <div className="max-w-md mx-auto text-center">
-        <span className="font-serif-title text-xs text-[#D4AF37] tracking-[0.2em]">
-          LOCATION GUIDE
-        </span>
-        <h2 className="font-script text-4xl text-[#F7F3EA] mt-1 mb-2">
-          Lokasi Acara
-        </h2>
-        <FloralDivider color="#D4AF37" />
+    <section className="relative py-14 px-6 bg-[#2D1E18] text-[#FAF6F0]">
+      <div className="max-w-md mx-auto text-center space-y-8">
+        <div>
+          <span className="font-serif-title text-xs text-[#C5A059] tracking-[0.25em] uppercase">
+            VENUE LOCATION
+          </span>
+          <h2 className="font-script text-4xl text-[#FAF6F0] mt-1 italic">
+            Lokasi Acara
+          </h2>
+          <div className="w-16 h-[1px] bg-[#C5A059] mx-auto mt-3" />
+        </div>
 
-        {/* Venue Photo Frame */}
-        <div className="relative my-6 rounded-2xl overflow-hidden border-2 border-[#D4AF37]/50 shadow-2xl">
-          <img
-            src="https://images.unsplash.com/photo-1545232979-fbf59202c395?w=800&auto=format&fit=crop&q=80"
-            alt="Venue Hotel Mulia Jakarta"
-            className="w-full h-52 object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#17335C] via-transparent to-transparent opacity-80" />
-          <div className="absolute bottom-3 left-4 right-4 text-left">
-            <span className="bg-[#D4AF37] text-[#17335C] text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+        {/* Vintage Silver/Gold Mirror Tray Framed Location Card (Matching reference design top-right card) */}
+        <div className="relative p-2 rounded-3xl bg-gradient-to-b from-[#D4AF37] via-[#C5A059] to-[#8C6D37] shadow-2xl">
+          <div className="paper-card p-6 relative text-center text-[#2C1D18]">
+            <div className="pearl-pin" />
+
+            <div className="w-8 h-8 mx-auto rounded-full bg-[#2D1E18] text-[#C5A059] flex items-center justify-center mb-3">
+              <MapPin className="w-4 h-4" />
+            </div>
+
+            <span className="text-[10px] uppercase font-bold text-[#8C6D37] tracking-widest block mb-1">
               GRAND BALLROOM
             </span>
-            <h3 className="font-serif text-lg font-bold text-white mt-1">
+            <h3 className="font-serif text-xl font-bold text-[#2C1D18] mb-2">
               Hotel Mulia Senayan, Jakarta
             </h3>
+
+            <p className="text-xs text-[#5A453C] leading-relaxed mb-4">
+              Jl. Asia Afrika No.1, Gelora, Tanah Abang, Jakarta Pusat, DKI Jakarta 10270
+            </p>
+
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#C5A059]/30">
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-2.5 px-3 rounded-xl bg-[#2D1E18] text-[#FAF6F0] text-xs font-serif-title tracking-wider flex items-center justify-center gap-1.5 hover:bg-[#3B2B24] transition-colors"
+              >
+                <Navigation className="w-3.5 h-3.5 text-[#C5A059]" /> Google Maps
+              </a>
+              <a
+                href={wazeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-2.5 px-3 rounded-xl bg-[#2D1E18] text-[#FAF6F0] text-xs font-serif-title tracking-wider flex items-center justify-center gap-1.5 hover:bg-[#3B2B24] transition-colors"
+              >
+                <Compass className="w-3.5 h-3.5 text-[#C5A059]" /> Waze App
+              </a>
+            </div>
           </div>
-        </div>
-
-        {/* Address Card */}
-        <div className="glass-panel p-5 rounded-2xl border border-[#D4AF37]/30 text-center mb-6">
-          <div className="w-8 h-8 mx-auto rounded-full bg-[#3E5C8A] text-[#D4AF37] flex items-center justify-center mb-2">
-            <MapPin className="w-4 h-4" />
-          </div>
-          <p className="text-xs text-[#B7C7E3] leading-relaxed">
-            Jl. Asia Afrika No.1, Gelora, Kecamatan Tanah Abang, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10270
-          </p>
-        </div>
-
-        {/* 1-Click Navigation Buttons */}
-        <div className="grid grid-cols-2 gap-4">
-          <a
-            href={googleMapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="py-3 px-4 rounded-xl bg-[#3E5C8A] text-[#F7F3EA] border border-[#D4AF37]/40 text-xs font-serif-title tracking-wider flex items-center justify-center gap-2 shadow hover:bg-[#17335C] transition-all"
-          >
-            <Navigation className="w-4 h-4 text-[#D4AF37]" /> Google Maps
-          </a>
-
-          <a
-            href={wazeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="py-3 px-4 rounded-xl bg-[#3E5C8A] text-[#F7F3EA] border border-[#D4AF37]/40 text-xs font-serif-title tracking-wider flex items-center justify-center gap-2 shadow hover:bg-[#17335C] transition-all"
-          >
-            <Compass className="w-4 h-4 text-[#D4AF37]" /> Waze App
-          </a>
         </div>
       </div>
     </section>
