@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Gift, Copy, Check, QrCode, Shirt, Camera, Share2 } from 'lucide-react';
+import { Gift, Copy, Check, QrCode, Shirt, Camera } from 'lucide-react';
 import { FloralDivider } from '../ui/FloralDecoration';
 
 export const GuestDetails: React.FC = () => {
@@ -17,8 +17,8 @@ export const GuestDetails: React.FC = () => {
   ];
 
   const bankAccounts = [
-    { bank: 'Bank BCA', number: '8830912839', owner: 'Romeo Smith' },
-    { bank: 'Bank Mandiri', number: '137000982736', owner: 'Juliet Smith' },
+    { bank: 'Bank BCA', number: '4240380175', owner: 'Alifano Dwi Cahyo' },
+    { bank: 'Bank BNI', number: '0778824047', owner: 'Monita Ameliani Febriana' },
   ];
 
   const handleCopy = (num: string) => {
@@ -45,7 +45,6 @@ export const GuestDetails: React.FC = () => {
             Untuk menjaga keharmonisan visual acara, kami menyarankan para tamu undangan mengenakan busana bernuansa:
           </p>
 
-          {/* Color Swatch Dots */}
           <div className="flex items-center justify-center gap-4 mt-5">
             {colorGuide.map((col, idx) => (
               <div key={idx} className="flex flex-col items-center gap-1">
@@ -75,10 +74,9 @@ export const GuestDetails: React.FC = () => {
             Digital Angpao &amp; Gift Guide
           </h2>
           <p className="text-xs text-[#3E5C8A] mt-2 leading-relaxed">
-            Doa restu Anda merupakan hadiah terindah bagi kami. Namun apabila Anda ingin memberikan tanda kasih:
+            Doa restu Anda merupakan hadiah terindah bagi kami. Namun apabila Anda ingin memberikan tanda kasih secara digital:
           </p>
 
-          {/* Bank Account Cards */}
           <div className="space-y-4 mt-6">
             {bankAccounts.map((acc, idx) => (
               <div
@@ -110,7 +108,6 @@ export const GuestDetails: React.FC = () => {
             ))}
           </div>
 
-          {/* QRIS Button Trigger */}
           <button
             onClick={() => setShowQrisModal(true)}
             className="mt-4 px-6 py-2.5 rounded-xl bg-[#3E5C8A] text-[#F7F3EA] text-xs font-serif-title tracking-wider flex items-center justify-center gap-2 mx-auto shadow hover:bg-[#17335C] transition-colors"
@@ -136,12 +133,11 @@ export const GuestDetails: React.FC = () => {
             Bagikan momen bahagia Anda di media sosial dengan tagar resmi:
           </p>
           <div className="inline-block mt-3 px-5 py-2 rounded-full bg-[#17335C] text-[#D4AF37] font-mono text-sm font-bold shadow-md tracking-wider">
-            #RomeoJuliet2026
+            #AlifanoMonita2026
           </div>
         </div>
       </div>
 
-      {/* --- QRIS MODAL --- */}
       {showQrisModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
           <div className="bg-[#F7F3EA] p-6 rounded-3xl max-w-xs w-full text-center relative border-2 border-[#D4AF37] shadow-2xl">
@@ -152,9 +148,8 @@ export const GuestDetails: React.FC = () => {
               Scan menggunakan GoPay, OVO, Dana, ShopeePay, atau Mobile Banking Anda.
             </p>
             <div className="p-3 bg-white rounded-xl shadow-inner inline-block">
-              {/* Fallback QRIS placeholder SVG image */}
               <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020101021126580014ID.CO.QRIS.WWW01189360091400000000005204581253033605802ID5913RomeoJuliet6007Jakarta63041D99"
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020101021126580014ID.CO.QRIS.WWW01189360091400000000005204581253033605802ID5914AlifanoMonita6007Jakarta63041D99"
                 alt="QRIS Wedding Gift"
                 className="w-44 h-44 mx-auto"
               />

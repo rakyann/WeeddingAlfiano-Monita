@@ -2,31 +2,23 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Sparkles, Users } from 'lucide-react';
+import { Users, Instagram } from 'lucide-react';
 import { FloralDivider, FloralCorner } from '../ui/FloralDecoration';
 
 export const StoryEntourage: React.FC = () => {
-  const loveStory = [
-    {
-      year: '2020',
-      title: 'Pertemuan Pertama',
-      desc: 'Berawal dari ruang perpustakaan kampus, sebuah senyuman hangat mengawali kisah perjalanan panjang kami.',
-    },
-    {
-      year: '2023',
-      title: 'Momen Lamaran',
-      desc: 'Di bawah kilauan bintang malam di Bali, janji suci diucapkan untuk melangkah ke jenjang yang lebih serius.',
-    },
-    {
-      year: '2026',
-      title: 'Pernikahan Suci',
-      desc: 'Dengan penuh sukacita dan doa restu, kami mengikat janji suci pernikahan untuk selamanya.',
-    },
-  ];
-
   const entourage = [
-    { role: 'Orang Tua Mempelai Pria', names: 'Bpk. Alexander Smith & Ibu Maria Smith' },
-    { role: 'Orang Tua Mempelai Wanita', names: 'Bpk. David Capulet & Ibu Elena Capulet' },
+    {
+      role: 'Mempelai Pria',
+      name: 'Alifano Dwi Cahyo (Alifano)',
+      parents: 'Putra dari Bpk. Sudir & Ibu Estiningsih',
+      ig: '@alifanodc',
+    },
+    {
+      role: 'Mempelai Wanita',
+      name: 'Monita Ameliani Febriana (Monita)',
+      parents: 'Putri dari Bpk. (Alm) Toto Sugiarto & Ibu Puji Sistiawati',
+      ig: '@monitameliaa',
+    },
   ];
 
   return (
@@ -34,64 +26,45 @@ export const StoryEntourage: React.FC = () => {
       <FloralCorner className="absolute top-2 right-2 text-[#D4AF37] -scale-x-100 opacity-40" />
 
       <div className="max-w-md mx-auto text-center space-y-12">
-        {/* --- LOVE STORY TIMELINE --- */}
-        <div>
-          <span className="font-serif-title text-xs text-[#D4AF37] tracking-[0.2em]">
-            OUR JOURNEY
-          </span>
-          <h2 className="font-script text-4xl text-[#F7F3EA] mt-1 mb-2">
-            Cerita Cinta Kami
-          </h2>
-          <FloralDivider color="#D4AF37" />
-
-          <div className="space-y-6 mt-8 relative before:absolute before:inset-y-0 before:left-1/2 before:-translate-x-1/2 before:w-0.5 before:bg-[#3E5C8A]">
-            {loveStory.map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="relative z-10 glass-panel p-5 rounded-2xl border border-[#D4AF37]/30 text-center"
-              >
-                <span className="inline-block px-3 py-1 rounded-full bg-[#D4AF37] text-[#17335C] font-mono text-xs font-bold mb-2 shadow">
-                  {item.year}
-                </span>
-                <h3 className="font-serif text-lg font-bold text-[#F7F3EA]">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-[#B7C7E3] mt-2 leading-relaxed">
-                  {item.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* --- ENTOURAGE / FAMILY SECTION --- */}
         <div>
           <div className="w-10 h-10 mx-auto rounded-full bg-[#3E5C8A] text-[#D4AF37] flex items-center justify-center mb-3 shadow">
             <Users className="w-5 h-5" />
           </div>
           <span className="font-serif-title text-xs text-[#D4AF37] tracking-[0.2em]">
-            FAMILY &amp; ENTOURAGE
+            THE BRIDE &amp; GROOM
           </span>
-          <h2 className="font-script text-3xl text-[#F7F3EA] mt-1 mb-4">
-            Keluarga Besar
+          <h2 className="font-script text-4xl text-[#F7F3EA] mt-1 mb-2">
+            Pasangan Mempelai
           </h2>
+          <FloralDivider color="#D4AF37" />
 
-          <div className="space-y-4">
-            {entourage.map((ent, idx) => (
-              <div
+          <div className="space-y-6 mt-8">
+            {entourage.map((person, idx) => (
+              <motion.div
                 key={idx}
-                className="glass-panel p-4 rounded-xl border border-[#D4AF37]/20"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="glass-panel p-6 rounded-2xl border border-[#D4AF37]/30 text-center space-y-2"
               >
-                <p className="text-[11px] uppercase tracking-widest text-[#D4AF37] font-semibold">
-                  {ent.role}
+                <span className="inline-block px-3 py-1 rounded-full bg-[#D4AF37] text-[#17335C] font-mono text-[10px] font-bold uppercase tracking-wider">
+                  {person.role}
+                </span>
+                <h3 className="font-serif text-xl font-bold text-[#F7F3EA]">
+                  {person.name}
+                </h3>
+                <p className="text-xs text-[#B7C7E3]">
+                  {person.parents}
                 </p>
-                <p className="font-serif text-sm text-[#F7F3EA] mt-1">
-                  {ent.names}
-                </p>
-              </div>
+                <a
+                  href={`https://instagram.com/${person.ig.replace('@', '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-[#D4AF37] hover:underline mt-2 font-mono"
+                >
+                  <Instagram className="w-3.5 h-3.5" /> {person.ig}
+                </a>
+              </motion.div>
             ))}
           </div>
         </div>

@@ -28,7 +28,6 @@ export async function GET(req: NextRequest) {
             boxSizing: 'border-box',
           }}
         >
-          {/* Header Subtitle */}
           <div
             style={{
               fontSize: '18px',
@@ -41,7 +40,6 @@ export async function GET(req: NextRequest) {
             THE WEDDING INVITATION OF
           </div>
 
-          {/* Couple Names */}
           <div
             style={{
               fontSize: '64px',
@@ -50,7 +48,7 @@ export async function GET(req: NextRequest) {
               margin: '10px 0',
             }}
           >
-            Romeo &amp; Juliet
+            Alifano &amp; Monita
           </div>
 
           <div
@@ -62,7 +60,6 @@ export async function GET(req: NextRequest) {
             }}
           />
 
-          {/* Guest Greeting Box */}
           <div
             style={{
               display: 'flex',

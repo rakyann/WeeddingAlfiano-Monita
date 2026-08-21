@@ -1,16 +1,9 @@
-/**
- * Utilities for Single Deployment URL parameter parsing and link generation.
- */
-
 export interface GuestQueryParams {
   to: string;
   isVip: boolean;
   table: string | null;
 }
 
-/**
- * Parses query parameters safely with fallback for Single Deployment Architecture.
- */
 export function parseGuestParams(searchParams: { [key: string]: string | string[] | undefined }): GuestQueryParams {
   const rawTo = searchParams.to;
   let guestName = 'Tamu Undangan';
@@ -42,9 +35,6 @@ export function parseGuestParams(searchParams: { [key: string]: string | string[
   };
 }
 
-/**
- * Builds custom invitation URL for a guest given their name, VIP status, and table number.
- */
 export function buildGuestInvitationUrl(
   baseUrl: string,
   guestName: string,
@@ -59,13 +49,10 @@ export function buildGuestInvitationUrl(
   return `${cleanBase}/?${params.toString()}`;
 }
 
-/**
- * Generates copy-ready WhatsApp invitation message template.
- */
 export function generateWhatsAppMessage(
   guestName: string,
   invitationUrl: string,
-  brideGroomNames: string = 'Romeo & Juliet'
+  brideGroomNames: string = 'Alifano & Monita'
 ): string {
   return `Halo *${guestName}*,
 

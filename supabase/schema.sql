@@ -5,19 +5,19 @@
 -- 1. WEDDING CONFIGURATION TABLE
 CREATE TABLE IF NOT EXISTS public.wedding_config (
   id INT PRIMARY KEY DEFAULT 1,
-  bride_name TEXT NOT NULL DEFAULT 'Juliet',
-  groom_name TEXT NOT NULL DEFAULT 'Romeo',
+  bride_name TEXT NOT NULL DEFAULT 'Monita',
+  groom_name TEXT NOT NULL DEFAULT 'Alifano',
   wedding_date TIMESTAMPTZ NOT NULL DEFAULT '2026-11-20T09:00:00+07:00',
   akad_time TEXT DEFAULT '08:00 - 10:00 WIB',
   resepsi_time TEXT DEFAULT '11:00 - 14:00 WIB',
   dinner_time TEXT DEFAULT '18:30 - 21:00 WIB',
-  venue_name TEXT DEFAULT 'Grand Ballroom - Hotel Mulia Jakarta',
-  venue_address TEXT DEFAULT 'Jl. Asia Afrika No.1, Senayan, Jakarta Pusat',
-  google_maps_url TEXT DEFAULT 'https://maps.google.com/?q=Hotel+Mulia+Jakarta',
-  waze_url TEXT DEFAULT 'https://waze.com/ul?ll=-6.2163,106.7975&navigate=yes',
+  venue_name TEXT DEFAULT 'Grand Ballroom',
+  venue_address TEXT DEFAULT 'Jl. Asia Afrika No.1, Jakarta Pusat',
+  google_maps_url TEXT DEFAULT 'https://maps.google.com/?q=Jakarta',
+  waze_url TEXT DEFAULT 'https://waze.com/ul?navigate=yes',
   bank_accounts JSONB DEFAULT '[
-    {"bank": "BCA", "number": "8830912839", "name": "Romeo Smith"},
-    {"bank": "Bank Mandiri", "number": "137000982736", "name": "Juliet Smith"}
+    {"bank": "Bank BCA", "number": "4240380175", "name": "Alifano Dwi Cahyo"},
+    {"bank": "Bank BNI", "number": "0778824047", "name": "Monita Ameliani Febriana"}
   ]'::jsonb,
   qris_image_url TEXT DEFAULT 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=80',
   dress_code_colors JSONB DEFAULT '[
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS public.wedding_config (
     {"name": "Cream Sand", "hex": "#F7F3EA"},
     {"name": "Gold Accent", "hex": "#D4AF37"}
   ]'::jsonb,
-  hashtag TEXT DEFAULT '#RomeoJulietWedding',
+  hashtag TEXT DEFAULT '#AlifanoMonita2026',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   CONSTRAINT single_config CHECK (id = 1)
 );
@@ -70,7 +70,6 @@ ALTER TABLE public.guests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.rsvps ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.live_photos ENABLE ROW LEVEL SECURITY;
 
--- Allow public read access to wedding config, guests, rsvps, approved live photos
 CREATE POLICY "Public read config" ON public.wedding_config FOR SELECT USING (true);
 CREATE POLICY "Public read guests" ON public.guests FOR SELECT USING (true);
 CREATE POLICY "Public read rsvps" ON public.rsvps FOR SELECT USING (true);
@@ -78,11 +77,7 @@ CREATE POLICY "Public insert rsvps" ON public.rsvps FOR INSERT WITH CHECK (true)
 CREATE POLICY "Public read approved photos" ON public.live_photos FOR SELECT USING (status = 'approved');
 CREATE POLICY "Public insert photo metadata" ON public.live_photos FOR INSERT WITH CHECK (true);
 
--- Allow full access for service role or admin interactions
 CREATE POLICY "Service role full access config" ON public.wedding_config FOR ALL USING (true);
 CREATE POLICY "Service role full access guests" ON public.guests FOR ALL USING (true);
 CREATE POLICY "Service role full access rsvps" ON public.rsvps FOR ALL USING (true);
 CREATE POLICY "Service role full access live_photos" ON public.live_photos FOR ALL USING (true);
-
--- Storage bucket initialization instruction:
--- Bucket Name: "guest-photos" (Public read, authenticated & anon signed upload allowed)
