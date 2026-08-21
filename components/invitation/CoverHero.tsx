@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Crown, MailOpen } from 'lucide-react';
-import { BaroqueOvalFrame } from '../ui/BaroqueFrame';
+import { BaroqueOvalFrame, BotanicalSprig } from '../ui/BaroqueFrame';
 import { Envelope3D } from '../3d/Envelope3D';
 
 interface CoverHeroProps {
@@ -21,32 +21,44 @@ export const CoverHero: React.FC<CoverHeroProps> = ({
   isOpen,
   onOpen,
 }) => {
-  // Couple photo (using high-res romantic portrait matching the reference image)
   const couplePhoto =
     'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&auto=format&fit=crop&q=80';
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-between items-center text-center p-6 bg-gradient-to-b from-[#2D1E18] via-[#3B2B24] to-[#2D1E18] text-[#FAF6F0] overflow-hidden">
-      {/* Top Header Label */}
-      <div className="pt-6 z-10 w-full">
-        <motion.p
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="font-serif-title text-xs tracking-[0.35em] text-[#C5A059] uppercase"
-        >
-          WEDDING INVITATION
-        </motion.p>
+    <section className="relative min-h-screen flex flex-col justify-between items-center text-center p-6 bg-[#2D1E18] text-[#FAF5EF] overflow-hidden">
+      {/* Right Side Lace Edge Overlay */}
+      <div className="lace-overlay-right" />
 
-        {/* Cursive Names */}
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="font-script text-4xl md:text-5xl text-[#FAF6F0] mt-3 drop-shadow-md tracking-wide italic"
+      {/* Top Header matching reference image: "Undangan PERNIKAHAN" */}
+      <div className="pt-4 text-left w-full z-10 pl-2">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          Alifano &amp; Monita
-        </motion.h1>
+          <span className="font-script text-3xl text-[#FAF5EF] block leading-none italic">
+            Undangan
+          </span>
+          <span className="font-serif-title text-xs tracking-[0.35em] text-[#C5A059] uppercase block font-semibold">
+            PERNIKAHAN
+          </span>
+        </motion.div>
+      </div>
+
+      {/* Names in Cursive Script matching reference design ("Alifano" & "Monita") */}
+      <div className="w-full text-left pl-4 my-2 z-10">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <span className="font-script text-5xl md:text-6xl text-[#FAF5EF] block leading-tight tracking-wide">
+            Alifano
+          </span>
+          <span className="font-script text-5xl md:text-6xl text-[#C5A059] block leading-tight tracking-wide pl-12">
+            Monita
+          </span>
+        </motion.div>
       </div>
 
       {/* Center Oval Pearl Portrait Frame */}
@@ -54,7 +66,7 @@ export const CoverHero: React.FC<CoverHeroProps> = ({
         initial={{ opacity: 0, scale: 0.85 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.4 }}
-        className="my-5 z-10"
+        className="my-3 z-10"
       >
         <BaroqueOvalFrame
           imageSrc={couplePhoto}
@@ -62,32 +74,35 @@ export const CoverHero: React.FC<CoverHeroProps> = ({
         />
       </motion.div>
 
-      {/* 3D Envelope Section */}
-      <div className="w-full my-2 z-10">
+      {/* 3D Envelope Container */}
+      <div className="w-full my-1 z-10">
         <Envelope3D isOpen={isOpen} onOpen={onOpen} />
       </div>
 
-      {/* Cream Paper Note Card (Matching reference design note card) */}
+      {/* Deckled Cream Paper Note Card (Matching reference design image note card) */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="w-full max-w-sm paper-card p-6 relative z-10 my-4 text-[#2C1D18] shadow-2xl"
+        className="w-full max-w-sm paper-card p-6 relative z-10 my-4 text-[#2C1E18] shadow-2xl overflow-hidden"
       >
-        {/* Top Pearl Pin Accent */}
+        {/* Top Pearl Brooch Pin */}
         <div className="pearl-pin" />
 
+        {/* Dried Botanical Sprig Overlay on Bottom Right */}
+        <BotanicalSprig className="absolute bottom-1 right-1" />
+
         {isVip && (
-          <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#C5A059] text-[#2C1D18] text-[10px] font-bold uppercase tracking-wider mb-2 shadow">
+          <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#C5A059] text-[#2C1E18] text-[10px] font-bold uppercase tracking-wider mb-2 shadow">
             <Crown className="w-3 h-3 fill-current" /> VIP Guest
           </div>
         )}
 
-        <p className="font-script text-xl text-[#A67C43] mb-1 italic">
-          Kepada Yth. Bapak/Ibu/Saudara/i:
+        <p className="font-script text-2xl text-[#8C6D37] mb-1 italic">
+          Bapak/Ibu/Saudara/i!
         </p>
 
-        <h2 className="font-serif text-2xl font-bold text-[#2C1D18] my-1 tracking-wide">
+        <h2 className="font-serif text-2xl font-bold text-[#2C1E18] my-1 tracking-wide">
           {guestName}
         </h2>
 
@@ -97,15 +112,20 @@ export const CoverHero: React.FC<CoverHeroProps> = ({
           </p>
         )}
 
-        {/* Wedding Date Display (Matching reference image: 18/09/2026) */}
-        <div className="my-4 py-2 border-y border-[#C5A059]/40">
-          <p className="font-script text-2xl font-bold text-[#A67C43] tracking-widest">
+        <p className="text-xs text-[#5A453C] my-3 leading-relaxed">
+          Kami mengundang Anda untuk merayakan momen paling membahagiakan dalam hidup kami — <br />
+          <span className="font-bold uppercase tracking-wider text-[#2C1E18]">HARI PERNIKAHAN KAMI.</span>
+        </p>
+
+        {/* Date matching reference image format: 18/09/2026 */}
+        <div className="my-3 py-2 border-y border-[#C5A059]/40">
+          <p className="font-serif text-2xl font-bold text-[#8C6D37] tracking-widest">
             20 / 11 / 2026
           </p>
         </div>
 
-        <p className="text-xs text-[#5A453C] leading-relaxed italic">
-          Merupakan suatu kehormatan &amp; kebahagiaan bagi kami apabila Anda berkenan hadir dan memberikan doa restu.
+        <p className="text-[11px] text-[#7A6458] leading-relaxed italic">
+          Merupakan suatu kehormatan dan kebahagiaan bagi kami dapat berbagi momen istimewa ini bersama Anda.
         </p>
 
         {!isOpen && (
@@ -113,7 +133,7 @@ export const CoverHero: React.FC<CoverHeroProps> = ({
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={onOpen}
-            className="mt-5 w-full py-3 rounded-xl bg-gradient-to-r from-[#3B2B24] via-[#2D1E18] to-[#3B2B24] text-[#FAF6F0] border border-[#C5A059] font-serif-title tracking-widest text-xs shadow-xl flex items-center justify-center gap-2 group"
+            className="mt-5 w-full py-3.5 rounded-xl bg-gradient-to-r from-[#382821] via-[#251712] to-[#382821] text-[#FAF5EF] border border-[#C5A059] font-serif-title tracking-widest text-xs shadow-xl flex items-center justify-center gap-2 group z-20 relative"
           >
             <MailOpen className="w-4 h-4 text-[#C5A059] group-hover:animate-bounce" />
             Buka Undangan

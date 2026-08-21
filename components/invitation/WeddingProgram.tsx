@@ -2,79 +2,69 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Clock, Heart } from 'lucide-react';
 
 export const WeddingProgram: React.FC = () => {
   const events = [
     {
+      time: '08:00 WIB',
       title: 'AKAD NIKAH',
-      time: '08:00 - 10:00 WIB',
-      location: 'Glass House Sanctuary',
-      desc: 'Prosesi ijab kabul sakral keluarga & sanak saudara.',
+      desc: 'Prosesi Ijab Kabul & Penandatanganan Buku Nikah',
     },
     {
+      time: '11:00 WIB',
       title: 'RESEPSI PERNIKAHAN',
-      time: '11:00 - 14:00 WIB',
-      location: 'Grand Ballroom',
-      desc: 'Ramah tamah, ucapan selamat & santap siang.',
-    },
-    {
-      title: 'DINNER & RAMAH TAMAH',
-      time: '18:30 - 21:00 WIB',
-      location: 'Mulia Rooftop Lounge',
-      desc: 'Acara keakraban bersama sahabat & kerabat dekat.',
+      desc: 'Ramah Tamah, Ucapan Selamat & Santap Siang',
     },
   ];
 
   return (
-    <section className="relative py-14 px-6 bg-[#2D1E18] text-[#FAF6F0]">
+    <section className="relative py-14 px-6 bg-[#251712] text-[#FAF5EF] overflow-hidden">
+      <div className="lace-overlay-right" />
+
       <div className="max-w-md mx-auto text-center space-y-8">
         <div>
-          <span className="font-serif-title text-xs text-[#C5A059] tracking-[0.25em] uppercase">
-            EVENT SCHEDULE
-          </span>
-          <h2 className="font-script text-4xl text-[#FAF6F0] mt-1 italic">
+          <h2 className="font-script text-5xl text-[#FAF5EF] italic">
             Rangkaian Acara
           </h2>
-          <div className="w-16 h-[1px] bg-[#C5A059] mx-auto mt-3" />
+          <div className="w-16 h-[1px] bg-[#C5A059] mx-auto mt-2" />
         </div>
 
-        {/* Vintage Pocket Watch Icon Display */}
-        <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-b from-[#D4AF37] to-[#8C6D37] p-1 shadow-2xl flex items-center justify-center">
-          <div className="w-full h-full rounded-full bg-[#2D1E18] flex items-center justify-center text-[#C5A059]">
-            <Clock className="w-7 h-7 animate-pulse" />
+        {/* Timeline with Vintage Pocketwatch image overlay (Matching reference image bottom-left layout) */}
+        <div className="relative my-8 py-4 px-2 max-w-xs mx-auto">
+          {/* Vertical Timeline Bar */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-[#C5A059]/50" />
+
+          {/* Realistic Vintage Pocket Watch Graphic Attachment */}
+          <div className="absolute right-2 bottom-6 w-20 h-20 z-20 pointer-events-none drop-shadow-2xl">
+            <img
+              src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&auto=format&fit=crop&q=80"
+              alt="Vintage Pocket Watch"
+              className="w-full h-full object-cover rounded-full border-2 border-[#C5A059] shadow-2xl"
+            />
           </div>
-        </div>
 
-        {/* Timeline Events */}
-        <div className="space-y-6 text-center">
-          {events.map((evt, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.15 }}
-              className="paper-card p-6 relative text-[#2C1D18] shadow-xl"
-            >
-              <div className="pearl-pin" />
-
-              <h3 className="font-serif text-lg font-bold text-[#2C1D18] tracking-widest uppercase">
-                {evt.title}
-              </h3>
-
-              <div className="inline-block my-2 px-4 py-1 rounded-full bg-[#3B2B24] text-[#C5A059] font-mono text-xs font-bold">
-                {evt.time}
-              </div>
-
-              <p className="text-xs font-semibold text-[#5A453C]">
-                {evt.location}
-              </p>
-              <p className="text-[11px] text-[#7A6458] italic mt-1">
-                {evt.desc}
-              </p>
-            </motion.div>
-          ))}
+          <div className="space-y-12 relative z-10 text-center">
+            {events.map((evt, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.2 }}
+                className="space-y-1"
+              >
+                <div className="inline-block px-4 py-1 rounded-full bg-[#C5A059] text-[#251712] font-serif text-sm font-bold tracking-wider shadow">
+                  {evt.time}
+                </div>
+                <h3 className="font-serif text-lg font-bold text-[#FAF5EF] tracking-widest uppercase pt-2">
+                  {evt.title}
+                </h3>
+                <p className="text-xs text-[#D8C6B9] italic">
+                  {evt.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
