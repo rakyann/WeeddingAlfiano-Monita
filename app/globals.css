@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-navy-deep: #17335C;
+  --color-navy-accent: #3E5C8A;
+  --color-blue-mid: #7C97C4;
+  --color-blue-light: #B7C7E3;
+  --color-cream: #F7F3EA;
+  --color-ink: #1C2B3D;
+  --color-gold-accent: #D4AF37;
+
+  --font-script: 'Playfair Display', serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  background-color: #0b182b;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Desktop framing rule: center container frame with max-width: 480px and dark blurred backdrop */
+.mobile-frame-container {
+  min-height: 100vh;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  background-color: var(--color-navy-deep);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #17335C;
+}
+::-webkit-scrollbar-thumb {
+  background: #3E5C8A;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* Typography Utility Classes */
+.font-script {
+  font-family: var(--font-script);
+}
+.font-serif-title {
+  font-family: var(--font-serif);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.glass-card-light {
+  background: rgba(247, 243, 234, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(62, 92, 138, 0.15);
+}
