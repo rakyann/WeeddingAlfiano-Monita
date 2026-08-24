@@ -1,118 +1,93 @@
-@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Alex+Brush&family=Inter:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --color-espresso-deep: #2C1E18;
-  --color-espresso-card: #382821;
-  --color-cream-paper: #FAF5EF;
-  --color-baroque-gold: #C5A059;
-  --color-pearl-white: #FFFDF9;
+  --color-navy-deep: #17335C;
+  --color-navy-accent: #3E5C8A;
+  --color-blue-mid: #7C97C4;
+  --color-blue-light: #B7C7E3;
+  --color-cream: #F7F3EA;
+  --color-ink: #1C2B3D;
+  --color-gold: #D4AF37;
+}
 
-  --font-script: 'Great Vibes', 'Alex Brush', cursive;
-  --font-serif: 'Cormorant Garamond', 'Playfair Display', serif;
-  --font-sans: 'Plus Jakarta Sans', sans-serif;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: #120A07;
-  background-image: linear-gradient(rgba(18, 10, 7, 0.75), rgba(18, 10, 7, 0.85)),
-    url('https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=1600&auto=format&fit=crop&q=80');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  color: #FAF5EF;
-  font-family: var(--font-sans);
+  background-color: #0b182b;
+  color: var(--color-ink);
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Desktop Framing Container - max-width 480px centered with grand palace backdrop */
-.mobile-frame-container {
-  min-height: 100vh;
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-  position: relative;
-  background-color: #2D1E18;
-  background-image: radial-gradient(circle at top, #3A2A23 0%, #251712 100%);
-  box-shadow: 0 0 70px rgba(0, 0, 0, 0.9);
-  overflow: hidden;
-}
-
-/* Right-side Vintage Lace Overlay Pattern */
-.lace-overlay-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 60px;
-  height: 100%;
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(245, 245, 245, 0.04) 0px,
-    rgba(245, 245, 245, 0.04) 2px,
-    transparent 2px,
-    transparent 8px
-  );
-  border-left: 1px border-dashed rgba(197, 160, 89, 0.2);
-  pointer-events: none;
-  z-index: 5;
-}
-
-/* Deckled Vintage Cream Paper Note Card */
-.paper-card {
-  background-color: #FAF5EF;
-  background-image: radial-gradient(#F3EBDD 1px, transparent 0);
-  background-size: 16px 16px;
-  color: #2C1E18;
-  border-radius: 16px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
-  position: relative;
-  border: 1px solid rgba(197, 160, 89, 0.35);
-}
-
-/* Pearl Brooch Pin Top Ornament */
-.pearl-pin {
-  width: 24px;
-  height: 24px;
-  background: radial-gradient(circle at 35% 35%, #FFFFFF 0%, #F5EBE0 60%, #B5A48F 100%);
-  border: 2px solid #C5A059;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-}
-.pearl-pin::after {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border-radius: 50%;
-  border: 1px border-dashed rgba(197, 160, 89, 0.6);
-}
-
-/* Font Helper Classes */
+/* ===== FONT UTILITIES ===== */
 .font-script {
   font-family: 'Great Vibes', cursive;
 }
 .font-serif-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
+/* ===== MOBILE FRAME CONTAINER ===== */
+.mobile-frame-container {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  background-color: var(--color-cream);
+  overflow: hidden;
+  position: relative;
 }
-::-webkit-scrollbar-track {
-  background: #251712;
+
+/* ===== TORN PAPER EDGE MASK SVG ===== */
+.torn-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  background-color: var(--color-cream);
+  z-index: 10;
+  mask-image: url("data:image/svg+xml,%3Csvg preserveAspectRatio='none' viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z' opacity='.25'/%3E%3Cpath d='M0 0v15.81c13 21.11 27.64 41.05 47.69 56.24C99.41 111.27 165 111 224.58 91.58c31.15-10.15 60.09-26.07 89.67-39.8 40.92-19 84.73-46 130.83-49.67 36.26-2.85 70.9 9.42 98.6 31.56 31.77 25.39 62.32 62 103.63 73 40.44 10.79 81.35-6.69 119.13-24.28s75.16-39 116.92-43.05c59.73-5.85 113.28 22.88 168.9 38.84 30.2 8.66 59 6.17 87.09-7.5 22.43-10.89 48-26.93 60.65-51.24V0z' opacity='.5'/%3E%3Cpath d='M0 0v5.63C149.93 59 314.09 71.32 475.83 42.57c43-7.64 84.23-20.12 127.61-26.46 59-8.63 112.48 12.24 165.56 35.4C827.93 77.22 886 95.24 951.2 90c86.53-7 172.46-45.71 248.8-84.81V0z'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  margin-top: -1px;
 }
-::-webkit-scrollbar-thumb {
-  background: #C5A059;
-  border-radius: 4px;
+
+.torn-top-navy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  background-color: var(--color-navy-deep);
+  z-index: 10;
+  mask-image: url("data:image/svg+xml,%3Csvg preserveAspectRatio='none' viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z' opacity='.25'/%3E%3Cpath d='M0 0v15.81c13 21.11 27.64 41.05 47.69 56.24C99.41 111.27 165 111 224.58 91.58c31.15-10.15 60.09-26.07 89.67-39.8 40.92-19 84.73-46 130.83-49.67 36.26-2.85 70.9 9.42 98.6 31.56 31.77 25.39 62.32 62 103.63 73 40.44 10.79 81.35-6.69 119.13-24.28s75.16-39 116.92-43.05c59.73-5.85 113.28 22.88 168.9 38.84 30.2 8.66 59 6.17 87.09-7.5 22.43-10.89 48-26.93 60.65-51.24V0z' opacity='.5'/%3E%3Cpath d='M0 0v5.63C149.93 59 314.09 71.32 475.83 42.57c43-7.64 84.23-20.12 127.61-26.46 59-8.63 112.48 12.24 165.56 35.4C827.93 77.22 886 95.24 951.2 90c86.53-7 172.46-45.71 248.8-84.81V0z'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  margin-top: -1px;
 }
+
+/* ===== FLORAL CORNER DECORATION ===== */
+.floral-corner {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0b182b; }
+::-webkit-scrollbar-thumb { background: var(--color-navy-accent); border-radius: 4px; }

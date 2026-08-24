@@ -9,38 +9,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        espresso: {
-          DEFAULT: "#2C1D18",
-          dark: "#201410",
-          deep: "#2D1E18",
-          card: "#3B2B24",
-          light: "#4A3B34",
+        navy: {
+          deep: "#17335C",
+          accent: "#3E5C8A",
+        },
+        blue: {
+          mid: "#7C97C4",
+          light: "#B7C7E3",
         },
         cream: {
-          DEFAULT: "#FAF6F0",
-          paper: "#F5EFEB",
-          sand: "#E8DFC9",
+          DEFAULT: "#F7F3EA",
           soft: "#FFFDF9",
         },
-        baroque: {
-          gold: "#C5A059",
-          amber: "#D4AF37",
-          bronze: "#A67C43",
-          pearl: "#F0EAE1",
-        },
         ink: {
-          DEFAULT: "#2C1D18",
-          dark: "#1A100C",
+          DEFAULT: "#1C2B3D",
+        },
+        gold: {
+          DEFAULT: "#D4AF37",
+          light: "#E5C97A",
         },
       },
       fontFamily: {
-        script: ["var(--font-script)", "Playfair Display", "Great Vibes", "cursive", "serif"],
-        serif: ["var(--font-serif)", "Cormorant Garamond", "serif"],
-        sans: ["var(--font-sans)", "Plus Jakarta Sans", "sans-serif"],
+        script: ["var(--font-script)", "Great Vibes", "cursive"],
+        serif: ["var(--font-serif)", "Playfair Display", "serif"],
+        sans: ["var(--font-sans)", "Inter", "Plus Jakarta Sans", "sans-serif"],
       },
       boxShadow: {
-        baroque: "0 10px 30px rgba(0, 0, 0, 0.4)",
-        card: "0 8px 25px rgba(32, 20, 15, 0.3)",
+        card: "0 4px 20px rgba(23,51,92,0.15)",
+        deep: "0 8px 30px rgba(23,51,92,0.25)",
       },
     },
   },

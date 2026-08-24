@@ -18,8 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id" className="scroll-smooth">
-      <body className="antialiased min-h-screen bg-[#0b182b] flex justify-center items-center">
-        <div className="mobile-frame-container shadow-2xl relative">
+      <body className="antialiased min-h-screen bg-navy-deep flex justify-center items-start">
+        <div className="mobile-frame-container shadow-deep relative">
           {children}
         </div>
       </body>

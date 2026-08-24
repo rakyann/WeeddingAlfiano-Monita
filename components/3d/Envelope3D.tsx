@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, Component, ReactNode } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
+import { MailOpen } from 'lucide-react';
 
 function isWebGLAvailable() {
   if (typeof window === 'undefined') return false;
@@ -28,23 +29,19 @@ class WebGLErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryStat
     super(props);
     this.state = { hasError: false };
   }
-
   static getDerivedStateFromError() {
     return { hasError: true };
   }
-
   componentDidCatch(error: Error) {
     console.warn('R3F WebGL Error caught, falling back to 2D:', error);
   }
-
   render() {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
+    if (this.state.hasError) return this.props.fallback;
     return this.props.children;
   }
 }
 
+/* ── 3D Envelope Mesh with navy + cream colors ── */
 function EnvelopeMesh({ isOpen }: { isOpen: boolean }) {
   const flapRef = useRef<THREE.Group>(null);
   const targetRotation = isOpen ? -Math.PI * 0.75 : 0;
@@ -62,45 +59,60 @@ function EnvelopeMesh({ isOpen }: { isOpen: boolean }) {
 
   return (
     <group position={[0, -0.2, 0]} rotation={[0.2, 0, 0]}>
+      {/* Envelope body — navy deep */}
       <mesh position={[0, 0, -0.05]}>
         <boxGeometry args={[3, 2, 0.1]} />
-        <meshStandardMaterial color="#17335C" roughness={0.3} metalness={0.2} />
+        <meshStandardMaterial color="#17335C" roughness={0.4} metalness={0.1} />
       </mesh>
 
+      {/* Wax seal — gold */}
       <mesh position={[0, 0, 0.08]}>
         <cylinderGeometry args={[0.35, 0.35, 0.05, 32]} />
         <meshStandardMaterial color="#D4AF37" metalness={0.8} roughness={0.2} />
       </mesh>
 
+      {/* Flap — navy accent */}
       <group ref={flapRef} position={[0, 1, 0]}>
-        <mesh position={[0, -0.5, 0.02]} rotation={[0, 0, 0]}>
+        <mesh position={[0, -0.5, 0.02]}>
           <coneGeometry args={[1.5, 1, 4]} />
-          <meshStandardMaterial color="#3E5C8A" roughness={0.4} />
+          <meshStandardMaterial color="#3E5C8A" roughness={0.5} />
         </mesh>
       </group>
     </group>
   );
 }
 
+/* ── 2D fallback envelope (navy + gold) ── */
 function Fallback2DEnvelope({ isOpen, onOpen }: { isOpen: boolean; onOpen: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center p-6 text-center">
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="w-64 h-44 bg-[#17335C] border-2 border-[#D4AF37] rounded-lg shadow-2xl relative flex items-center justify-center overflow-hidden"
+        className="w-64 h-44 rounded-lg shadow-2xl relative flex items-center justify-center overflow-hidden border-2"
+        style={{ backgroundColor: '#17335C', borderColor: 'rgba(212,175,55,0.4)' }}
       >
-        <div className="absolute top-0 left-0 w-full h-1/2 bg-[#3E5C8A] clip-triangle border-b border-[#D4AF37]/40" />
-        <div className="w-14 h-14 rounded-full bg-[#D4AF37] border border-amber-200 flex items-center justify-center shadow-lg z-10">
-          <span className="font-script text-xl font-bold text-[#17335C]">A &amp; M</span>
+        <div
+          className="absolute top-0 left-0 w-full h-1/2"
+          style={{ backgroundColor: '#3E5C8A', clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
+        />
+        <div
+          className="w-14 h-14 rounded-full border flex items-center justify-center shadow-lg z-10"
+          style={{ backgroundColor: '#D4AF37', borderColor: 'rgba(255,255,255,0.3)' }}
+        >
+          <span className="font-script text-xl font-bold" style={{ color: '#17335C' }}>A &amp; M</span>
         </div>
       </motion.div>
-      <button
-        onClick={onOpen}
-        className="mt-6 px-8 py-3 rounded-full bg-[#3E5C8A] text-[#F7F3EA] border border-[#D4AF37] font-serif-title tracking-widest text-sm shadow-xl hover:bg-[#17335C] transition-all"
-      >
-        Buka Undangan
-      </button>
+      {!isOpen && (
+        <button
+          onClick={onOpen}
+          className="mt-6 px-8 py-3 rounded-full font-serif-title tracking-widest text-sm shadow-xl flex items-center gap-2 hover:opacity-90 transition-all border"
+          style={{ backgroundColor: '#F7F3EA', color: '#17335C', borderColor: 'rgba(23,51,92,0.2)' }}
+        >
+          <MailOpen className="w-4 h-4" />
+          Buka Undangan
+        </button>
+      )}
     </div>
   );
 }
@@ -130,6 +142,19 @@ export const Envelope3D: React.FC<Envelope3DProps> = ({ isOpen, onOpen }) => {
           <pointLight position={[-5, -5, -5]} intensity={0.5} />
           <EnvelopeMesh isOpen={isOpen} />
         </Canvas>
+        {/* Open button overlay when not opened */}
+        {!isOpen && (
+          <div className="absolute bottom-0 w-full flex justify-center">
+            <button
+              onClick={onOpen}
+              className="px-8 py-2.5 rounded-full font-serif-title tracking-widest text-xs shadow-xl flex items-center gap-2 border border-cream/30 hover:bg-white hover:text-navy-deep transition-all"
+              style={{ backgroundColor: 'rgba(247,243,234,0.15)', color: '#F7F3EA', backdropFilter: 'blur(4px)' }}
+            >
+              <MailOpen className="w-4 h-4" />
+              Buka Undangan
+            </button>
+          </div>
+        )}
       </div>
     </WebGLErrorBoundary>
   );
