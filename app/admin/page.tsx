@@ -5,6 +5,7 @@ import {
   Users,
   CheckCircle2,
   XCircle,
+  HelpCircle,
   Copy,
   Check,
   Share2,
@@ -15,7 +16,9 @@ import {
   MessageCircle,
   Trash2,
   ArrowLeft,
-  Sparkles,
+  Utensils,
+  CalendarCheck,
+  Search,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase/client';
 import { generateWhatsAppMessage, buildGuestInvitationUrl } from '@/lib/utils/url';
@@ -31,10 +34,20 @@ interface GuestHistoryItem {
   createdAt: string;
 }
 
+interface RSVPRecord {
+  id: string;
+  name: string;
+  address?: string;
+  attendance: string;
+  pax: number;
+  created_at?: string;
+}
+
 interface RSVPStat {
   totalRsvps: number;
   totalAttending: number;
   totalDeclined: number;
+  totalMaybe: number;
   totalPax: number;
 }
 
@@ -43,8 +56,12 @@ export default function AdminDashboardPage() {
     totalRsvps: 0,
     totalAttending: 0,
     totalDeclined: 0,
+    totalMaybe: 0,
     totalPax: 0,
   });
+
+  const [rsvpList, setRsvpList] = useState<RSVPRecord[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const [newGuestName, setNewGuestName] = useState<string>('');
   const [isVip, setIsVip] = useState<boolean>(false);
@@ -57,16 +74,71 @@ export default function AdminDashboardPage() {
   const [history, setHistory] = useState<GuestHistoryItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Load History from localStorage
-  useEffect(() => {
+  // Load History & RSVPs from localStorage and Supabase
+  const loadDashboardData = async () => {
+    setIsLoading(true);
+    let allRsvps: RSVPRecord[] = [];
+
+    // 1. Load from localStorage
     try {
-      const saved = localStorage.getItem('wedding_guest_link_history');
-      if (saved) {
-        setHistory(JSON.parse(saved));
+      const localRsvps = localStorage.getItem('wedding_alifano_monita_rsvps');
+      if (localRsvps) {
+        allRsvps = JSON.parse(localRsvps);
       }
-    } catch (e) {
-      // ignore
-    }
+    } catch (e) {}
+
+    // 2. Try loading from Supabase
+    try {
+      const { data: supaRsvps } = await supabase.from('rsvps').select('*').order('created_at', { ascending: false });
+      if (supaRsvps && supaRsvps.length > 0) {
+        const mapped = supaRsvps.map((r: any) => ({
+          id: r.id || Date.now().toString(),
+          name: r.name || 'Tamu',
+          address: r.address || '-',
+          attendance: r.attendance === 'attending' ? 'Hadir' : r.attendance === 'declined' ? 'Tidak Hadir' : r.attendance || 'Hadir',
+          pax: Number(r.pax) || Number(r.guests) || 1,
+          created_at: r.created_at || new Date().toISOString(),
+        }));
+
+        // Merge without duplicates
+        const names = new Set(allRsvps.map((item) => item.name.toLowerCase()));
+        for (const item of mapped) {
+          if (!names.has(item.name.toLowerCase())) {
+            allRsvps.push(item);
+          }
+        }
+      }
+    } catch (err) {}
+
+    setRsvpList(allRsvps);
+
+    // Calculate Statistics
+    const attending = allRsvps.filter((r) => r.attendance.toLowerCase().includes('hadir') && !r.attendance.toLowerCase().includes('tidak'));
+    const declined = allRsvps.filter((r) => r.attendance.toLowerCase().includes('tidak'));
+    const maybe = allRsvps.filter((r) => r.attendance.toLowerCase().includes('ragu'));
+    const paxSum = attending.reduce((acc, r) => acc + (Number(r.pax) || 1), 0);
+
+    setStats({
+      totalRsvps: allRsvps.length,
+      totalAttending: attending.length,
+      totalDeclined: declined.length,
+      totalMaybe: maybe.length,
+      totalPax: paxSum,
+    });
+
+    // Load Guest Links History
+    try {
+      const savedHist = localStorage.getItem('wedding_guest_link_history');
+      if (savedHist) {
+        setHistory(JSON.parse(savedHist));
+      }
+    } catch (e) {}
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    loadDashboardData();
   }, []);
 
   const saveHistory = (items: GuestHistoryItem[]) => {
@@ -75,46 +147,6 @@ export default function AdminDashboardPage() {
       localStorage.setItem('wedding_guest_link_history', JSON.stringify(items));
     } catch (e) {}
   };
-
-  // Fetch Stats from Supabase if configured
-  const loadDashboardData = async () => {
-    setIsLoading(true);
-    try {
-      const { data: rsvps } = await supabase.from('rsvps').select('*');
-      if (rsvps && rsvps.length > 0) {
-        const attending = rsvps.filter((r) => r.attendance === 'attending' || r.attendance === 'Hadir');
-        const declined = rsvps.filter((r) => r.attendance === 'declined' || r.attendance === 'Tidak Hadir');
-        const paxSum = attending.reduce((acc, r) => acc + (Number(r.pax) || Number(r.guests) || 1), 0);
-
-        setStats({
-          totalRsvps: rsvps.length,
-          totalAttending: attending.length,
-          totalDeclined: declined.length,
-          totalPax: paxSum,
-        });
-      } else {
-        setStats({
-          totalRsvps: 0,
-          totalAttending: 0,
-          totalDeclined: 0,
-          totalPax: 0,
-        });
-      }
-    } catch (err) {
-      setStats({
-        totalRsvps: 0,
-        totalAttending: 0,
-        totalDeclined: 0,
-        totalPax: 0,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
 
   // Generate Link
   const handleGenerateLink = (e: React.FormEvent) => {
@@ -160,19 +192,24 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleDeleteHistoryItem = (id: string) => {
-    const updated = history.filter((item) => item.id !== id);
-    saveHistory(updated);
-  };
-
-  const handleClearAllHistory = () => {
-    if (window.confirm('Hapus semua riwayat tamu yang dibuat?')) {
-      saveHistory([]);
+  const handleDeleteRsvp = (id: string) => {
+    if (window.confirm('Hapus konfirmasi RSVP tamu ini?')) {
+      const updated = rsvpList.filter((r) => r.id !== id);
+      setRsvpList(updated);
+      try {
+        localStorage.setItem('wedding_alifano_monita_rsvps', JSON.stringify(updated));
+      } catch (e) {}
+      loadDashboardData();
     }
   };
 
+  const filteredRsvps = rsvpList.filter((r) =>
+    r.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (r.address && r.address.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   return (
-    <div className="min-h-screen bg-[#faf6ee] text-[#2c3e2d] font-sans antialiased">
+    <div className="min-h-screen bg-[#faf6ee] text-[#2c3e2d] font-sans antialiased pb-16">
       {/* Top Navbar */}
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-[#eeddc9]/80 shadow-sm px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
@@ -186,7 +223,7 @@ export default function AdminDashboardPage() {
             </Link>
             <div className="h-4 w-[1px] bg-[#eeddc9]" />
             <div>
-              <h1 className="text-base font-bold text-[#2e4a00]">Generator Link Tamu</h1>
+              <h1 className="text-base font-bold text-[#2e4a00]">Dashboard Tamu &amp; RSVP</h1>
               <p className="text-[11px] text-[#637663]">The Wedding of Alifano &amp; Monita</p>
             </div>
           </div>
@@ -197,62 +234,155 @@ export default function AdminDashboardPage() {
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white border border-[#eeddc9] text-[#455645] hover:bg-[#faf6ee] shadow-sm transition-all active:scale-95"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-[#c5617a]' : ''}`} />
-            <span>Refresh</span>
+            <span>Perbarui Data</span>
           </button>
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6">
-        {/* 1. Clean Summary Stats Grid */}
+        {/* 1. Statistics Cards with Clear Context */}
         <section>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+            {/* Total RSVP */}
             <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
               <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
-                <span className="text-[11px] font-semibold uppercase tracking-wider">Total RSVP</span>
+                <span className="text-[11px] font-semibold uppercase tracking-wider">Total Konfirmasi</span>
                 <Users className="w-4 h-4 text-[#455645]" />
               </div>
               <p className="text-2xl font-bold text-[#2e4a00]">{stats.totalRsvps}</p>
-              <span className="text-[10px] text-[#8e9e8e]">Respon Tamu Masuk</span>
+              <p className="text-[10px] text-[#8e9e8e] mt-0.5">Jumlah formulir RSVP yang diisi tamu</p>
             </div>
 
+            {/* Hadir */}
             <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
               <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
-                <span className="text-[11px] font-semibold uppercase tracking-wider">Hadir</span>
+                <span className="text-[11px] font-semibold uppercase tracking-wider">Undangan Hadir</span>
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               </div>
               <p className="text-2xl font-bold text-emerald-700">{stats.totalAttending}</p>
-              <span className="text-[10px] text-emerald-600/80">Tamu Konfirmasi</span>
+              <p className="text-[10px] text-emerald-600/80 mt-0.5">Nama/keluarga yang konfirmasi hadir</p>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
+            {/* Estimasi Orang/Pax */}
+            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm bg-gradient-to-br from-white to-[#fffaf2]">
               <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
-                <span className="text-[11px] font-semibold uppercase tracking-wider">Estimasi Tamu</span>
-                <Sparkles className="w-4 h-4 text-[#c5617a]" />
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#c5617a]">Total Pax (Orang)</span>
+                <Utensils className="w-4 h-4 text-[#c5617a]" />
               </div>
-              <p className="text-2xl font-bold text-[#c5617a]">{stats.totalPax} <span className="text-xs font-normal">Pax</span></p>
-              <span className="text-[10px] text-[#8e9e8e]">Total Orang Datang</span>
+              <p className="text-2xl font-bold text-[#c5617a]">
+                {stats.totalPax} <span className="text-xs font-normal">Porsi/Orang</span>
+              </p>
+              <p className="text-[10px] text-[#637663] mt-0.5">Total kepala untuk catering (termasuk pasangan/anak)</p>
             </div>
 
+            {/* Berhalangan */}
             <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
               <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
                 <span className="text-[11px] font-semibold uppercase tracking-wider">Berhalangan</span>
                 <XCircle className="w-4 h-4 text-rose-500" />
               </div>
               <p className="text-2xl font-bold text-rose-600">{stats.totalDeclined}</p>
-              <span className="text-[10px] text-rose-500/80">Tidak Dapat Hadir</span>
+              <p className="text-[10px] text-rose-500/80 mt-0.5">Tamu yang izin tidak dapat hadir</p>
             </div>
           </div>
         </section>
 
-        {/* 2. Main Link Generator Card */}
+        {/* 2. Daftar Siapa Saja yang Sudah Konfirmasi RSVP (Tabel Lengkap) */}
+        <section className="bg-white rounded-2xl border border-[#eeddc9] shadow-sm p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[#f4ece1]">
+            <div>
+              <div className="flex items-center gap-2">
+                <CalendarCheck className="w-4 h-4 text-[#455645]" />
+                <h2 className="text-base font-bold text-[#2e4a00]">Daftar Tamu yang Sudah RSVP</h2>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#f4ece1] text-[#455645]">
+                  {rsvpList.length} Respon
+                </span>
+              </div>
+              <p className="text-xs text-[#637663] mt-0.5">Siapa saja yang telah mengisi konfirmasi kehadiran beserta jumlah orangnya</p>
+            </div>
+
+            {rsvpList.length > 0 && (
+              <div className="relative w-full sm:w-64">
+                <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#8e9e8e]" />
+                <input
+                  type="text"
+                  placeholder="Cari nama / alamat tamu..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl bg-[#faf6ee] border border-[#eeddc9] focus:outline-none focus:ring-1 focus:ring-[#c5617a]"
+                />
+              </div>
+            )}
+          </div>
+
+          {rsvpList.length === 0 ? (
+            <div className="text-center py-10 text-[#8e9e8e]">
+              <Users className="w-8 h-8 mx-auto mb-2 opacity-40" />
+              <p className="text-xs font-semibold text-[#637663]">Belum ada tamu yang mengisi form RSVP.</p>
+              <p className="text-[11px] mt-1">Ketika tamu mengklik &quot;Kirim Konfirmasi&quot; di web undangan, nama mereka akan otomatis tercatat di sini.</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-[#f4ece1] text-[#637663] font-bold">
+                    <th className="pb-2">Nama Tamu</th>
+                    <th className="pb-2">Kota / Alamat</th>
+                    <th className="pb-2">Status</th>
+                    <th className="pb-2">Jumlah (Pax)</th>
+                    <th className="pb-2 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#f4ece1]">
+                  {filteredRsvps.map((rsvp) => (
+                    <tr key={rsvp.id} className="hover:bg-[#faf6ee]/60 transition-colors">
+                      <td className="py-3 font-bold text-[#2e4a00]">{rsvp.name}</td>
+                      <td className="py-3 text-[#637663]">{rsvp.address || '-'}</td>
+                      <td className="py-3">
+                        <span
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                            rsvp.attendance.toLowerCase().includes('hadir') && !rsvp.attendance.toLowerCase().includes('tidak')
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : rsvp.attendance.toLowerCase().includes('tidak')
+                              ? 'bg-rose-100 text-rose-800'
+                              : 'bg-amber-100 text-amber-800'
+                          }`}
+                        >
+                          {rsvp.attendance.toLowerCase().includes('hadir') && !rsvp.attendance.toLowerCase().includes('tidak') && (
+                            <CheckCircle2 className="w-3 h-3" />
+                          )}
+                          {rsvp.attendance.toLowerCase().includes('tidak') && <XCircle className="w-3 h-3" />}
+                          {rsvp.attendance.toLowerCase().includes('ragu') && <HelpCircle className="w-3 h-3" />}
+                          {rsvp.attendance}
+                        </span>
+                      </td>
+                      <td className="py-3 font-semibold text-[#455645]">{rsvp.pax} Orang</td>
+                      <td className="py-3 text-right">
+                        <button
+                          onClick={() => handleDeleteRsvp(rsvp.id)}
+                          className="p-1 rounded text-[#8e9e8e] hover:text-rose-600 transition-colors"
+                          title="Hapus baris ini"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+
+        {/* 3. Link Generator Card */}
         <section className="bg-white rounded-2xl border border-[#eeddc9] shadow-sm p-6 sm:p-7">
           <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#f4ece1]">
             <div className="w-8 h-8 rounded-full bg-[#f4ece1] flex items-center justify-center text-[#455645]">
               <Share2 className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-[#2e4a00]">Buat Link Undangan Khusus</h2>
-              <p className="text-xs text-[#637663]">Nama tamu akan otomatis tampil di cover depan dan form RSVP</p>
+              <h2 className="text-base font-bold text-[#2e4a00]">Buat Link Undangan Khusus Tamu</h2>
+              <p className="text-xs text-[#637663]">Nama tamu akan otomatis tampil di cover depan dan langsung terisi di form RSVP</p>
             </div>
           </div>
 
@@ -367,7 +497,7 @@ export default function AdminDashboardPage() {
           )}
         </section>
 
-        {/* 3. History of Generated Guest Links */}
+        {/* 4. History of Generated Guest Links */}
         {history.length > 0 && (
           <section className="bg-white rounded-2xl border border-[#eeddc9] shadow-sm p-6">
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#f4ece1]">
@@ -378,7 +508,9 @@ export default function AdminDashboardPage() {
                 </span>
               </div>
               <button
-                onClick={handleClearAllHistory}
+                onClick={() => {
+                  if (window.confirm('Hapus semua riwayat link tamu?')) saveHistory([]);
+                }}
                 className="text-[11px] text-[#8e9e8e] hover:text-rose-600 flex items-center gap-1 transition-colors"
               >
                 <Trash2 className="w-3 h-3" /> Hapus Semua
@@ -423,7 +555,10 @@ export default function AdminDashboardPage() {
                       <MessageCircle className="w-3.5 h-3.5" />
                     </a>
                     <button
-                      onClick={() => handleDeleteHistoryItem(item.id)}
+                      onClick={() => {
+                        const updated = history.filter((h) => h.id !== item.id);
+                        saveHistory(updated);
+                      }}
                       className="p-1.5 rounded-lg hover:bg-rose-50 text-[#8e9e8e] hover:text-rose-600 transition-colors"
                       title="Hapus"
                     >

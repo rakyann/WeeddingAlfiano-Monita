@@ -22,7 +22,7 @@ export function RSVPSection({ guestName = '', onShowToast }: RSVPSectionProps) {
     if (guests < 5) setGuests(guests + 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
       onShowToast('Silakan isi nama Anda');
@@ -30,10 +30,45 @@ export function RSVPSection({ guestName = '', onShowToast }: RSVPSectionProps) {
     }
 
     setIsSubmitting(true);
+
+    const rsvpData = {
+      id: Date.now().toString(),
+      name: name.trim(),
+      address: address.trim(),
+      attendance,
+      guests: Number(guests) || 1,
+      pax: Number(guests) || 1,
+      created_at: new Date().toISOString(),
+    };
+
+    // 1. Save to LocalStorage (Instant local persistence)
+    try {
+      const existing = localStorage.getItem('wedding_alifano_monita_rsvps');
+      const list = existing ? JSON.parse(existing) : [];
+      const updated = [rsvpData, ...list.filter((item: any) => item.name.toLowerCase() !== name.trim().toLowerCase())];
+      localStorage.setItem('wedding_alifano_monita_rsvps', JSON.stringify(updated));
+    } catch (e) {}
+
+    // 2. Try saving to Supabase if available
+    try {
+      const { supabase } = await import('@/lib/supabase/client');
+      await supabase.from('rsvps').insert([
+        {
+          name: name.trim(),
+          address: address.trim(),
+          attendance: attendance === 'Hadir' ? 'attending' : attendance === 'Tidak Hadir' ? 'declined' : 'maybe',
+          pax: Number(guests) || 1,
+          guests: Number(guests) || 1,
+        },
+      ]);
+    } catch (e) {
+      // ignore
+    }
+
     setTimeout(() => {
       setIsSubmitting(false);
       onShowToast(`Terima kasih ${name}, konfirmasi kehadiran berhasil disimpan!`);
-    }, 600);
+    }, 400);
   };
 
   return (
