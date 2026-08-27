@@ -8,41 +8,25 @@ interface WishItem {
   time: string;
 }
 
-const DEFAULT_WISHES: WishItem[] = [
-  {
-    name: 'Keluarga Besar',
-    message: 'Barakallahu lakum wa baraka alaikum wa jama\'a bainakuma fii khair. Selamat menempuh hidup baru Alifano & Monita!',
-    time: '2 jam yang lalu',
-  },
-  {
-    name: 'Sahabat-Sahabat',
-    message: 'Selamat ya, semoga menjadi keluarga yang sakinah, mawaddah, warahmah. Bahagia selalu selamanya!',
-    time: 'Kemarin',
-  },
-  {
-    name: 'Teman-Teman',
-    message: 'Happy wedding! Lancar acaranya dan langgeng sampai kakek nenek 🎉',
-    time: '2 hari lalu',
-  },
-];
+const DEFAULT_WISHES: WishItem[] = [];
 
 interface WishesSectionProps {
   onShowToast: (msg: string) => void;
 }
 
 export function WishesSection({ onShowToast }: WishesSectionProps) {
-  const [wishes, setWishes] = useState<WishItem[]>(DEFAULT_WISHES);
+  const [wishes, setWishes] = useState<WishItem[]>([]);
   const [senderName, setSenderName] = useState('');
   const [message, setMessage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const itemsPerPage = 4;
 
   useEffect(() => {
     try {
       const stored = localStorage.getItem('wedding_alifano_monita_wishes');
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
+        if (Array.isArray(parsed)) {
           setWishes(parsed);
         }
       }
@@ -126,50 +110,63 @@ export function WishesSection({ onShowToast }: WishesSectionProps) {
           <span>{wishes.length}</span> Ucapan Terkirim
         </div>
 
-        <div className="wishes-stream-list">
-          {currentWishes.map((item, idx) => (
-            <div key={idx} className="wish-card-item">
-              <div className="wish-header-row">
-                <div className="wish-avatar">
-                  {item.name.charAt(0).toUpperCase()}
-                </div>
-                <div className="wish-author-name">{item.name}</div>
-              </div>
-              <p className="wish-message-body">{item.message}</p>
-              <div className="wish-time-tag">
-                <i className="fa-regular fa-clock" /> {item.time}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="wishes-pagination">
-          <button
-            className="page-nav-btn"
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-          >
-            &larr; Prev
-          </button>
-          <div className="page-nums">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-              <button
-                key={pageNum}
-                className={`page-num-btn ${pageNum === currentPage ? 'active' : ''}`}
-                onClick={() => setCurrentPage(pageNum)}
-              >
-                {pageNum}
-              </button>
-            ))}
+        {wishes.length === 0 ? (
+          <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--color-olive-soft)', fontSize: '0.88rem' }}>
+            <p>Belum ada ucapan terkirim.</p>
+            <p style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '0.25rem' }}>
+              Jadilah yang pertama mengirimkan ucapan &amp; doa restu untuk kedua mempelai!
+            </p>
           </div>
-          <button
-            className="page-nav-btn"
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-          >
-            Next &rarr;
-          </button>
-        </div>
+        ) : (
+          <>
+            <div className="wishes-stream-list">
+              {currentWishes.map((item, idx) => (
+                <div key={idx} className="wish-card-item">
+                  <div className="wish-header-row">
+                    <div className="wish-avatar">
+                      {item.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="wish-author-name">{item.name}</div>
+                  </div>
+                  <p className="wish-message-body">{item.message}</p>
+                  <div className="wish-time-tag">
+                    <i className="fa-regular fa-clock" /> {item.time}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="wishes-pagination">
+                <button
+                  className="page-nav-btn"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                >
+                  &larr; Prev
+                </button>
+                <div className="page-nums">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                    <button
+                      key={pageNum}
+                      className={`page-num-btn ${pageNum === currentPage ? 'active' : ''}`}
+                      onClick={() => setCurrentPage(pageNum)}
+                    >
+                      {pageNum}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  className="page-nav-btn"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                >
+                  Next &rarr;
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </section>
   );
