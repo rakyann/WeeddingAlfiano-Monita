@@ -2,92 +2,140 @@
 
 import React, { useState, useRef } from 'react';
 import { parseGuestParams } from '@/lib/utils/url';
+import { LoadingOverlay } from '@/components/invitation/LoadingOverlay';
+import { DesktopHeroSide } from '@/components/invitation/DesktopHeroSide';
 import { CoverHero } from '@/components/invitation/CoverHero';
+import { QuranSection } from '@/components/invitation/QuranSection';
 import { MempelaiSection } from '@/components/invitation/MempelaiSection';
 import { CountdownTimer } from '@/components/invitation/CountdownTimer';
 import { EventDetailsSection } from '@/components/invitation/EventDetailsSection';
-import { LoveStorySection } from '@/components/invitation/LoveStorySection';
-import { GallerySection } from '@/components/invitation/GallerySection';
-import { DresscodeSection } from '@/components/invitation/DresscodeSection';
-import { DigitalEnvelopeSection } from '@/components/invitation/DigitalEnvelopeSection';
+import { GallerySection, galleryImages } from '@/components/invitation/GallerySection';
 import { RSVPSection } from '@/components/invitation/RSVPSection';
+import { WishesSection } from '@/components/invitation/WishesSection';
+import { DigitalEnvelopeSection } from '@/components/invitation/DigitalEnvelopeSection';
 import { ClosingSection } from '@/components/invitation/ClosingSection';
+import { LightboxModal } from '@/components/invitation/LightboxModal';
+import { QRISModal } from '@/components/invitation/QRISModal';
+import { ToastNotification } from '@/components/invitation/ToastNotification';
 import { AudioPlayer } from '@/components/audio/AudioPlayer';
-import { motion, AnimatePresence } from 'framer-motion';
+import { BackToTop } from '@/components/ui/BackToTop';
 
 export default function InvitationPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { to: guestName, isVip, table: tableNumber } = parseGuestParams(searchParams);
+  const { to: guestName } = parseGuestParams(searchParams);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState<boolean>(false);
-  const mainContentRef = useRef<HTMLDivElement | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [isQrisOpen, setIsQrisOpen] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const invitationBodyRef = useRef<HTMLDivElement | null>(null);
+
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3200);
+  };
 
   const handleOpenInvitation = () => {
     setIsOpen(true);
     setIsPlayingAudio(true);
     setTimeout(() => {
-      mainContentRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 300);
+      invitationBodyRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 200);
   };
 
   return (
-    <main className="w-full relative min-h-screen" style={{ backgroundColor: '#F7F3EA' }}>
-      {/* 1. Cover / Hero Section */}
-      <CoverHero
-        guestName={guestName}
-        isVip={isVip}
-        tableNumber={tableNumber}
-        isOpen={isOpen}
-        onOpen={handleOpenInvitation}
+    <>
+      {/* 1. Loading Overlay */}
+      <LoadingOverlay />
+
+      {/* 2. Main Split Layout */}
+      <div className="app-layout">
+        {/* Desktop Left Sidebar Banner */}
+        <DesktopHeroSide />
+
+        {/* Right Scrollable Invitation Container */}
+        <main className="invitation-scroll-side" id="invitationContainer">
+          {/* Cover Section */}
+          <CoverHero
+            guestName={guestName || 'Tamu Undangan'}
+            onOpen={handleOpenInvitation}
+          />
+
+          {/* Invitation Content (revealed after clicking Buka Undangan) */}
+          {isOpen && (
+            <div ref={invitationBodyRef}>
+              {/* Quran Verse */}
+              <QuranSection />
+
+              {/* Groom & Bride */}
+              <MempelaiSection />
+
+              {/* Countdown & Save the date */}
+              <CountdownTimer />
+
+              {/* Wedding Events & Rundown */}
+              <EventDetailsSection onShowToast={showToast} />
+
+              {/* Gallery */}
+              <GallerySection onOpenLightbox={(idx) => setLightboxIndex(idx)} />
+
+              {/* RSVP Form */}
+              <RSVPSection
+                guestName={guestName}
+                onShowToast={showToast}
+              />
+
+              {/* Wishes Stream */}
+              <WishesSection onShowToast={showToast} />
+
+              {/* Digital Gift / Wedding Gift */}
+              <DigitalEnvelopeSection
+                onOpenQris={() => setIsQrisOpen(true)}
+                onShowToast={showToast}
+              />
+
+              {/* Closing Section */}
+              <ClosingSection />
+            </div>
+          )}
+        </main>
+      </div>
+
+      {/* 3. Modals & Notifications */}
+      <LightboxModal
+        currentIndex={lightboxIndex}
+        onClose={() => setLightboxIndex(null)}
+        onPrev={() => {
+          if (lightboxIndex !== null) {
+            setLightboxIndex((lightboxIndex - 1 + galleryImages.length) % galleryImages.length);
+          }
+        }}
+        onNext={() => {
+          if (lightboxIndex !== null) {
+            setLightboxIndex((lightboxIndex + 1) % galleryImages.length);
+          }
+        }}
       />
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={mainContentRef}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="w-full relative"
-          >
-            {/* 2. Mempelai (Bride & Groom) */}
-            <MempelaiSection />
+      <QRISModal
+        isOpen={isQrisOpen}
+        onClose={() => setIsQrisOpen(false)}
+      />
 
-            {/* 3. Hitung Mundur (Countdown Timer) */}
-            <CountdownTimer />
+      <ToastNotification message={toastMessage} />
 
-            {/* 4. Detail Acara (Event Details) */}
-            <EventDetailsSection />
-
-            {/* 5. Cerita Cinta (Our Story) */}
-            <LoveStorySection />
-
-            {/* 6. Galeri Foto & Video */}
-            <GallerySection />
-
-            {/* 7. Informasi Tambahan / Dresscode */}
-            <DresscodeSection />
-
-            {/* 8. Amplop Digital / Wedding Gift */}
-            <DigitalEnvelopeSection />
-
-            {/* 9. Konfirmasi Kehadiran & Ucapan (RSVP & Guestbook) */}
-            <RSVPSection guestName={guestName} />
-
-            {/* 10. Penutup & Ayat/Kutipan */}
-            <ClosingSection />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Floating Audio Player */}
+      {/* 4. Floating Controls */}
       <AudioPlayer
         isPlaying={isPlayingAudio}
         onToggle={() => setIsPlayingAudio(!isPlayingAudio)}
       />
-    </main>
+
+      <BackToTop />
+    </>
   );
 }
