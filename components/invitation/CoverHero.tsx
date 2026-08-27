@@ -36,11 +36,6 @@ export function CoverHero({ guestName = 'Tamu Undangan', onOpen }: CoverHeroProp
               alt="Foto Mempelai Alifano & Monita"
               className="cover-couple-photo"
             />
-            <img
-              src="/assets/tuscany/cover3.png"
-              alt="Tuscany Floral Arch Frame"
-              className="cover-arch-overlay"
-            />
           </div>
           <img
             src="/assets/tuscany/img_5008.gif"
