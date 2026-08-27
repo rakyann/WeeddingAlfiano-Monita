@@ -43,7 +43,7 @@ export function ClosingSection() {
       {/* Footer */}
       <footer className="tuscany-footer">
         <div className="footer-copy">The Wedding of Alifano &amp; Monita &copy; 2026</div>
-        <div className="footer-sub">Crafted with ❤️ in Tuscany Aesthetic Style</div>
+        <div className="footer-sub">Crafted by tuaipandang</div>
       </footer>
     </section>
   );
