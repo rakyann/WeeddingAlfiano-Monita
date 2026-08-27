@@ -1,30 +1,34 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import {
   Users,
-  CheckCircle,
+  CheckCircle2,
   XCircle,
-  Image as ImageIcon,
   Copy,
   Check,
   Share2,
   Plus,
   RefreshCw,
   Crown,
-  ShieldAlert,
+  ExternalLink,
+  MessageCircle,
+  Trash2,
+  ArrowLeft,
+  Sparkles,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase/client';
 import { generateWhatsAppMessage, buildGuestInvitationUrl } from '@/lib/utils/url';
+import Link from 'next/link';
 
-interface PendingPhoto {
+interface GuestHistoryItem {
   id: string;
-  uploader_name: string;
-  photo_url: string;
-  caption: string | null;
-  status: string;
-  created_at: string;
+  name: string;
+  isVip: boolean;
+  table?: string;
+  url: string;
+  waText: string;
+  createdAt: string;
 }
 
 interface RSVPStat {
@@ -36,13 +40,12 @@ interface RSVPStat {
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<RSVPStat>({
-    totalRsvps: 3,
-    totalAttending: 2,
+    totalRsvps: 0,
+    totalAttending: 0,
     totalDeclined: 0,
-    totalPax: 6,
+    totalPax: 0,
   });
 
-  const [pendingPhotos, setPendingPhotos] = useState<PendingPhoto[]>([]);
   const [newGuestName, setNewGuestName] = useState<string>('');
   const [isVip, setIsVip] = useState<boolean>(false);
   const [tableNumber, setTableNumber] = useState<string>('');
@@ -51,27 +54,37 @@ export default function AdminDashboardPage() {
   const [generatedWaText, setGeneratedWaText] = useState<string>('');
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [copiedWa, setCopiedWa] = useState<boolean>(false);
+  const [history, setHistory] = useState<GuestHistoryItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Fetch Stats & Pending Photos
-  const loadDashboardData = async () => {
+  // Load History from localStorage
+  useEffect(() => {
     try {
-      // Load Pending Photos
-      const { data: photos } = await supabase
-        .from('live_photos')
-        .select('*')
-        .eq('status', 'pending')
-        .order('created_at', { ascending: false });
-
-      if (photos) {
-        setPendingPhotos(photos);
+      const saved = localStorage.getItem('wedding_guest_link_history');
+      if (saved) {
+        setHistory(JSON.parse(saved));
       }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
-      // Load RSVPs for statistics
+  const saveHistory = (items: GuestHistoryItem[]) => {
+    setHistory(items);
+    try {
+      localStorage.setItem('wedding_guest_link_history', JSON.stringify(items));
+    } catch (e) {}
+  };
+
+  // Fetch Stats from Supabase if configured
+  const loadDashboardData = async () => {
+    setIsLoading(true);
+    try {
       const { data: rsvps } = await supabase.from('rsvps').select('*');
-      if (rsvps) {
-        const attending = rsvps.filter((r) => r.attendance === 'attending');
-        const declined = rsvps.filter((r) => r.attendance === 'declined');
-        const paxSum = attending.reduce((acc, r) => acc + (r.pax || 1), 0);
+      if (rsvps && rsvps.length > 0) {
+        const attending = rsvps.filter((r) => r.attendance === 'attending' || r.attendance === 'Hadir');
+        const declined = rsvps.filter((r) => r.attendance === 'declined' || r.attendance === 'Tidak Hadir');
+        const paxSum = attending.reduce((acc, r) => acc + (Number(r.pax) || Number(r.guests) || 1), 0);
 
         setStats({
           totalRsvps: rsvps.length,
@@ -79,9 +92,23 @@ export default function AdminDashboardPage() {
           totalDeclined: declined.length,
           totalPax: paxSum,
         });
+      } else {
+        setStats({
+          totalRsvps: 0,
+          totalAttending: 0,
+          totalDeclined: 0,
+          totalPax: 0,
+        });
       }
     } catch (err) {
-      console.warn('Dashboard load error:', err);
+      setStats({
+        totalRsvps: 0,
+        totalAttending: 0,
+        totalDeclined: 0,
+        totalPax: 0,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,22 +116,15 @@ export default function AdminDashboardPage() {
     loadDashboardData();
   }, []);
 
-  // Moderate Photo: Approve or Reject
-  const handleModeratePhoto = async (photoId: string, status: 'approved' | 'rejected') => {
-    try {
-      await supabase.from('live_photos').update({ status }).eq('id', photoId);
-      setPendingPhotos((prev) => prev.filter((p) => p.id !== photoId));
-    } catch (err: any) {
-      alert(err.message || 'Gagal mengubah status foto');
-    }
-  };
-
-  // Generate WA Blast Link
+  // Generate Link
   const handleGenerateLink = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newGuestName.trim()) return;
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://wedding.app');
+    const baseUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      (typeof window !== 'undefined' ? window.location.origin : 'https://weedding-alfiano-monita.vercel.app');
+
     const url = buildGuestInvitationUrl(baseUrl, newGuestName.trim(), {
       isVip,
       table: tableNumber.trim() || undefined,
@@ -114,6 +134,19 @@ export default function AdminDashboardPage() {
 
     setGeneratedLink(url);
     setGeneratedWaText(waMsg);
+
+    const newItem: GuestHistoryItem = {
+      id: Date.now().toString(),
+      name: newGuestName.trim(),
+      isVip,
+      table: tableNumber.trim() || undefined,
+      url,
+      waText: waMsg,
+      createdAt: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    const updatedHistory = [newItem, ...history.filter((h) => h.name.toLowerCase() !== newGuestName.trim().toLowerCase())].slice(0, 30);
+    saveHistory(updatedHistory);
   };
 
   const copyToClipboard = (text: string, isWa: boolean) => {
@@ -127,198 +160,282 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const handleDeleteHistoryItem = (id: string) => {
+    const updated = history.filter((item) => item.id !== id);
+    saveHistory(updated);
+  };
+
+  const handleClearAllHistory = () => {
+    if (window.confirm('Hapus semua riwayat tamu yang dibuat?')) {
+      saveHistory([]);
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-[#17335C] text-[#F7F3EA] p-6 space-y-8">
-      {/* Top Header */}
-      <div className="flex items-center justify-between border-b border-[#3E5C8A] pb-4">
-        <div>
-          <h1 className="font-script text-3xl text-[#F7F3EA]">
-            Admin Dashboard
-          </h1>
-          <p className="text-xs text-[#B7C7E3]">
-            Manajemen Tamu, Rekap RSVP &amp; Moderasi Live Photo Wall
-          </p>
-        </div>
-        <button
-          onClick={loadDashboardData}
-          className="p-2 rounded-xl bg-[#3E5C8A] text-[#D4AF37] hover:bg-[#102443] transition-colors"
-        >
-          <RefreshCw className="w-4 h-4" />
-        </button>
-      </div>
-
-      {/* 1. Statistics Cards */}
-      <div className="grid grid-cols-2 gap-3">
-        <div className="glass-panel p-4 rounded-2xl border border-[#D4AF37]/30">
-          <p className="text-[10px] uppercase font-bold text-[#B7C7E3]">Total RSVP</p>
-          <p className="text-2xl font-bold text-[#D4AF37] mt-1">{stats.totalRsvps}</p>
-        </div>
-        <div className="glass-panel p-4 rounded-2xl border border-[#D4AF37]/30">
-          <p className="text-[10px] uppercase font-bold text-[#B7C7E3]">Total Pax Hadir</p>
-          <p className="text-2xl font-bold text-emerald-400 mt-1">{stats.totalPax} Pax</p>
-        </div>
-        <div className="glass-panel p-4 rounded-2xl border border-[#D4AF37]/30">
-          <p className="text-[10px] uppercase font-bold text-[#B7C7E3]">Konfirmasi Hadir</p>
-          <p className="text-xl font-bold text-emerald-300 mt-1">{stats.totalAttending} Tamu</p>
-        </div>
-        <div className="glass-panel p-4 rounded-2xl border border-[#D4AF37]/30">
-          <p className="text-[10px] uppercase font-bold text-[#B7C7E3]">Berhalangan</p>
-          <p className="text-xl font-bold text-rose-400 mt-1">{stats.totalDeclined} Tamu</p>
-        </div>
-      </div>
-
-      {/* 2. Photo Moderation Section */}
-      <div className="glass-panel p-5 rounded-2xl border border-[#D4AF37]/40 space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="font-serif-title text-xs font-bold text-[#D4AF37] tracking-wider flex items-center gap-1.5">
-            <ImageIcon className="w-4 h-4" /> MODERASI FOTO GUEST ({pendingPhotos.length})
-          </h2>
-        </div>
-
-        {pendingPhotos.length === 0 ? (
-          <p className="text-xs text-[#B7C7E3] italic py-2">
-            Tidak ada foto dalam antrean moderasi saat ini.
-          </p>
-        ) : (
-          <div className="space-y-3">
-            {pendingPhotos.map((photo) => (
-              <div
-                key={photo.id}
-                className="bg-[#102443] p-3 rounded-xl border border-[#3E5C8A] flex items-center justify-between gap-3"
-              >
-                <img
-                  src={photo.photo_url}
-                  alt="Pending"
-                  className="w-16 h-16 object-cover rounded-lg border border-[#D4AF37]/40"
-                />
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold text-[#F7F3EA] truncate">
-                    {photo.uploader_name}
-                  </p>
-                  {photo.caption && (
-                    <p className="text-[10px] text-[#B7C7E3] truncate">
-                      "{photo.caption}"
-                    </p>
-                  )}
-                </div>
-                <div className="flex gap-1">
-                  <button
-                    onClick={() => handleModeratePhoto(photo.id, 'approved')}
-                    className="p-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700"
-                    title="Approve Foto"
-                  >
-                    <CheckCircle className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => handleModeratePhoto(photo.id, 'rejected')}
-                    className="p-2 rounded-lg bg-rose-600 text-white hover:bg-rose-700"
-                    title="Reject Foto"
-                  >
-                    <XCircle className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* 3. Dynamic Link Generator & WA Blast Exporter */}
-      <div className="glass-panel p-5 rounded-2xl border border-[#D4AF37]/40 space-y-4">
-        <h2 className="font-serif-title text-xs font-bold text-[#D4AF37] tracking-wider flex items-center gap-1.5">
-          <Share2 className="w-4 h-4" /> GENERATOR LINK TAMU &amp; WA BLAST
-        </h2>
-
-        <form onSubmit={handleGenerateLink} className="space-y-3">
-          <div>
-            <label className="text-[10px] font-semibold text-[#B7C7E3] uppercase block mb-1">
-              Nama Tamu Undangan
-            </label>
-            <input
-              type="text"
-              placeholder="Contoh: Budi Santoso"
-              value={newGuestName}
-              onChange={(e) => setNewGuestName(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-[#102443] border border-[#3E5C8A] text-xs text-[#F7F3EA] focus:outline-none focus:border-[#D4AF37]"
-              required
-            />
-          </div>
-
-          <div className="flex items-center gap-4">
-            <label className="flex items-center gap-1.5 text-xs text-[#F7F3EA] cursor-pointer">
-              <input
-                type="checkbox"
-                checked={isVip}
-                onChange={(e) => setIsVip(e.target.checked)}
-                className="rounded border-[#3E5C8A] text-[#D4AF37]"
-              />
-              <span className="flex items-center gap-1">
-                <Crown className="w-3.5 h-3.5 text-[#D4AF37]" /> Set VIP Status
-              </span>
-            </label>
-
-            <div className="flex-1">
-              <input
-                type="text"
-                placeholder="No. Meja (Opsional: A1)"
-                value={tableNumber}
-                onChange={(e) => setTableNumber(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-xl bg-[#102443] border border-[#3E5C8A] text-xs text-[#F7F3EA]"
-              />
+    <div className="min-h-screen bg-[#faf6ee] text-[#2c3e2d] font-sans antialiased">
+      {/* Top Navbar */}
+      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-[#eeddc9]/80 shadow-sm px-6 py-4">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#f4ece1] text-[#455645] hover:bg-[#ebdcc8] transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Lihat Web Undangan</span>
+            </Link>
+            <div className="h-4 w-[1px] bg-[#eeddc9]" />
+            <div>
+              <h1 className="text-base font-bold text-[#2e4a00]">Generator Link Tamu</h1>
+              <p className="text-[11px] text-[#637663]">The Wedding of Alifano &amp; Monita</p>
             </div>
           </div>
 
           <button
-            type="submit"
-            className="w-full py-2.5 rounded-xl bg-[#D4AF37] text-[#17335C] font-bold text-xs flex items-center justify-center gap-1.5"
+            onClick={loadDashboardData}
+            disabled={isLoading}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white border border-[#eeddc9] text-[#455645] hover:bg-[#faf6ee] shadow-sm transition-all active:scale-95"
           >
-            <Plus className="w-4 h-4" /> Generate Link Undangan
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-[#c5617a]' : ''}`} />
+            <span>Refresh</span>
           </button>
-        </form>
+        </div>
+      </header>
 
-        {generatedLink && (
-          <div className="mt-4 pt-4 border-t border-[#3E5C8A] space-y-3">
+      <main className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6">
+        {/* 1. Clean Summary Stats Grid */}
+        <section>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
+              <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
+                <span className="text-[11px] font-semibold uppercase tracking-wider">Total RSVP</span>
+                <Users className="w-4 h-4 text-[#455645]" />
+              </div>
+              <p className="text-2xl font-bold text-[#2e4a00]">{stats.totalRsvps}</p>
+              <span className="text-[10px] text-[#8e9e8e]">Respon Tamu Masuk</span>
+            </div>
+
+            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
+              <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
+                <span className="text-[11px] font-semibold uppercase tracking-wider">Hadir</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </div>
+              <p className="text-2xl font-bold text-emerald-700">{stats.totalAttending}</p>
+              <span className="text-[10px] text-emerald-600/80">Tamu Konfirmasi</span>
+            </div>
+
+            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
+              <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
+                <span className="text-[11px] font-semibold uppercase tracking-wider">Estimasi Tamu</span>
+                <Sparkles className="w-4 h-4 text-[#c5617a]" />
+              </div>
+              <p className="text-2xl font-bold text-[#c5617a]">{stats.totalPax} <span className="text-xs font-normal">Pax</span></p>
+              <span className="text-[10px] text-[#8e9e8e]">Total Orang Datang</span>
+            </div>
+
+            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
+              <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
+                <span className="text-[11px] font-semibold uppercase tracking-wider">Berhalangan</span>
+                <XCircle className="w-4 h-4 text-rose-500" />
+              </div>
+              <p className="text-2xl font-bold text-rose-600">{stats.totalDeclined}</p>
+              <span className="text-[10px] text-rose-500/80">Tidak Dapat Hadir</span>
+            </div>
+          </div>
+        </section>
+
+        {/* 2. Main Link Generator Card */}
+        <section className="bg-white rounded-2xl border border-[#eeddc9] shadow-sm p-6 sm:p-7">
+          <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#f4ece1]">
+            <div className="w-8 h-8 rounded-full bg-[#f4ece1] flex items-center justify-center text-[#455645]">
+              <Share2 className="w-4 h-4" />
+            </div>
             <div>
-              <p className="text-[10px] uppercase font-bold text-[#D4AF37] mb-1">
-                URL Undangan Personal:
-              </p>
-              <div className="flex items-center gap-2">
+              <h2 className="text-base font-bold text-[#2e4a00]">Buat Link Undangan Khusus</h2>
+              <p className="text-xs text-[#637663]">Nama tamu akan otomatis tampil di cover depan dan form RSVP</p>
+            </div>
+          </div>
+
+          <form onSubmit={handleGenerateLink} className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold text-[#455645] mb-1.5">
+                Nama Tamu Undangan <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Contoh: Budi Santoso & Partner / Keluarga Bpk. Hendy"
+                value={newGuestName}
+                onChange={(e) => setNewGuestName(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl bg-[#faf6ee] border border-[#eeddc9] text-sm text-[#2e4a00] placeholder:text-[#a0a89d] focus:outline-none focus:ring-2 focus:ring-[#c5617a]/30 focus:border-[#c5617a] transition-all"
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#eeddc9] bg-[#faf6ee]/50 hover:bg-[#faf6ee] cursor-pointer transition-colors">
+                <input
+                  type="checkbox"
+                  checked={isVip}
+                  onChange={(e) => setIsVip(e.target.checked)}
+                  className="w-4 h-4 rounded border-[#eeddc9] text-[#c5617a] focus:ring-[#c5617a]"
+                />
+                <span className="text-xs font-semibold text-[#455645] flex items-center gap-1.5">
+                  <Crown className="w-3.5 h-3.5 text-amber-600" /> Tamu VIP (Khusus)
+                </span>
+              </label>
+
+              <div>
                 <input
                   type="text"
-                  readOnly
-                  value={generatedLink}
-                  className="w-full px-3 py-2 rounded-xl bg-[#102443] text-xs font-mono text-[#B7C7E3]"
+                  placeholder="No. Meja (Opsional: Meja 04)"
+                  value={tableNumber}
+                  onChange={(e) => setTableNumber(e.target.value)}
+                  className="w-full px-3.5 py-3 rounded-xl bg-[#faf6ee]/50 border border-[#eeddc9] text-xs text-[#2e4a00] placeholder:text-[#a0a89d] focus:outline-none focus:ring-2 focus:ring-[#c5617a]/30"
                 />
-                <button
-                  onClick={() => copyToClipboard(generatedLink, false)}
-                  className="px-3 py-2 rounded-xl bg-[#3E5C8A] text-[#D4AF37] text-xs font-bold shrink-0"
-                >
-                  {copiedLink ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-                </button>
               </div>
             </div>
 
-            <div>
-              <p className="text-[10px] uppercase font-bold text-[#D4AF37] mb-1">
-                Format Pesan WhatsApp Ready-to-Copy:
-              </p>
-              <textarea
-                readOnly
-                rows={6}
-                value={generatedWaText}
-                className="w-full px-3 py-2 rounded-xl bg-[#102443] text-xs font-mono text-[#B7C7E3] resize-none"
-              />
+            <button
+              type="submit"
+              className="w-full py-3.5 rounded-xl bg-[#455645] hover:bg-[#2e4a00] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-[0.99]"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Generate Link Undangan</span>
+            </button>
+          </form>
+
+          {/* Generated Result Output */}
+          {generatedLink && (
+            <div className="mt-6 pt-5 border-t border-[#eeddc9] space-y-4">
+              <div className="bg-[#faf6ee] p-4 rounded-xl border border-[#eeddc9]">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-[#2e4a00]">URL Undangan Siap Kirim:</span>
+                  <a
+                    href={generatedLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-semibold text-[#c5617a] hover:underline inline-flex items-center gap-1"
+                  >
+                    Buka Link <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    readOnly
+                    value={generatedLink}
+                    className="w-full px-3 py-2 rounded-lg bg-white border border-[#eeddc9] text-xs font-mono text-[#455645] select-all"
+                  />
+                  <button
+                    onClick={() => copyToClipboard(generatedLink, false)}
+                    className="px-4 py-2 rounded-lg bg-[#455645] hover:bg-[#2e4a00] text-white text-xs font-bold flex items-center gap-1.5 shrink-0 transition-colors shadow-sm"
+                  >
+                    {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedLink ? 'Tersalin!' : 'Salin Link'}</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-xl border border-[#eeddc9] space-y-3">
+                <span className="text-xs font-bold text-[#2e4a00] block">Teks Pesan WhatsApp:</span>
+                <textarea
+                  readOnly
+                  rows={6}
+                  value={generatedWaText}
+                  className="w-full px-3 py-2.5 rounded-lg bg-[#faf6ee] border border-[#eeddc9] text-xs font-sans text-[#2e4a00] resize-none leading-relaxed focus:outline-none"
+                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <button
+                    onClick={() => copyToClipboard(generatedWaText, true)}
+                    className="w-full py-2.5 rounded-lg bg-[#f4ece1] hover:bg-[#ebdcc8] text-[#455645] font-bold text-xs flex items-center justify-center gap-2 border border-[#eeddc9] transition-colors"
+                  >
+                    {copiedWa ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                    <span>{copiedWa ? 'Pesan Tersalin!' : 'Salin Teks WhatsApp'}</span>
+                  </button>
+                  <a
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(generatedWaText)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2.5 rounded-lg bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-colors"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Langsung Buka WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* 3. History of Generated Guest Links */}
+        {history.length > 0 && (
+          <section className="bg-white rounded-2xl border border-[#eeddc9] shadow-sm p-6">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#f4ece1]">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-[#2e4a00]">Riwayat Link Tamu Dibuat</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#f4ece1] text-[#455645]">
+                  {history.length}
+                </span>
+              </div>
               <button
-                onClick={() => copyToClipboard(generatedWaText, true)}
-                className="mt-2 w-full py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-2 hover:bg-emerald-700"
+                onClick={handleClearAllHistory}
+                className="text-[11px] text-[#8e9e8e] hover:text-rose-600 flex items-center gap-1 transition-colors"
               >
-                {copiedWa ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                {copiedWa ? 'Tersalin ke Clipboard!' : 'Copy Format Pesan WhatsApp'}
+                <Trash2 className="w-3 h-3" /> Hapus Semua
               </button>
             </div>
-          </div>
+
+            <div className="divide-y divide-[#f4ece1] max-h-80 overflow-y-auto pr-1">
+              {history.map((item) => (
+                <div key={item.id} className="py-3 flex items-center justify-between gap-3 group">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs font-bold text-[#2e4a00] truncate">{item.name}</p>
+                      {item.isVip && (
+                        <span className="px-1.5 py-0.2 text-[9px] font-bold rounded bg-amber-100 text-amber-800">
+                          VIP
+                        </span>
+                      )}
+                      {item.table && (
+                        <span className="px-1.5 py-0.2 text-[9px] font-medium rounded bg-[#f4ece1] text-[#637663]">
+                          {item.table}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[10px] text-[#8e9e8e] truncate mt-0.5">{item.url}</p>
+                  </div>
+
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      onClick={() => copyToClipboard(item.url, false)}
+                      className="p-1.5 rounded-lg bg-[#faf6ee] hover:bg-[#ebdcc8] text-[#455645] text-xs transition-colors"
+                      title="Salin Link"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                    </button>
+                    <a
+                      href={`https://api.whatsapp.com/send?text=${encodeURIComponent(item.waText)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1.5 rounded-lg bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] transition-colors"
+                      title="Kirim ke WhatsApp"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                    </a>
+                    <button
+                      onClick={() => handleDeleteHistoryItem(item.id)}
+                      className="p-1.5 rounded-lg hover:bg-rose-50 text-[#8e9e8e] hover:text-rose-600 transition-colors"
+                      title="Hapus"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         )}
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
