@@ -39,32 +39,30 @@ export function DigitalEnvelopeSection({ onOpenQris, onShowToast }: DigitalGiftS
             <i className="fa-solid fa-credit-card" />
           </div>
           <div className="bank-acc-label">Nomor Rekening</div>
-          <div className="bank-acc-number">— — — — — — —</div>
-          <div className="bank-acc-name">a.n. Alifano</div>
+          <div className="bank-acc-number">4240380175</div>
+          <div className="bank-acc-name">a.n. Alifano Dwi Cahyo</div>
           <button
             className="btn-copy-rekening"
-            onClick={() => onShowToast('Nomor rekening akan diupdate segera')}
-            style={{ opacity: 0.5, cursor: 'not-allowed' }}
+            onClick={() => handleCopy('4240380175', 'BCA')}
           >
-            <i className="fa-regular fa-copy" /> Segera Diupdate
+            <i className="fa-regular fa-copy" /> Salin No. Rekening
           </button>
         </div>
 
-        {/* Bank lainnya */}
+        {/* Bank BNI */}
         <div className="tuscany-bank-card">
           <div className="bank-header">
-            <span className="bank-pill mandiri">MANDIRI</span>
+            <span className="bank-pill bni">BNI</span>
             <i className="fa-solid fa-credit-card" />
           </div>
           <div className="bank-acc-label">Nomor Rekening</div>
-          <div className="bank-acc-number">— — — — — — —</div>
-          <div className="bank-acc-name">a.n. Monita</div>
+          <div className="bank-acc-number">0778824047</div>
+          <div className="bank-acc-name">a.n. Monita Ameliani Febriana</div>
           <button
             className="btn-copy-rekening"
-            onClick={() => onShowToast('Nomor rekening akan diupdate segera')}
-            style={{ opacity: 0.5, cursor: 'not-allowed' }}
+            onClick={() => handleCopy('0778824047', 'BNI')}
           >
-            <i className="fa-regular fa-copy" /> Segera Diupdate
+            <i className="fa-regular fa-copy" /> Salin No. Rekening
           </button>
         </div>
 

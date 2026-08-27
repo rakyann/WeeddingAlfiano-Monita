@@ -1533,6 +1533,11 @@ button, input, select, textarea {
   color: #ffffff;
 }
 
+.bank-pill.bni {
+  background: #f15a24;
+  color: #ffffff;
+}
+
 .bank-pill.mandiri {
   background: #003066;
   color: #f7ca18;

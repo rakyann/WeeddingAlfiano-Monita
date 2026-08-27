@@ -39,18 +39,18 @@ export function MempelaiSection() {
 
         <div className="profile-text-content">
           <h3 className="profile-calligraphy-name">Alifano</h3>
-          <h4 className="profile-full-name">Alifano</h4>
+          <h4 className="profile-full-name">Alifano Dwi Cahyo</h4>
           <p className="profile-parents-info">
             Putra tercinta dari<br />
-            <strong>Bapak ...</strong> &amp; <strong>Ibu ...</strong>
+            <strong>Bapak Sudir</strong> &amp; <strong>Ibu Estiningsih</strong>
           </p>
           <a
-            href="https://instagram.com"
+            href="https://instagram.com/alifanodc"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-tuscany-pill"
           >
-            <i className="fa-brands fa-instagram" /> @alifano
+            <i className="fa-brands fa-instagram" /> @alifanodc
           </a>
         </div>
       </div>
@@ -86,18 +86,19 @@ export function MempelaiSection() {
 
         <div className="profile-text-content">
           <h3 className="profile-calligraphy-name">Monita</h3>
-          <h4 className="profile-full-name">Monita</h4>
+          <h4 className="profile-full-name">Monita Ameliani Febriana</h4>
           <p className="profile-parents-info">
             Putri tercinta dari<br />
-            <strong>Bapak ...</strong> &amp; <strong>Ibu ...</strong>
+            <strong>Bapak (Alm) Toto Sugiarto</strong> &amp;<br />
+            <strong>Ibu Puji Sistiawati</strong>
           </p>
           <a
-            href="https://instagram.com"
+            href="https://instagram.com/monitameliaa"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-tuscany-pill"
           >
-            <i className="fa-brands fa-instagram" /> @monita
+            <i className="fa-brands fa-instagram" /> @monitameliaa
           </a>
         </div>
       </div>
