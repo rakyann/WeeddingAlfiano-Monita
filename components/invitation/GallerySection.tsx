@@ -22,10 +22,10 @@ export function GallerySection({ onOpenLightbox }: GallerySectionProps) {
   return (
     <section className="section-card gallery-section">
       <div className="tuscany-doodle doodle-gal-l">
-        <img src="/assets/tuscany/lemon.png" alt="Doodle" />
+        <img src="/assets/tuscany/tuscany40.png" alt="Doodle" />
       </div>
       <div className="tuscany-doodle doodle-gal-r">
-        <img src="/assets/tuscany/fruits.png" alt="Doodle" />
+        <img src="/assets/tuscany/tuscany41.png" alt="Doodle" />
       </div>
 
       <div className="section-badge-pill">Our Moments</div>
@@ -35,15 +35,16 @@ export function GallerySection({ onOpenLightbox }: GallerySectionProps) {
       </p>
 
       {/* Gallery Grid */}
-      <div className="tuscany-gallery-grid">
+      <div className="tuscany-gallery-grid" id="galleryGrid">
         {galleryImages.map((img, idx) => (
           <div
             key={idx}
-            className={`gallery-grid-item ${img.span}`}
+            className="gallery-card"
             onClick={() => onOpenLightbox(idx)}
+            data-index={idx}
           >
             <img src={img.src} alt={img.caption} loading="lazy" />
-            <div className="gallery-item-overlay">
+            <div className="gallery-card-overlay">
               <i className="fa-solid fa-magnifying-glass-plus" />
             </div>
           </div>

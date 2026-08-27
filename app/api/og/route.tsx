@@ -19,22 +19,22 @@ export async function GET(req: NextRequest) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#17335C',
-            backgroundImage: 'radial-gradient(circle at center, #3E5C8A 0%, #17335C 100%)',
+            backgroundColor: '#fff8e8',
             fontFamily: 'serif',
-            color: '#F7F3EA',
+            color: '#455645',
             padding: '40px',
-            border: '12px solid #D4AF37',
+            border: '14px solid #455645',
             boxSizing: 'border-box',
           }}
         >
           <div
             style={{
-              fontSize: '18px',
+              fontSize: '20px',
               letterSpacing: '6px',
-              color: '#D4AF37',
+              color: '#c5617a',
               textTransform: 'uppercase',
               marginBottom: '10px',
+              fontWeight: 'bold',
             }}
           >
             THE WEDDING INVITATION OF
@@ -42,9 +42,9 @@ export async function GET(req: NextRequest) {
 
           <div
             style={{
-              fontSize: '64px',
+              fontSize: '68px',
               fontWeight: 'bold',
-              color: '#F7F3EA',
+              color: '#2e4a00',
               margin: '10px 0',
             }}
           >
@@ -54,8 +54,8 @@ export async function GET(req: NextRequest) {
           <div
             style={{
               width: '120px',
-              height: '2px',
-              backgroundColor: '#D4AF37',
+              height: '3px',
+              backgroundColor: '#c5617a',
               margin: '20px 0',
             }}
           />
@@ -65,16 +65,17 @@ export async function GET(req: NextRequest) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              borderRadius: '20px',
-              padding: '20px 40px',
-              border: '1px solid rgba(212, 175, 55, 0.5)',
+              backgroundColor: '#ffffff',
+              borderRadius: '24px',
+              padding: '20px 48px',
+              border: '2px solid #eeddc9',
+              boxShadow: '0 8px 24px rgba(69, 86, 69, 0.08)',
             }}
           >
             <div
               style={{
-                fontSize: '16px',
-                color: '#B7C7E3',
+                fontSize: '15px',
+                color: '#637663',
                 marginBottom: '6px',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
@@ -84,9 +85,9 @@ export async function GET(req: NextRequest) {
             </div>
             <div
               style={{
-                fontSize: '36px',
+                fontSize: '38px',
                 fontWeight: 'bold',
-                color: '#D4AF37',
+                color: '#2e4a00',
               }}
             >
               {guestName}

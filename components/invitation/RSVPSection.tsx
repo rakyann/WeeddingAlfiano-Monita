@@ -39,7 +39,7 @@ export function RSVPSection({ guestName = '', onShowToast }: RSVPSectionProps) {
   return (
     <section className="section-card rsvp-section">
       <div className="tuscany-doodle doodle-rsvp">
-        <img src="/assets/tuscany/img_5016.gif" alt="Doodle" />
+        <img src="/assets/tuscany/img_5022.gif" alt="Doodle" />
       </div>
 
       <div className="section-badge-pill">RSVP</div>
