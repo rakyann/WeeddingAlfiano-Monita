@@ -78,7 +78,7 @@ export function EventDetailsSection({ onShowToast }: EventDetailsSectionProps) {
             <i className="fa-regular fa-calendar" /> Minggu, 13 September 2026
           </div>
           <div className="time-item highlight-time">
-            <i className="fa-regular fa-clock" /> 11:00 WIB - 14:00 WIB
+            <i className="fa-regular fa-clock" /> 11:00 WIB - 13:00 WIB
           </div>
         </div>
 
