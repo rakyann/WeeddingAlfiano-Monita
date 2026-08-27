@@ -110,7 +110,7 @@ export default function AdminDashboardPage() {
       table: tableNumber.trim() || undefined,
     });
 
-    const waMsg = generateWhatsAppMessage(newGuestName.trim(), url, 'Romeo & Juliet');
+    const waMsg = generateWhatsAppMessage(newGuestName.trim(), url, 'Alifano & Monita');
 
     setGeneratedLink(url);
     setGeneratedWaText(waMsg);
