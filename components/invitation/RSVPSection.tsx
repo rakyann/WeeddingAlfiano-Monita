@@ -41,7 +41,16 @@ export function RSVPSection({ guestName = '', onShowToast }: RSVPSectionProps) {
       created_at: new Date().toISOString(),
     };
 
-    // 1. Save to LocalStorage (Instant local persistence)
+    // 1. Save to Backend API (/api/rsvps)
+    try {
+      await fetch('/api/rsvps', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rsvpData),
+      });
+    } catch (e) {}
+
+    // 2. Save to LocalStorage
     try {
       const existing = localStorage.getItem('wedding_alifano_monita_rsvps');
       const list = existing ? JSON.parse(existing) : [];
@@ -49,26 +58,10 @@ export function RSVPSection({ guestName = '', onShowToast }: RSVPSectionProps) {
       localStorage.setItem('wedding_alifano_monita_rsvps', JSON.stringify(updated));
     } catch (e) {}
 
-    // 2. Try saving to Supabase if available
-    try {
-      const { supabase } = await import('@/lib/supabase/client');
-      await supabase.from('rsvps').insert([
-        {
-          name: name.trim(),
-          address: address.trim(),
-          attendance: attendance === 'Hadir' ? 'attending' : attendance === 'Tidak Hadir' ? 'declined' : 'maybe',
-          pax: Number(guests) || 1,
-          guests: Number(guests) || 1,
-        },
-      ]);
-    } catch (e) {
-      // ignore
-    }
-
     setTimeout(() => {
       setIsSubmitting(false);
-      onShowToast(`Terima kasih ${name}, konfirmasi kehadiran berhasil disimpan!`);
-    }, 400);
+      onShowToast(`Terima kasih ${name}, konfirmasi kehadiran berhasil dikirim!`);
+    }, 300);
   };
 
   return (

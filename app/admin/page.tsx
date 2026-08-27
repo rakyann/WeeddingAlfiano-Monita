@@ -74,37 +74,60 @@ export default function AdminDashboardPage() {
   const [history, setHistory] = useState<GuestHistoryItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Load History & RSVPs from localStorage and Supabase
+  // Load History & RSVPs from Backend API, localStorage and Supabase
   const loadDashboardData = async () => {
     setIsLoading(true);
     let allRsvps: RSVPRecord[] = [];
 
-    // 1. Load from localStorage
+    // 1. Fetch from Backend API (/api/rsvps)
     try {
-      const localRsvps = localStorage.getItem('wedding_alifano_monita_rsvps');
-      if (localRsvps) {
-        allRsvps = JSON.parse(localRsvps);
+      const res = await fetch('/api/rsvps', { cache: 'no-store' });
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        for (const item of json.data) {
+          allRsvps.push({
+            id: item.id || Date.now().toString(),
+            name: item.name,
+            address: item.address || '-',
+            attendance: item.attendance || 'Hadir',
+            pax: Number(item.pax) || 1,
+            created_at: item.created_at || new Date().toISOString(),
+          });
+        }
       }
     } catch (e) {}
 
-    // 2. Try loading from Supabase
+    // 2. Merge with localStorage
+    try {
+      const localRsvps = localStorage.getItem('wedding_alifano_monita_rsvps');
+      if (localRsvps) {
+        const parsed = JSON.parse(localRsvps);
+        const existingNames = new Set(allRsvps.map((r) => r.name.toLowerCase()));
+        for (const p of parsed) {
+          if (!existingNames.has(p.name.toLowerCase())) {
+            allRsvps.push(p);
+          }
+        }
+      }
+    } catch (e) {}
+
+    // 3. Merge with Supabase
     try {
       const { data: supaRsvps } = await supabase.from('rsvps').select('*').order('created_at', { ascending: false });
       if (supaRsvps && supaRsvps.length > 0) {
-        const mapped = supaRsvps.map((r: any) => ({
-          id: r.id || Date.now().toString(),
-          name: r.name || 'Tamu',
-          address: r.address || '-',
-          attendance: r.attendance === 'attending' ? 'Hadir' : r.attendance === 'declined' ? 'Tidak Hadir' : r.attendance || 'Hadir',
-          pax: Number(r.pax) || Number(r.guests) || 1,
-          created_at: r.created_at || new Date().toISOString(),
-        }));
-
-        // Merge without duplicates
-        const names = new Set(allRsvps.map((item) => item.name.toLowerCase()));
-        for (const item of mapped) {
-          if (!names.has(item.name.toLowerCase())) {
-            allRsvps.push(item);
+        const existingNames = new Set(allRsvps.map((r) => r.name.toLowerCase()));
+        for (const r of supaRsvps) {
+          const rName = (r.guest_name || r.name || 'Tamu').trim();
+          if (!existingNames.has(rName.toLowerCase())) {
+            allRsvps.push({
+              id: r.id || Date.now().toString(),
+              name: rName,
+              address: r.address || '-',
+              attendance: r.attendance === 'attending' ? 'Hadir' : r.attendance === 'declined' ? 'Tidak Hadir' : r.attendance || 'Hadir',
+              pax: Number(r.pax) || Number(r.guests) || 1,
+              created_at: r.created_at || new Date().toISOString(),
+            });
+            existingNames.add(rName.toLowerCase());
           }
         }
       }
