@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://weedding-alfiano-monita.vercel.app';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'The Wedding of Alifano & Monita',
   description: 'Undangan Pernikahan Digital Alifano & Monita - 13 September 2026',
   openGraph: {

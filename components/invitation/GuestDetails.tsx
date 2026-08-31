@@ -9,9 +9,9 @@ export const GuestDetails: React.FC = () => {
 
   // 3 outfit inspiration photos (tall portrait) from real pre-wedding photos
   const outfitPhotos = [
-    '/img/DEV03503.JPG',
-    '/img/DEV04107.JPG',
-    '/img/DEV04100.JPG',
+    '/img/WhatsApp%20Image%202026-08-27%20at%2022.08.40%20(1).jpeg',
+    '/img/WhatsApp%20Image%202026-08-27%20at%2022.08.56%20(1).jpeg',
+    '/img/WhatsApp%20Image%202026-08-27%20at%2022.08.57.jpeg',
   ];
 
   const bankAccounts = [

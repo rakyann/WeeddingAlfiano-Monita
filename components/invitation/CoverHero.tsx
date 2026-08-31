@@ -32,7 +32,7 @@ export function CoverHero({ guestName = 'Tamu Undangan', onOpen }: CoverHeroProp
         <div className="cover-illustration-box">
           <div className="cover-arch-photo-wrapper">
             <img
-              src="/img/DEV03503.JPG"
+              src="/img/cover.jpeg"
               alt="Foto Mempelai Alifano & Monita"
               className="cover-couple-photo"
             />

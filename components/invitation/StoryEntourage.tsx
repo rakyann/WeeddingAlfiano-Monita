@@ -29,7 +29,7 @@ export const MempelaiSection: React.FC = () => {
       nickname: 'Alifano',
       parents: 'Putra dari Bpk. Sudir & Ibu Estiningsih',
       ig: '@alifanodc',
-      photo: '/img/DEV04107.JPG',
+      photo: '/img/alifano.jpeg',
     },
     {
       role: 'Mempelai Wanita',
@@ -37,7 +37,7 @@ export const MempelaiSection: React.FC = () => {
       nickname: 'Monita',
       parents: 'Putri dari Bpk. (Alm) Toto Sugiarto & Ibu Puji Sistiawati',
       ig: '@monitameliaa',
-      photo: '/img/DEV04100.JPG',
+      photo: '/img/Monita.jpeg',
     },
   ];
 

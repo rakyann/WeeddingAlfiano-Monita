@@ -8,7 +8,7 @@ export function DesktopHeroSide() {
       <div
         className="desktop-bg-layer"
         style={{
-          backgroundImage: "url('/assets/tuscany/desktop-bg2.png'), url('/img/DEV03503.JPG')",
+          backgroundImage: "url('/assets/tuscany/desktop-bg2.png'), url('/img/cover.jpeg')",
         }}
       />
       <div className="desktop-hero-overlay" />

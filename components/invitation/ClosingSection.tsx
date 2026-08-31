@@ -18,7 +18,7 @@ export function ClosingSection() {
       {/* Closing Photo Arch */}
       <div className="closing-photo-arch-wrap">
         <img
-          src="/img/DEV03503.JPG"
+          src="/img/cover.jpeg"
           alt="Alifano & Monita"
           className="closing-couple-img"
         />

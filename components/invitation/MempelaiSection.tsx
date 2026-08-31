@@ -20,7 +20,7 @@ export function MempelaiSection() {
         <div className="profile-frame-wrap">
           <div className="profile-photo-arch">
             <img
-              src="/img/alifano.JPG"
+              src="/img/alifano.jpeg"
               alt="Alifano Dwi Cahyo"
               className="profile-img"
             />
@@ -67,7 +67,7 @@ export function MempelaiSection() {
         <div className="profile-frame-wrap">
           <div className="profile-photo-arch">
             <img
-              src="/img/monita.JPG"
+              src="/img/Monita.jpeg"
               alt="Monita Ameliani Febriana"
               className="profile-img"
             />

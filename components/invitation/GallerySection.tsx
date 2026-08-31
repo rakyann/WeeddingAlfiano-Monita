@@ -7,15 +7,11 @@ interface GallerySectionProps {
 }
 
 export const galleryImages = [
-  { src: '/img/DEV03503.JPG', caption: 'Alifano & Monita', span: 'item-tall' },
-  { src: '/img/DEV03564.JPG', caption: 'Momen Bersama', span: '' },
-  { src: '/img/DEV03606.JPG', caption: 'Kebersamaan', span: '' },
-  { src: '/img/DEV03652.JPG', caption: 'Penuh Kasih', span: 'item-wide' },
-  { src: '/img/DEV03712.JPG', caption: 'Senyum Bahagia', span: '' },
-  { src: '/img/DEV03791.JPG', caption: 'Bersama Selamanya', span: 'item-tall' },
-  { src: '/img/DEV04091.JPG', caption: 'Momen Berharga', span: '' },
-  { src: '/img/DEV04100.JPG', caption: 'Kenangan Indah', span: '' },
-  { src: '/img/DSC07649.JPG', caption: 'Love Story', span: 'item-wide' },
+  { src: '/img/WhatsApp%20Image%202026-08-27%20at%2022.08.40%20(1).jpeg', caption: 'Alifano & Monita', span: 'item-tall' },
+  { src: '/img/WhatsApp%20Image%202026-08-27%20at%2022.08.40.jpeg', caption: 'Momen Bahagia', span: '' },
+  { src: '/img/WhatsApp%20Image%202026-08-27%20at%2022.08.56%20(1).jpeg', caption: 'Kisah Kasih', span: 'item-wide' },
+  { src: '/img/WhatsApp%20Image%202026-08-27%20at%2022.08.56%20(2).jpeg', caption: 'Senyum Indah', span: '' },
+  { src: '/img/WhatsApp%20Image%202026-08-27%20at%2022.08.57.jpeg', caption: 'Bersama Selamanya', span: 'item-tall' },
 ];
 
 export function GallerySection({ onOpenLightbox }: GallerySectionProps) {

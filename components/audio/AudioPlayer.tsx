@@ -5,9 +5,14 @@ import React, { useEffect, useRef } from 'react';
 interface AudioPlayerProps {
   isPlaying: boolean;
   onToggle: () => void;
+  src?: string;
 }
 
-export function AudioPlayer({ isPlaying, onToggle }: AudioPlayerProps) {
+export function AudioPlayer({
+  isPlaying,
+  onToggle,
+  src = '/assets/Music/midnightpetals%20-%20in%20between(Official%20Lyric%20Video).mp3',
+}: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -26,7 +31,7 @@ export function AudioPlayer({ isPlaying, onToggle }: AudioPlayerProps) {
     <>
       <audio
         ref={audioRef}
-        src="/assets/wedding_song.mp3"
+        src={src}
         loop
         preload="auto"
       />

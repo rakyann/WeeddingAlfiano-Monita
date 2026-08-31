@@ -10,7 +10,7 @@ interface GuestQRCodeProps {
 }
 
 export const GuestQRCode: React.FC<GuestQRCodeProps> = ({ guestName, tableNumber }) => {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://wedding-invitation-app.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://weedding-alfiano-monita.vercel.app';
   const qrData = `${siteUrl}/scan?token=${encodeURIComponent(guestName)}`;
 
   return (
