@@ -49,6 +49,18 @@ export function MusicPlayerSection({
         {/* Interactive Music Player UI */}
         <div className="music-player-card">
           <div className="player-title">CLICK TO PLAY OUR SONG</div>
+          <div
+            style={{
+              fontFamily: 'var(--font-editorial)',
+              fontSize: '13px',
+              fontStyle: 'italic',
+              color: 'rgba(255, 255, 255, 0.95)',
+              marginBottom: '12px',
+              letterSpacing: '0.5px',
+            }}
+          >
+            Matthew Ifield &ndash; I Think They Call This Love
+          </div>
 
           <div className="player-progress-wrap">
             <div className="progress-bar-bg" onClick={handleProgressClick}>

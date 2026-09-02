@@ -81,7 +81,7 @@ export function AudioPlayer({
     <>
       <audio
         ref={audioRef}
-        src="/assets/vintage/audio/wedding_song.mp4"
+        src="/assets/vintage/audio/wedding_song.mp3"
         loop
         preload="auto"
         onTimeUpdate={handleTimeUpdate}
