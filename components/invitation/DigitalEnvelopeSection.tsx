@@ -3,20 +3,21 @@
 import React from 'react';
 
 interface DigitalEnvelopeSectionProps {
-  onOpenQris: () => void;
   onShowToast: (msg: string) => void;
 }
 
 export function DigitalEnvelopeSection({
-  onOpenQris,
   onShowToast,
 }: DigitalEnvelopeSectionProps) {
   const handleCopy = (text: string, bank: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      onShowToast(`Nomor rekening ${bank} berhasil disalin!`);
-    }).catch(() => {
-      onShowToast(`Salin: ${text}`);
-    });
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        onShowToast(`Nomor rekening ${bank} berhasil disalin!`);
+      })
+      .catch(() => {
+        onShowToast(`Salin: ${text}`);
+      });
   };
 
   return (
@@ -57,24 +58,6 @@ export function DigitalEnvelopeSection({
             onClick={() => handleCopy('0778824047', 'BNI')}
           >
             <i className="fa-regular fa-copy" /> Salin No. Rekening
-          </button>
-        </div>
-
-        {/* QRIS */}
-        <div className="qris-card">
-          <div className="qris-title">
-            <i className="fa-solid fa-qrcode" style={{ marginRight: '6px' }} />
-            QRIS Pembayaran
-          </div>
-          <p className="qris-desc">
-            Dapat dipindai melalui seluruh aplikasi E-Wallet &amp; Mobile Banking (GoPay, OVO, Dana, ShopeePay, BCA, dll).
-          </p>
-          <button
-            className="btn-copy-rekening"
-            onClick={onOpenQris}
-            style={{ borderStyle: 'solid' }}
-          >
-            <i className="fa-solid fa-expand" /> Tampilkan Kode QRIS
           </button>
         </div>
       </div>

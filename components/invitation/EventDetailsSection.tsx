@@ -7,22 +7,32 @@ interface EventDetailsSectionProps {
 }
 
 export function EventDetailsSection({ onShowToast }: EventDetailsSectionProps) {
-  const venueTitle = 'Venue Pernikahan Alifano & Monita';
-  const venueAddress = 'Jl. Raya Kebahagiaan No. 13, Jakarta';
-  const mapsUrl = 'https://maps.google.com/?q=Jakarta';
-  const wazeUrl = 'https://waze.com/ul?q=Jakarta';
+  const venueTitle = 'Lembayung';
+  const venueAddress =
+    'Jl. Raya Baturaden, Karang Blimbing, Pabuaran, Kec. Purwokerto Utara, Kabupaten Banyumas, Jawa Tengah 53124';
+  const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(
+    'Lembayung, Jl. Raya Baturaden, Karang Blimbing, Pabuaran, Kec. Purwokerto Utara, Kabupaten Banyumas, Jawa Tengah 53124'
+  )}`;
+  const wazeUrl = `https://waze.com/ul?q=${encodeURIComponent(
+    'Lembayung Baturaden Purwokerto'
+  )}`;
 
   const handleCopyAddress = () => {
-    navigator.clipboard.writeText(`${venueTitle}, ${venueAddress}`).then(() => {
-      onShowToast('Alamat berhasil disalin ke clipboard!');
-    }).catch(() => {
-      onShowToast(`Salin: ${venueAddress}`);
-    });
+    navigator.clipboard
+      .writeText(`${venueTitle}, ${venueAddress}`)
+      .then(() => {
+        onShowToast('Alamat berhasil disalin ke clipboard!');
+      })
+      .catch(() => {
+        onShowToast(`Salin: ${venueAddress}`);
+      });
   };
 
   const handleAddToCalendar = () => {
     const title = encodeURIComponent('The Wedding of Alifano & Monita');
-    const details = encodeURIComponent('Pernikahan Alifano Dwi Cahyo & Monita Ameliani Febriana');
+    const details = encodeURIComponent(
+      'Pernikahan Alifano Dwi Cahyo & Monita Ameliani Febriana'
+    );
     const location = encodeURIComponent(`${venueTitle}, ${venueAddress}`);
     // 2026-09-13 from 08:00 to 13:00 WIB (01:00 to 06:00 UTC)
     const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20260913T010000Z/20260913T060000Z&details=${details}&location=${location}`;
@@ -53,7 +63,10 @@ export function EventDetailsSection({ onShowToast }: EventDetailsSectionProps) {
         {/* Event 2: Resepsi */}
         <div className="event-detail-card">
           <div className="event-type-pill">
-            <i className="fa-solid fa-champagne-glasses" style={{ marginRight: '6px' }} />
+            <i
+              className="fa-solid fa-champagne-glasses"
+              style={{ marginRight: '6px' }}
+            />
             Resepsi Pernikahan
           </div>
           <div className="event-date-val">Minggu, 13 September 2026</div>
@@ -83,10 +96,7 @@ export function EventDetailsSection({ onShowToast }: EventDetailsSectionProps) {
         >
           <i className="fa-brands fa-waze" /> Waze
         </a>
-        <button
-          onClick={handleCopyAddress}
-          className="btn-luxury-outline"
-        >
+        <button onClick={handleCopyAddress} className="btn-luxury-outline">
           <i className="fa-regular fa-copy" /> Salin Alamat
         </button>
       </div>

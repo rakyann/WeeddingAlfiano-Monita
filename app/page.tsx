@@ -130,10 +130,7 @@ export default function InvitationPage({
             <BlessingContactSection />
 
             {/* SECTION 11: Digital Envelope (Wedding Gift / Tanda Kasih) */}
-            <DigitalEnvelopeSection
-              onOpenQris={() => setIsQrisOpen(true)}
-              onShowToast={showToast}
-            />
+            <DigitalEnvelopeSection onShowToast={showToast} />
 
             {/* SECTION 12: RSVP Form & Live Wishes Wall */}
             <RSVPSection guestName={guestName} onShowToast={showToast} />
