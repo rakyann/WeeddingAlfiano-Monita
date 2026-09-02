@@ -19,6 +19,7 @@ import {
   Utensils,
   CalendarCheck,
   Search,
+  Download,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase/client';
 import { generateWhatsAppMessage, buildGuestInvitationUrl } from '@/lib/utils/url';
@@ -40,6 +41,7 @@ interface RSVPRecord {
   address?: string;
   attendance: string;
   pax: number;
+  message?: string;
   created_at?: string;
 }
 
@@ -74,7 +76,7 @@ export default function AdminDashboardPage() {
   const [history, setHistory] = useState<GuestHistoryItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Load History & RSVPs from Backend API, localStorage and Supabase
+  // Load Dashboard Data
   const loadDashboardData = async () => {
     setIsLoading(true);
     let allRsvps: RSVPRecord[] = [];
@@ -88,9 +90,10 @@ export default function AdminDashboardPage() {
           allRsvps.push({
             id: item.id || Date.now().toString(),
             name: item.name,
-            address: item.address || '-',
+            address: item.address || item.message || '-',
             attendance: item.attendance || 'Hadir',
-            pax: Number(item.pax) || 1,
+            pax: Number(item.pax) || Number(item.guests) || 1,
+            message: item.message,
             created_at: item.created_at || new Date().toISOString(),
           });
         }
@@ -113,7 +116,10 @@ export default function AdminDashboardPage() {
 
     // 3. Merge with Supabase
     try {
-      const { data: supaRsvps } = await supabase.from('rsvps').select('*').order('created_at', { ascending: false });
+      const { data: supaRsvps } = await supabase
+        .from('rsvps')
+        .select('*')
+        .order('created_at', { ascending: false });
       if (supaRsvps && supaRsvps.length > 0) {
         const existingNames = new Set(allRsvps.map((r) => r.name.toLowerCase()));
         for (const r of supaRsvps) {
@@ -122,9 +128,15 @@ export default function AdminDashboardPage() {
             allRsvps.push({
               id: r.id || Date.now().toString(),
               name: rName,
-              address: r.address || '-',
-              attendance: r.attendance === 'attending' ? 'Hadir' : r.attendance === 'declined' ? 'Tidak Hadir' : r.attendance || 'Hadir',
+              address: r.address || r.message || '-',
+              attendance:
+                r.attendance === 'attending'
+                  ? 'Hadir'
+                  : r.attendance === 'declined'
+                  ? 'Tidak Hadir'
+                  : r.attendance || 'Hadir',
               pax: Number(r.pax) || Number(r.guests) || 1,
+              message: r.message,
               created_at: r.created_at || new Date().toISOString(),
             });
             existingNames.add(rName.toLowerCase());
@@ -136,10 +148,21 @@ export default function AdminDashboardPage() {
     setRsvpList(allRsvps);
 
     // Calculate Statistics
-    const attending = allRsvps.filter((r) => r.attendance.toLowerCase().includes('hadir') && !r.attendance.toLowerCase().includes('tidak'));
-    const declined = allRsvps.filter((r) => r.attendance.toLowerCase().includes('tidak'));
-    const maybe = allRsvps.filter((r) => r.attendance.toLowerCase().includes('ragu'));
-    const paxSum = attending.reduce((acc, r) => acc + (Number(r.pax) || 1), 0);
+    const attending = allRsvps.filter(
+      (r) =>
+        r.attendance.toLowerCase().includes('hadir') &&
+        !r.attendance.toLowerCase().includes('tidak')
+    );
+    const declined = allRsvps.filter((r) =>
+      r.attendance.toLowerCase().includes('tidak')
+    );
+    const maybe = allRsvps.filter((r) =>
+      r.attendance.toLowerCase().includes('ragu')
+    );
+    const paxSum = attending.reduce(
+      (acc, r) => acc + (Number(r.pax) || 1),
+      0
+    );
 
     setStats({
       totalRsvps: allRsvps.length,
@@ -178,14 +201,20 @@ export default function AdminDashboardPage() {
 
     const baseUrl =
       process.env.NEXT_PUBLIC_SITE_URL ||
-      (typeof window !== 'undefined' ? window.location.origin : 'https://weedding-alfiano-monita.vercel.app');
+      (typeof window !== 'undefined'
+        ? window.location.origin
+        : 'https://weedding-alfiano-monita.vercel.app');
 
     const url = buildGuestInvitationUrl(baseUrl, newGuestName.trim(), {
       isVip,
       table: tableNumber.trim() || undefined,
     });
 
-    const waMsg = generateWhatsAppMessage(newGuestName.trim(), url, 'Alifano & Monita');
+    const waMsg = generateWhatsAppMessage(
+      newGuestName.trim(),
+      url,
+      'Alifano & Monita'
+    );
 
     setGeneratedLink(url);
     setGeneratedWaText(waMsg);
@@ -197,10 +226,18 @@ export default function AdminDashboardPage() {
       table: tableNumber.trim() || undefined,
       url,
       waText: waMsg,
-      createdAt: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      createdAt: new Date().toLocaleTimeString('id-ID', {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
     };
 
-    const updatedHistory = [newItem, ...history.filter((h) => h.name.toLowerCase() !== newGuestName.trim().toLowerCase())].slice(0, 30);
+    const updatedHistory = [
+      newItem,
+      ...history.filter(
+        (h) => h.name.toLowerCase() !== newGuestName.trim().toLowerCase()
+      ),
+    ].slice(0, 50);
     saveHistory(updatedHistory);
   };
 
@@ -220,170 +257,261 @@ export default function AdminDashboardPage() {
       const updated = rsvpList.filter((r) => r.id !== id);
       setRsvpList(updated);
       try {
-        localStorage.setItem('wedding_alifano_monita_rsvps', JSON.stringify(updated));
+        localStorage.setItem(
+          'wedding_alifano_monita_rsvps',
+          JSON.stringify(updated)
+        );
       } catch (e) {}
       loadDashboardData();
     }
   };
 
-  const filteredRsvps = rsvpList.filter((r) =>
-    r.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (r.address && r.address.toLowerCase().includes(searchTerm.toLowerCase()))
+  const exportToCSV = () => {
+    if (rsvpList.length === 0) return;
+    const headers = ['Nama Tamu', 'Status Kehadiran', 'Jumlah Pax', 'Kota/Pesan', 'Waktu'];
+    const rows = rsvpList.map((r) => [
+      `"${r.name.replace(/"/g, '""')}"`,
+      `"${r.attendance}"`,
+      r.pax,
+      `"${(r.address || r.message || '').replace(/"/g, '""')}"`,
+      `"${r.created_at || ''}"`,
+    ]);
+
+    const csvContent =
+      'data:text/csv;charset=utf-8,' +
+      [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `RSVP_Alifano_Monita_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const filteredRsvps = rsvpList.filter(
+    (r) =>
+      r.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (r.address && r.address.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
-    <div className="min-h-screen bg-[#faf6ee] text-[#2c3e2d] font-sans antialiased pb-16">
+    <div className="min-h-screen bg-[#FAF7F2] text-[#1F2820] font-sans antialiased pb-20">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-[#eeddc9]/80 shadow-sm px-6 py-4">
+      <header className="sticky top-0 z-30 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E2DBD0] shadow-sm px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#f4ece1] text-[#455645] hover:bg-[#ebdcc8] transition-colors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#1F2820] text-white hover:bg-[#2E3B2F] transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Lihat Web Undangan</span>
+              <span>Lihat Undangan</span>
             </Link>
-            <div className="h-4 w-[1px] bg-[#eeddc9]" />
+            <div className="h-4 w-[1px] bg-[#E2DBD0]" />
             <div>
-              <h1 className="text-base font-bold text-[#2e4a00]">Dashboard Tamu &amp; RSVP</h1>
-              <p className="text-[11px] text-[#637663]">The Wedding of Alifano &amp; Monita</p>
+              <h1 className="text-base font-bold text-[#1F2820]">
+                Dashboard RSVP &amp; Buku Tamu
+              </h1>
+              <p className="text-[11px] text-[#7A746B]">
+                The Wedding of Alifano &amp; Monita &bull; Lembayung, Banyumas
+              </p>
             </div>
           </div>
 
           <button
             onClick={loadDashboardData}
             disabled={isLoading}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white border border-[#eeddc9] text-[#455645] hover:bg-[#faf6ee] shadow-sm transition-all active:scale-95"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-white border border-[#E2DBD0] text-[#1F2820] hover:bg-[#F3ECE2] shadow-sm transition-all active:scale-95"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-[#c5617a]' : ''}`} />
-            <span>Perbarui Data</span>
+            <RefreshCw
+              className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-[#C5A880]' : ''}`}
+            />
+            <span>Refresh</span>
           </button>
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6">
-        {/* 1. Statistics Cards with Clear Context */}
+        {/* 1. Statistics Cards */}
         <section>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {/* Total RSVP */}
-            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
-              <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
-                <span className="text-[11px] font-semibold uppercase tracking-wider">Total Konfirmasi</span>
-                <Users className="w-4 h-4 text-[#455645]" />
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E2DBD0] shadow-sm">
+              <div className="flex items-center justify-between text-[#7A746B] mb-1.5">
+                <span className="text-[11px] font-bold uppercase tracking-wider">
+                  Total Respon
+                </span>
+                <Users className="w-4 h-4 text-[#1F2820]" />
               </div>
-              <p className="text-2xl font-bold text-[#2e4a00]">{stats.totalRsvps}</p>
-              <p className="text-[10px] text-[#8e9e8e] mt-0.5">Jumlah formulir RSVP yang diisi tamu</p>
+              <p className="text-2xl sm:text-3xl font-bold text-[#1F2820]">
+                {stats.totalRsvps}
+              </p>
+              <p className="text-[11px] text-[#7A746B] mt-1">
+                Formulir RSVP terisi
+              </p>
             </div>
 
             {/* Hadir */}
-            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
-              <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
-                <span className="text-[11px] font-semibold uppercase tracking-wider">Undangan Hadir</span>
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E2DBD0] shadow-sm">
+              <div className="flex items-center justify-between text-[#7A746B] mb-1.5">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">
+                  Konfirmasi Hadir
+                </span>
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               </div>
-              <p className="text-2xl font-bold text-emerald-700">{stats.totalAttending}</p>
-              <p className="text-[10px] text-emerald-600/80 mt-0.5">Nama/keluarga yang konfirmasi hadir</p>
+              <p className="text-2xl sm:text-3xl font-bold text-emerald-700">
+                {stats.totalAttending}
+              </p>
+              <p className="text-[11px] text-emerald-600/80 mt-1">
+                Tamu yang hadir
+              </p>
             </div>
 
-            {/* Estimasi Orang/Pax */}
-            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm bg-gradient-to-br from-white to-[#fffaf2]">
-              <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#c5617a]">Total Pax (Orang)</span>
-                <Utensils className="w-4 h-4 text-[#c5617a]" />
+            {/* Estimasi Orang/Pax Catering */}
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#C5A880] shadow-sm bg-gradient-to-br from-white to-[#FAF7F2]">
+              <div className="flex items-center justify-between text-[#7A746B] mb-1.5">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#9E835E]">
+                  Total Pax (Porsi)
+                </span>
+                <Utensils className="w-4 h-4 text-[#C5A880]" />
               </div>
-              <p className="text-2xl font-bold text-[#c5617a]">
-                {stats.totalPax} <span className="text-xs font-normal">Porsi/Orang</span>
+              <p className="text-2xl sm:text-3xl font-bold text-[#9E835E]">
+                {stats.totalPax}{' '}
+                <span className="text-xs font-normal text-[#7A746B]">
+                  Porsi
+                </span>
               </p>
-              <p className="text-[10px] text-[#637663] mt-0.5">Total kepala untuk catering (termasuk pasangan/anak)</p>
+              <p className="text-[11px] text-[#7A746B] mt-1">
+                Estimasi porsi catering
+              </p>
             </div>
 
             {/* Berhalangan */}
-            <div className="bg-white p-4 rounded-2xl border border-[#eeddc9] shadow-sm">
-              <div className="flex items-center justify-between text-[#8e9e8e] mb-1">
-                <span className="text-[11px] font-semibold uppercase tracking-wider">Berhalangan</span>
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E2DBD0] shadow-sm">
+              <div className="flex items-center justify-between text-[#7A746B] mb-1.5">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700">
+                  Berhalangan
+                </span>
                 <XCircle className="w-4 h-4 text-rose-500" />
               </div>
-              <p className="text-2xl font-bold text-rose-600">{stats.totalDeclined}</p>
-              <p className="text-[10px] text-rose-500/80 mt-0.5">Tamu yang izin tidak dapat hadir</p>
+              <p className="text-2xl sm:text-3xl font-bold text-rose-700">
+                {stats.totalDeclined}
+              </p>
+              <p className="text-[11px] text-rose-500/80 mt-1">
+                Tidak dapat hadir
+              </p>
             </div>
           </div>
         </section>
 
-        {/* 2. Daftar Siapa Saja yang Sudah Konfirmasi RSVP (Tabel Lengkap) */}
-        <section className="bg-white rounded-2xl border border-[#eeddc9] shadow-sm p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[#f4ece1]">
+        {/* 2. Daftar Tamu RSVP */}
+        <section className="bg-white rounded-2xl border border-[#E2DBD0] shadow-sm p-5 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[#E2DBD0]">
             <div>
               <div className="flex items-center gap-2">
-                <CalendarCheck className="w-4 h-4 text-[#455645]" />
-                <h2 className="text-base font-bold text-[#2e4a00]">Daftar Tamu yang Sudah RSVP</h2>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#f4ece1] text-[#455645]">
+                <CalendarCheck className="w-4 h-4 text-[#1F2820]" />
+                <h2 className="text-base font-bold text-[#1F2820]">
+                  Daftar Tamu yang Telah RSVP
+                </h2>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3ECE2] text-[#1F2820]">
                   {rsvpList.length} Respon
                 </span>
               </div>
-              <p className="text-xs text-[#637663] mt-0.5">Siapa saja yang telah mengisi konfirmasi kehadiran beserta jumlah orangnya</p>
+              <p className="text-xs text-[#7A746B] mt-0.5">
+                Data kehadiran dan ucapan dari para tamu undangan
+              </p>
             </div>
 
-            {rsvpList.length > 0 && (
-              <div className="relative w-full sm:w-64">
-                <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#8e9e8e]" />
-                <input
-                  type="text"
-                  placeholder="Cari nama / alamat tamu..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl bg-[#faf6ee] border border-[#eeddc9] focus:outline-none focus:ring-1 focus:ring-[#c5617a]"
-                />
-              </div>
-            )}
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              {rsvpList.length > 0 && (
+                <>
+                  <div className="relative flex-1 sm:w-60">
+                    <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#7A746B]" />
+                    <input
+                      type="text"
+                      placeholder="Cari nama tamu..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl bg-[#FAF7F2] border border-[#E2DBD0] focus:outline-none focus:border-[#1F2820]"
+                    />
+                  </div>
+                  <button
+                    onClick={exportToCSV}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#F3ECE2] hover:bg-[#E2DBD0] text-[#1F2820] transition-colors shrink-0"
+                    title="Unduh data dalam format Excel CSV"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Export CSV</span>
+                  </button>
+                </>
+              )}
+            </div>
           </div>
 
           {rsvpList.length === 0 ? (
-            <div className="text-center py-10 text-[#8e9e8e]">
+            <div className="text-center py-10 text-[#7A746B]">
               <Users className="w-8 h-8 mx-auto mb-2 opacity-40" />
-              <p className="text-xs font-semibold text-[#637663]">Belum ada tamu yang mengisi form RSVP.</p>
-              <p className="text-[11px] mt-1">Ketika tamu mengklik &quot;Kirim Konfirmasi&quot; di web undangan, nama mereka akan otomatis tercatat di sini.</p>
+              <p className="text-xs font-semibold text-[#1F2820]">
+                Belum ada tamu yang mengisi konfirmasi RSVP.
+              </p>
+              <p className="text-[11px] mt-1">
+                Data akan otomatis muncul di sini saat tamu mengirimkan form RSVP.
+              </p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-[#f4ece1] text-[#637663] font-bold">
-                    <th className="pb-2">Nama Tamu</th>
-                    <th className="pb-2">Kota / Alamat</th>
-                    <th className="pb-2">Status</th>
-                    <th className="pb-2">Jumlah (Pax)</th>
-                    <th className="pb-2 text-right">Aksi</th>
+                  <tr className="border-b border-[#E2DBD0] text-[#7A746B] font-bold">
+                    <th className="pb-2.5">Nama Tamu</th>
+                    <th className="pb-2.5">Status</th>
+                    <th className="pb-2.5">Pax</th>
+                    <th className="pb-2.5">Ucapan &amp; Doa</th>
+                    <th className="pb-2.5 text-right">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#f4ece1]">
+                <tbody className="divide-y divide-[#F3ECE2]">
                   {filteredRsvps.map((rsvp) => (
-                    <tr key={rsvp.id} className="hover:bg-[#faf6ee]/60 transition-colors">
-                      <td className="py-3 font-bold text-[#2e4a00]">{rsvp.name}</td>
-                      <td className="py-3 text-[#637663]">{rsvp.address || '-'}</td>
+                    <tr
+                      key={rsvp.id}
+                      className="hover:bg-[#FAF7F2]/80 transition-colors"
+                    >
+                      <td className="py-3 font-bold text-[#1F2820]">
+                        {rsvp.name}
+                      </td>
                       <td className="py-3">
                         <span
-                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                            rsvp.attendance.toLowerCase().includes('hadir') && !rsvp.attendance.toLowerCase().includes('tidak')
+                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                            rsvp.attendance.toLowerCase().includes('hadir') &&
+                            !rsvp.attendance.toLowerCase().includes('tidak')
                               ? 'bg-emerald-100 text-emerald-800'
                               : rsvp.attendance.toLowerCase().includes('tidak')
                               ? 'bg-rose-100 text-rose-800'
                               : 'bg-amber-100 text-amber-800'
                           }`}
                         >
-                          {rsvp.attendance.toLowerCase().includes('hadir') && !rsvp.attendance.toLowerCase().includes('tidak') && (
-                            <CheckCircle2 className="w-3 h-3" />
+                          {rsvp.attendance.toLowerCase().includes('hadir') &&
+                            !rsvp.attendance.toLowerCase().includes('tidak') && (
+                              <CheckCircle2 className="w-3 h-3" />
+                            )}
+                          {rsvp.attendance.toLowerCase().includes('tidak') && (
+                            <XCircle className="w-3 h-3" />
                           )}
-                          {rsvp.attendance.toLowerCase().includes('tidak') && <XCircle className="w-3 h-3" />}
-                          {rsvp.attendance.toLowerCase().includes('ragu') && <HelpCircle className="w-3 h-3" />}
                           {rsvp.attendance}
                         </span>
                       </td>
-                      <td className="py-3 font-semibold text-[#455645]">{rsvp.pax} Orang</td>
+                      <td className="py-3 font-semibold text-[#1F2820]">
+                        {rsvp.pax} Orang
+                      </td>
+                      <td className="py-3 text-[#55524E] max-w-xs truncate">
+                        {rsvp.message || rsvp.address || '-'}
+                      </td>
                       <td className="py-3 text-right">
                         <button
                           onClick={() => handleDeleteRsvp(rsvp.id)}
-                          className="p-1 rounded text-[#8e9e8e] hover:text-rose-600 transition-colors"
+                          className="p-1 rounded text-[#7A746B] hover:text-rose-600 transition-colors"
                           title="Hapus baris ini"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -398,78 +526,84 @@ export default function AdminDashboardPage() {
         </section>
 
         {/* 3. Link Generator Card */}
-        <section className="bg-white rounded-2xl border border-[#eeddc9] shadow-sm p-6 sm:p-7">
-          <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#f4ece1]">
-            <div className="w-8 h-8 rounded-full bg-[#f4ece1] flex items-center justify-center text-[#455645]">
+        <section className="bg-white rounded-2xl border border-[#E2DBD0] shadow-sm p-5 sm:p-7">
+          <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-[#E2DBD0]">
+            <div className="w-8 h-8 rounded-full bg-[#1F2820] flex items-center justify-center text-white">
               <Share2 className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-[#2e4a00]">Buat Link Undangan Khusus Tamu</h2>
-              <p className="text-xs text-[#637663]">Nama tamu akan otomatis tampil di cover depan dan langsung terisi di form RSVP</p>
+              <h2 className="text-base font-bold text-[#1F2820]">
+                Generator Link Undangan WhatsApp Tamu
+              </h2>
+              <p className="text-xs text-[#7A746B]">
+                Nama tamu akan otomatis muncul di amplop cover depan dan formulir RSVP
+              </p>
             </div>
           </div>
 
           <form onSubmit={handleGenerateLink} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-[#455645] mb-1.5">
+              <label className="block text-xs font-bold text-[#1F2820] mb-1.5">
                 Nama Tamu Undangan <span className="text-rose-500">*</span>
               </label>
               <input
                 type="text"
-                placeholder="Contoh: Budi Santoso & Partner / Keluarga Bpk. Hendy"
+                placeholder="Contoh: Budi Santoso / Bpk. Hendy & Keluarga"
                 value={newGuestName}
                 onChange={(e) => setNewGuestName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-[#faf6ee] border border-[#eeddc9] text-sm text-[#2e4a00] placeholder:text-[#a0a89d] focus:outline-none focus:ring-2 focus:ring-[#c5617a]/30 focus:border-[#c5617a] transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-[#FAF7F2] border border-[#E2DBD0] text-sm text-[#1F2820] placeholder:text-[#A0988E] focus:outline-none focus:border-[#1F2820] transition-all"
                 required
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#eeddc9] bg-[#faf6ee]/50 hover:bg-[#faf6ee] cursor-pointer transition-colors">
+              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#E2DBD0] bg-[#FAF7F2]/50 hover:bg-[#FAF7F2] cursor-pointer transition-colors">
                 <input
                   type="checkbox"
                   checked={isVip}
                   onChange={(e) => setIsVip(e.target.checked)}
-                  className="w-4 h-4 rounded border-[#eeddc9] text-[#c5617a] focus:ring-[#c5617a]"
+                  className="w-4 h-4 rounded border-[#E2DBD0] text-[#1F2820] focus:ring-[#1F2820]"
                 />
-                <span className="text-xs font-semibold text-[#455645] flex items-center gap-1.5">
-                  <Crown className="w-3.5 h-3.5 text-amber-600" /> Tamu VIP (Khusus)
+                <span className="text-xs font-bold text-[#1F2820] flex items-center gap-1.5">
+                  <Crown className="w-3.5 h-3.5 text-amber-600" /> Tamu VIP
                 </span>
               </label>
 
               <div>
                 <input
                   type="text"
-                  placeholder="No. Meja (Opsional: Meja 04)"
+                  placeholder="Nomor Meja (Opsional: Meja 02)"
                   value={tableNumber}
                   onChange={(e) => setTableNumber(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-[#faf6ee]/50 border border-[#eeddc9] text-xs text-[#2e4a00] placeholder:text-[#a0a89d] focus:outline-none focus:ring-2 focus:ring-[#c5617a]/30"
+                  className="w-full px-3.5 py-3 rounded-xl bg-[#FAF7F2]/50 border border-[#E2DBD0] text-xs text-[#1F2820] placeholder:text-[#A0988E] focus:outline-none focus:border-[#1F2820]"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-[#455645] hover:bg-[#2e4a00] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-[0.99]"
+              className="w-full py-3.5 rounded-xl bg-[#1F2820] hover:bg-[#2E3B2F] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-[0.99]"
             >
               <Plus className="w-4 h-4" />
-              <span>Generate Link Undangan</span>
+              <span>Buat Link &amp; Pesan WhatsApp</span>
             </button>
           </form>
 
           {/* Generated Result Output */}
           {generatedLink && (
-            <div className="mt-6 pt-5 border-t border-[#eeddc9] space-y-4">
-              <div className="bg-[#faf6ee] p-4 rounded-xl border border-[#eeddc9]">
+            <div className="mt-6 pt-5 border-t border-[#E2DBD0] space-y-4">
+              <div className="bg-[#FAF7F2] p-4 rounded-xl border border-[#E2DBD0]">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-[#2e4a00]">URL Undangan Siap Kirim:</span>
+                  <span className="text-xs font-bold text-[#1F2820]">
+                    Link Undangan Tamu:
+                  </span>
                   <a
                     href={generatedLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-semibold text-[#c5617a] hover:underline inline-flex items-center gap-1"
+                    className="text-xs font-semibold text-[#C5A880] hover:underline inline-flex items-center gap-1"
                   >
-                    Buka Link <ExternalLink className="w-3 h-3" />
+                    Buka Preview <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
@@ -477,42 +611,56 @@ export default function AdminDashboardPage() {
                     type="text"
                     readOnly
                     value={generatedLink}
-                    className="w-full px-3 py-2 rounded-lg bg-white border border-[#eeddc9] text-xs font-mono text-[#455645] select-all"
+                    className="w-full px-3 py-2 rounded-lg bg-white border border-[#E2DBD0] text-xs font-mono text-[#1F2820] select-all"
                   />
                   <button
                     onClick={() => copyToClipboard(generatedLink, false)}
-                    className="px-4 py-2 rounded-lg bg-[#455645] hover:bg-[#2e4a00] text-white text-xs font-bold flex items-center gap-1.5 shrink-0 transition-colors shadow-sm"
+                    className="px-4 py-2 rounded-lg bg-[#1F2820] hover:bg-[#2E3B2F] text-white text-xs font-bold flex items-center gap-1.5 shrink-0 transition-colors shadow-sm"
                   >
-                    {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedLink ? (
+                      <Check className="w-3.5 h-3.5 text-emerald-300" />
+                    ) : (
+                      <Copy className="w-3.5 h-3.5" />
+                    )}
                     <span>{copiedLink ? 'Tersalin!' : 'Salin Link'}</span>
                   </button>
                 </div>
               </div>
 
-              <div className="bg-white p-4 rounded-xl border border-[#eeddc9] space-y-3">
-                <span className="text-xs font-bold text-[#2e4a00] block">Teks Pesan WhatsApp:</span>
+              <div className="bg-white p-4 rounded-xl border border-[#E2DBD0] space-y-3">
+                <span className="text-xs font-bold text-[#1F2820] block">
+                  Format Pesan WhatsApp:
+                </span>
                 <textarea
                   readOnly
-                  rows={6}
+                  rows={8}
                   value={generatedWaText}
-                  className="w-full px-3 py-2.5 rounded-lg bg-[#faf6ee] border border-[#eeddc9] text-xs font-sans text-[#2e4a00] resize-none leading-relaxed focus:outline-none"
+                  className="w-full px-3 py-2.5 rounded-lg bg-[#FAF7F2] border border-[#E2DBD0] text-xs font-sans text-[#1F2820] resize-none leading-relaxed focus:outline-none"
                 />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <button
                     onClick={() => copyToClipboard(generatedWaText, true)}
-                    className="w-full py-2.5 rounded-lg bg-[#f4ece1] hover:bg-[#ebdcc8] text-[#455645] font-bold text-xs flex items-center justify-center gap-2 border border-[#eeddc9] transition-colors"
+                    className="w-full py-2.5 rounded-lg bg-[#F3ECE2] hover:bg-[#E2DBD0] text-[#1F2820] font-bold text-xs flex items-center justify-center gap-2 border border-[#E2DBD0] transition-colors"
                   >
-                    {copiedWa ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
-                    <span>{copiedWa ? 'Pesan Tersalin!' : 'Salin Teks WhatsApp'}</span>
+                    {copiedWa ? (
+                      <Check className="w-4 h-4 text-emerald-600" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                    <span>
+                      {copiedWa ? 'Pesan Tersalin!' : 'Salin Teks WhatsApp'}
+                    </span>
                   </button>
                   <a
-                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(generatedWaText)}`}
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                      generatedWaText
+                    )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-2.5 rounded-lg bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-colors"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    <span>Langsung Buka WhatsApp</span>
+                    <span>Buka WhatsApp Web/App</span>
                   </a>
                 </div>
               </div>
@@ -522,57 +670,69 @@ export default function AdminDashboardPage() {
 
         {/* 4. History of Generated Guest Links */}
         {history.length > 0 && (
-          <section className="bg-white rounded-2xl border border-[#eeddc9] shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#f4ece1]">
+          <section className="bg-white rounded-2xl border border-[#E2DBD0] shadow-sm p-5 sm:p-6">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#E2DBD0]">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-[#2e4a00]">Riwayat Link Tamu Dibuat</span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#f4ece1] text-[#455645]">
+                <span className="text-xs font-bold text-[#1F2820]">
+                  Riwayat Link yang Telah Dibuat
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3ECE2] text-[#1F2820]">
                   {history.length}
                 </span>
               </div>
               <button
                 onClick={() => {
-                  if (window.confirm('Hapus semua riwayat link tamu?')) saveHistory([]);
+                  if (window.confirm('Hapus semua riwayat link tamu?'))
+                    saveHistory([]);
                 }}
-                className="text-[11px] text-[#8e9e8e] hover:text-rose-600 flex items-center gap-1 transition-colors"
+                className="text-[11px] text-[#7A746B] hover:text-rose-600 flex items-center gap-1 transition-colors"
               >
-                <Trash2 className="w-3 h-3" /> Hapus Semua
+                <Trash2 className="w-3 h-3" /> Hapus Riwayat
               </button>
             </div>
 
-            <div className="divide-y divide-[#f4ece1] max-h-80 overflow-y-auto pr-1">
+            <div className="divide-y divide-[#F3ECE2] max-h-80 overflow-y-auto pr-1">
               {history.map((item) => (
-                <div key={item.id} className="py-3 flex items-center justify-between gap-3 group">
+                <div
+                  key={item.id}
+                  className="py-3 flex items-center justify-between gap-3 group"
+                >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <p className="text-xs font-bold text-[#2e4a00] truncate">{item.name}</p>
+                      <p className="text-xs font-bold text-[#1F2820] truncate">
+                        {item.name}
+                      </p>
                       {item.isVip && (
                         <span className="px-1.5 py-0.2 text-[9px] font-bold rounded bg-amber-100 text-amber-800">
                           VIP
                         </span>
                       )}
                       {item.table && (
-                        <span className="px-1.5 py-0.2 text-[9px] font-medium rounded bg-[#f4ece1] text-[#637663]">
+                        <span className="px-1.5 py-0.2 text-[9px] font-medium rounded bg-[#F3ECE2] text-[#7A746B]">
                           {item.table}
                         </span>
                       )}
                     </div>
-                    <p className="text-[10px] text-[#8e9e8e] truncate mt-0.5">{item.url}</p>
+                    <p className="text-[10px] text-[#7A746B] truncate mt-0.5">
+                      {item.url}
+                    </p>
                   </div>
 
-                  <div className="flex items-center gap-1 shrink-0">
+                  <div className="flex items-center gap-1.5 shrink-0">
                     <button
                       onClick={() => copyToClipboard(item.url, false)}
-                      className="p-1.5 rounded-lg bg-[#faf6ee] hover:bg-[#ebdcc8] text-[#455645] text-xs transition-colors"
+                      className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#E2DBD0] text-[#1F2820] text-xs transition-colors"
                       title="Salin Link"
                     >
                       <Copy className="w-3.5 h-3.5" />
                     </button>
                     <a
-                      href={`https://api.whatsapp.com/send?text=${encodeURIComponent(item.waText)}`}
+                      href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                        item.waText
+                      )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1.5 rounded-lg bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] transition-colors"
+                      className="p-2 rounded-lg bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] transition-colors"
                       title="Kirim ke WhatsApp"
                     >
                       <MessageCircle className="w-3.5 h-3.5" />
@@ -582,7 +742,7 @@ export default function AdminDashboardPage() {
                         const updated = history.filter((h) => h.id !== item.id);
                         saveHistory(updated);
                       }}
-                      className="p-1.5 rounded-lg hover:bg-rose-50 text-[#8e9e8e] hover:text-rose-600 transition-colors"
+                      className="p-2 rounded-lg hover:bg-rose-50 text-[#7A746B] hover:text-rose-600 transition-colors"
                       title="Hapus"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
