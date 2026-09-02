@@ -284,7 +284,10 @@ export default function AdminDashboardPage() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `RSVP_Alifano_Monita_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute(
+      'download',
+      `RSVP_Alifano_Monita_${new Date().toISOString().slice(0, 10)}.csv`
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -297,152 +300,144 @@ export default function AdminDashboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#1F2820] font-sans antialiased pb-20">
+    <div className="admin-page-wrap">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-30 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E2DBD0] shadow-sm px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#1F2820] text-white hover:bg-[#2E3B2F] transition-colors"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
+      <header className="admin-header-bar">
+        <div className="admin-header-inner">
+          <div className="admin-nav-left">
+            <Link href="/" className="admin-btn-back">
+              <ArrowLeft size={14} />
               <span>Lihat Undangan</span>
             </Link>
-            <div className="h-4 w-[1px] bg-[#E2DBD0]" />
-            <div>
-              <h1 className="text-base font-bold text-[#1F2820]">
-                Dashboard RSVP &amp; Buku Tamu
-              </h1>
-              <p className="text-[11px] text-[#7A746B]">
-                The Wedding of Alifano &amp; Monita &bull; Lembayung, Banyumas
-              </p>
+            <div className="admin-title-box">
+              <h1>Dashboard RSVP &amp; Buku Tamu</h1>
+              <p>The Wedding of Alifano &amp; Monita &bull; Lembayung, Banyumas</p>
             </div>
           </div>
 
           <button
             onClick={loadDashboardData}
             disabled={isLoading}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-white border border-[#E2DBD0] text-[#1F2820] hover:bg-[#F3ECE2] shadow-sm transition-all active:scale-95"
+            className="admin-btn-refresh"
           >
             <RefreshCw
-              className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-[#C5A880]' : ''}`}
+              size={14}
+              className={isLoading ? 'animate-spin' : ''}
+              style={{ color: '#C5A880' }}
             />
             <span>Refresh</span>
           </button>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6">
+      <main className="admin-content-container">
         {/* 1. Statistics Cards */}
-        <section>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {/* Total RSVP */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E2DBD0] shadow-sm">
-              <div className="flex items-center justify-between text-[#7A746B] mb-1.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider">
-                  Total Respon
-                </span>
-                <Users className="w-4 h-4 text-[#1F2820]" />
-              </div>
-              <p className="text-2xl sm:text-3xl font-bold text-[#1F2820]">
-                {stats.totalRsvps}
-              </p>
-              <p className="text-[11px] text-[#7A746B] mt-1">
-                Formulir RSVP terisi
-              </p>
+        <section className="admin-stats-grid">
+          {/* Total RSVP */}
+          <div className="admin-stat-card">
+            <div className="admin-stat-label-row">
+              <span className="admin-stat-label">Total Respon</span>
+              <Users size={18} color="#1F2820" />
             </div>
+            <div className="admin-stat-val">{stats.totalRsvps}</div>
+            <div className="admin-stat-desc">Formulir RSVP terisi</div>
+          </div>
 
-            {/* Hadir */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E2DBD0] shadow-sm">
-              <div className="flex items-center justify-between text-[#7A746B] mb-1.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">
-                  Konfirmasi Hadir
-                </span>
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              </div>
-              <p className="text-2xl sm:text-3xl font-bold text-emerald-700">
-                {stats.totalAttending}
-              </p>
-              <p className="text-[11px] text-emerald-600/80 mt-1">
-                Tamu yang hadir
-              </p>
+          {/* Konfirmasi Hadir */}
+          <div className="admin-stat-card">
+            <div className="admin-stat-label-row">
+              <span className="admin-stat-label" style={{ color: '#2E7D32' }}>
+                Konfirmasi Hadir
+              </span>
+              <CheckCircle2 size={18} color="#2E7D32" />
             </div>
+            <div className="admin-stat-val green">{stats.totalAttending}</div>
+            <div className="admin-stat-desc">Tamu yang hadir</div>
+          </div>
 
-            {/* Estimasi Orang/Pax Catering */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#C5A880] shadow-sm bg-gradient-to-br from-white to-[#FAF7F2]">
-              <div className="flex items-center justify-between text-[#7A746B] mb-1.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#9E835E]">
-                  Total Pax (Porsi)
-                </span>
-                <Utensils className="w-4 h-4 text-[#C5A880]" />
-              </div>
-              <p className="text-2xl sm:text-3xl font-bold text-[#9E835E]">
-                {stats.totalPax}{' '}
-                <span className="text-xs font-normal text-[#7A746B]">
-                  Porsi
-                </span>
-              </p>
-              <p className="text-[11px] text-[#7A746B] mt-1">
-                Estimasi porsi catering
-              </p>
+          {/* Estimasi Pax Catering */}
+          <div className="admin-stat-card highlight">
+            <div className="admin-stat-label-row">
+              <span className="admin-stat-label" style={{ color: '#9E835E' }}>
+                Total Pax (Porsi)
+              </span>
+              <Utensils size={18} color="#C5A880" />
             </div>
+            <div className="admin-stat-val gold">
+              {stats.totalPax}{' '}
+              <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#7A746B' }}>
+                Porsi
+              </span>
+            </div>
+            <div className="admin-stat-desc">Estimasi porsi catering</div>
+          </div>
 
-            {/* Berhalangan */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E2DBD0] shadow-sm">
-              <div className="flex items-center justify-between text-[#7A746B] mb-1.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700">
-                  Berhalangan
-                </span>
-                <XCircle className="w-4 h-4 text-rose-500" />
-              </div>
-              <p className="text-2xl sm:text-3xl font-bold text-rose-700">
-                {stats.totalDeclined}
-              </p>
-              <p className="text-[11px] text-rose-500/80 mt-1">
-                Tidak dapat hadir
-              </p>
+          {/* Berhalangan */}
+          <div className="admin-stat-card">
+            <div className="admin-stat-label-row">
+              <span className="admin-stat-label" style={{ color: '#C62828' }}>
+                Berhalangan
+              </span>
+              <XCircle size={18} color="#C62828" />
             </div>
+            <div className="admin-stat-val rose">{stats.totalDeclined}</div>
+            <div className="admin-stat-desc">Tidak dapat hadir</div>
           </div>
         </section>
 
         {/* 2. Daftar Tamu RSVP */}
-        <section className="bg-white rounded-2xl border border-[#E2DBD0] shadow-sm p-5 sm:p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[#E2DBD0]">
+        <section className="admin-card-section">
+          <div className="admin-card-header">
             <div>
-              <div className="flex items-center gap-2">
-                <CalendarCheck className="w-4 h-4 text-[#1F2820]" />
-                <h2 className="text-base font-bold text-[#1F2820]">
-                  Daftar Tamu yang Telah RSVP
-                </h2>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3ECE2] text-[#1F2820]">
+              <div className="admin-card-title">
+                <CalendarCheck size={18} color="#1F2820" />
+                <span>Daftar Tamu yang Telah RSVP</span>
+                <span
+                  style={{
+                    padding: '2px 8px',
+                    borderRadius: '12px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    background: '#F3ECE2',
+                    color: '#1F2820',
+                  }}
+                >
                   {rsvpList.length} Respon
                 </span>
               </div>
-              <p className="text-xs text-[#7A746B] mt-0.5">
+              <p className="admin-card-desc">
                 Data kehadiran dan ucapan dari para tamu undangan
               </p>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {rsvpList.length > 0 && (
                 <>
-                  <div className="relative flex-1 sm:w-60">
-                    <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#7A746B]" />
-                    <input
-                      type="text"
-                      placeholder="Cari nama tamu..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl bg-[#FAF7F2] border border-[#E2DBD0] focus:outline-none focus:border-[#1F2820]"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    placeholder="Cari nama tamu..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="admin-search-input"
+                  />
                   <button
                     onClick={exportToCSV}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#F3ECE2] hover:bg-[#E2DBD0] text-[#1F2820] transition-colors shrink-0"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 14px',
+                      borderRadius: '12px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      background: '#F3ECE2',
+                      border: '1px solid #E2DBD0',
+                      color: '#1F2820',
+                      cursor: 'pointer',
+                    }}
                     title="Unduh data dalam format Excel CSV"
                   >
-                    <Download className="w-3.5 h-3.5" />
+                    <Download size={14} />
                     <span>Export CSV</span>
                   </button>
                 </>
@@ -451,70 +446,69 @@ export default function AdminDashboardPage() {
           </div>
 
           {rsvpList.length === 0 ? (
-            <div className="text-center py-10 text-[#7A746B]">
-              <Users className="w-8 h-8 mx-auto mb-2 opacity-40" />
-              <p className="text-xs font-semibold text-[#1F2820]">
+            <div style={{ textAlign: 'center', padding: '40px 20px', color: '#7A746B' }}>
+              <Users size={32} style={{ margin: '0 auto 8px', opacity: 0.4 }} />
+              <p style={{ fontSize: '13px', fontWeight: 600, color: '#1F2820' }}>
                 Belum ada tamu yang mengisi konfirmasi RSVP.
               </p>
-              <p className="text-[11px] mt-1">
+              <p style={{ fontSize: '12px', marginTop: '4px' }}>
                 Data akan otomatis muncul di sini saat tamu mengirimkan form RSVP.
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+            <div className="admin-table-wrap">
+              <table className="admin-table">
                 <thead>
-                  <tr className="border-b border-[#E2DBD0] text-[#7A746B] font-bold">
-                    <th className="pb-2.5">Nama Tamu</th>
-                    <th className="pb-2.5">Status</th>
-                    <th className="pb-2.5">Pax</th>
-                    <th className="pb-2.5">Ucapan &amp; Doa</th>
-                    <th className="pb-2.5 text-right">Aksi</th>
+                  <tr>
+                    <th>Nama Tamu</th>
+                    <th>Status</th>
+                    <th>Pax</th>
+                    <th>Ucapan &amp; Doa</th>
+                    <th style={{ textAlign: 'right' }}>Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#F3ECE2]">
+                <tbody>
                   {filteredRsvps.map((rsvp) => (
-                    <tr
-                      key={rsvp.id}
-                      className="hover:bg-[#FAF7F2]/80 transition-colors"
-                    >
-                      <td className="py-3 font-bold text-[#1F2820]">
-                        {rsvp.name}
-                      </td>
-                      <td className="py-3">
+                    <tr key={rsvp.id}>
+                      <td style={{ fontWeight: 700 }}>{rsvp.name}</td>
+                      <td>
                         <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                          className={`admin-pill-badge ${
                             rsvp.attendance.toLowerCase().includes('hadir') &&
                             !rsvp.attendance.toLowerCase().includes('tidak')
-                              ? 'bg-emerald-100 text-emerald-800'
+                              ? 'hadir'
                               : rsvp.attendance.toLowerCase().includes('tidak')
-                              ? 'bg-rose-100 text-rose-800'
-                              : 'bg-amber-100 text-amber-800'
+                              ? 'tidak'
+                              : 'ragu'
                           }`}
                         >
                           {rsvp.attendance.toLowerCase().includes('hadir') &&
                             !rsvp.attendance.toLowerCase().includes('tidak') && (
-                              <CheckCircle2 className="w-3 h-3" />
+                              <CheckCircle2 size={12} />
                             )}
                           {rsvp.attendance.toLowerCase().includes('tidak') && (
-                            <XCircle className="w-3 h-3" />
+                            <XCircle size={12} />
                           )}
                           {rsvp.attendance}
                         </span>
                       </td>
-                      <td className="py-3 font-semibold text-[#1F2820]">
-                        {rsvp.pax} Orang
-                      </td>
-                      <td className="py-3 text-[#55524E] max-w-xs truncate">
+                      <td style={{ fontWeight: 600 }}>{rsvp.pax} Orang</td>
+                      <td style={{ color: '#55524E', maxWidth: '280px' }}>
                         {rsvp.message || rsvp.address || '-'}
                       </td>
-                      <td className="py-3 text-right">
+                      <td style={{ textAlign: 'right' }}>
                         <button
                           onClick={() => handleDeleteRsvp(rsvp.id)}
-                          className="p-1 rounded text-[#7A746B] hover:text-rose-600 transition-colors"
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#7A746B',
+                            cursor: 'pointer',
+                            padding: '4px',
+                          }}
                           title="Hapus baris ini"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 size={14} />
                         </button>
                       </td>
                     </tr>
@@ -526,130 +520,190 @@ export default function AdminDashboardPage() {
         </section>
 
         {/* 3. Link Generator Card */}
-        <section className="bg-white rounded-2xl border border-[#E2DBD0] shadow-sm p-5 sm:p-7">
-          <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-[#E2DBD0]">
-            <div className="w-8 h-8 rounded-full bg-[#1F2820] flex items-center justify-center text-white">
-              <Share2 className="w-4 h-4" />
+        <section className="admin-card-section">
+          <div className="admin-card-header">
+            <div className="admin-card-title">
+              <Share2 size={18} color="#1F2820" />
+              <span>Generator Link Undangan WhatsApp Tamu</span>
             </div>
-            <div>
-              <h2 className="text-base font-bold text-[#1F2820]">
-                Generator Link Undangan WhatsApp Tamu
-              </h2>
-              <p className="text-xs text-[#7A746B]">
-                Nama tamu akan otomatis muncul di amplop cover depan dan formulir RSVP
-              </p>
-            </div>
+            <p className="admin-card-desc">
+              Nama tamu akan otomatis muncul di amplop cover depan dan formulir RSVP
+            </p>
           </div>
 
-          <form onSubmit={handleGenerateLink} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-[#1F2820] mb-1.5">
-                Nama Tamu Undangan <span className="text-rose-500">*</span>
+          <form onSubmit={handleGenerateLink}>
+            <div className="admin-form-group">
+              <label className="admin-form-label">
+                Nama Tamu Undangan <span style={{ color: '#C62828' }}>*</span>
               </label>
               <input
                 type="text"
                 placeholder="Contoh: Budi Santoso / Bpk. Hendy & Keluarga"
                 value={newGuestName}
                 onChange={(e) => setNewGuestName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-[#FAF7F2] border border-[#E2DBD0] text-sm text-[#1F2820] placeholder:text-[#A0988E] focus:outline-none focus:border-[#1F2820] transition-all"
+                className="admin-form-input"
                 required
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#E2DBD0] bg-[#FAF7F2]/50 hover:bg-[#FAF7F2] cursor-pointer transition-colors">
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '12px',
+                marginBottom: '16px',
+              }}
+            >
+              <label
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '12px 14px',
+                  borderRadius: '12px',
+                  background: '#FAF7F2',
+                  border: '1px solid #E2DBD0',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  color: '#1F2820',
+                }}
+              >
                 <input
                   type="checkbox"
                   checked={isVip}
                   onChange={(e) => setIsVip(e.target.checked)}
-                  className="w-4 h-4 rounded border-[#E2DBD0] text-[#1F2820] focus:ring-[#1F2820]"
+                  style={{ width: '16px', height: '16px', accentColor: '#1F2820' }}
                 />
-                <span className="text-xs font-bold text-[#1F2820] flex items-center gap-1.5">
-                  <Crown className="w-3.5 h-3.5 text-amber-600" /> Tamu VIP
-                </span>
+                <Crown size={15} color="#C5A880" />
+                <span>Tamu VIP</span>
               </label>
 
-              <div>
-                <input
-                  type="text"
-                  placeholder="Nomor Meja (Opsional: Meja 02)"
-                  value={tableNumber}
-                  onChange={(e) => setTableNumber(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl bg-[#FAF7F2]/50 border border-[#E2DBD0] text-xs text-[#1F2820] placeholder:text-[#A0988E] focus:outline-none focus:border-[#1F2820]"
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="Nomor Meja (Opsional: Meja 02)"
+                value={tableNumber}
+                onChange={(e) => setTableNumber(e.target.value)}
+                className="admin-form-input"
+              />
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-3.5 rounded-xl bg-[#1F2820] hover:bg-[#2E3B2F] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-[0.99]"
-            >
-              <Plus className="w-4 h-4" />
+            <button type="submit" className="admin-btn-generate">
+              <Plus size={16} />
               <span>Buat Link &amp; Pesan WhatsApp</span>
             </button>
           </form>
 
           {/* Generated Result Output */}
           {generatedLink && (
-            <div className="mt-6 pt-5 border-t border-[#E2DBD0] space-y-4">
-              <div className="bg-[#FAF7F2] p-4 rounded-xl border border-[#E2DBD0]">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-[#1F2820]">
+            <div className="admin-result-box">
+              {/* URL Card */}
+              <div className="admin-result-url-card">
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '8px',
+                  }}
+                >
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#1F2820' }}>
                     Link Undangan Tamu:
                   </span>
                   <a
                     href={generatedLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-semibold text-[#C5A880] hover:underline inline-flex items-center gap-1"
+                    style={{
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      color: '#C5A880',
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
                   >
-                    Buka Preview <ExternalLink className="w-3 h-3" />
+                    Buka Preview <ExternalLink size={12} />
                   </a>
                 </div>
-                <div className="flex items-center gap-2">
+                <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     type="text"
                     readOnly
                     value={generatedLink}
-                    className="w-full px-3 py-2 rounded-lg bg-white border border-[#E2DBD0] text-xs font-mono text-[#1F2820] select-all"
+                    style={{
+                      width: '100%',
+                      padding: '10px 12px',
+                      borderRadius: '8px',
+                      background: '#FFFFFF',
+                      border: '1px solid #E2DBD0',
+                      fontSize: '12px',
+                      fontFamily: 'monospace',
+                      color: '#1F2820',
+                    }}
                   />
                   <button
                     onClick={() => copyToClipboard(generatedLink, false)}
-                    className="px-4 py-2 rounded-lg bg-[#1F2820] hover:bg-[#2E3B2F] text-white text-xs font-bold flex items-center gap-1.5 shrink-0 transition-colors shadow-sm"
+                    style={{
+                      padding: '10px 16px',
+                      borderRadius: '8px',
+                      background: '#1F2820',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      flexShrink: 0,
+                    }}
                   >
-                    {copiedLink ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-300" />
-                    ) : (
-                      <Copy className="w-3.5 h-3.5" />
-                    )}
+                    {copiedLink ? <Check size={14} color="#A5D6A7" /> : <Copy size={14} />}
                     <span>{copiedLink ? 'Tersalin!' : 'Salin Link'}</span>
                   </button>
                 </div>
               </div>
 
-              <div className="bg-white p-4 rounded-xl border border-[#E2DBD0] space-y-3">
-                <span className="text-xs font-bold text-[#1F2820] block">
-                  Format Pesan WhatsApp:
+              {/* WA Text Card */}
+              <div className="admin-result-wa-card">
+                <span style={{ fontSize: '12px', fontWeight: 700, color: '#1F2820' }}>
+                  Format Pesan WhatsApp Siap Kirim:
                 </span>
                 <textarea
                   readOnly
                   rows={8}
                   value={generatedWaText}
-                  className="w-full px-3 py-2.5 rounded-lg bg-[#FAF7F2] border border-[#E2DBD0] text-xs font-sans text-[#1F2820] resize-none leading-relaxed focus:outline-none"
+                  className="admin-wa-textarea"
                 />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                    gap: '10px',
+                    marginTop: '10px',
+                  }}
+                >
                   <button
                     onClick={() => copyToClipboard(generatedWaText, true)}
-                    className="w-full py-2.5 rounded-lg bg-[#F3ECE2] hover:bg-[#E2DBD0] text-[#1F2820] font-bold text-xs flex items-center justify-center gap-2 border border-[#E2DBD0] transition-colors"
+                    style={{
+                      padding: '12px',
+                      borderRadius: '10px',
+                      background: '#F3ECE2',
+                      border: '1px solid #E2DBD0',
+                      color: '#1F2820',
+                      fontSize: '13px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '6px',
+                    }}
                   >
-                    {copiedWa ? (
-                      <Check className="w-4 h-4 text-emerald-600" />
-                    ) : (
-                      <Copy className="w-4 h-4" />
-                    )}
-                    <span>
-                      {copiedWa ? 'Pesan Tersalin!' : 'Salin Teks WhatsApp'}
-                    </span>
+                    {copiedWa ? <Check size={16} color="#2E7D32" /> : <Copy size={16} />}
+                    <span>{copiedWa ? 'Pesan Tersalin!' : 'Salin Teks WhatsApp'}</span>
                   </button>
                   <a
                     href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
@@ -657,10 +711,10 @@ export default function AdminDashboardPage() {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2.5 rounded-lg bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-colors"
+                    className="admin-btn-wa-blast"
                   >
-                    <MessageCircle className="w-4 h-4" />
-                    <span>Buka WhatsApp Web/App</span>
+                    <MessageCircle size={16} />
+                    <span>Buka WhatsApp Web / App</span>
                   </a>
                 </div>
               </div>
@@ -668,63 +722,109 @@ export default function AdminDashboardPage() {
           )}
         </section>
 
-        {/* 4. History of Generated Guest Links */}
+        {/* 4. History List */}
         {history.length > 0 && (
-          <section className="bg-white rounded-2xl border border-[#E2DBD0] shadow-sm p-5 sm:p-6">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#E2DBD0]">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-[#1F2820]">
-                  Riwayat Link yang Telah Dibuat
-                </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3ECE2] text-[#1F2820]">
+          <section className="admin-card-section">
+            <div className="admin-card-header">
+              <div className="admin-card-title">
+                <span>Riwayat Link yang Telah Dibuat</span>
+                <span
+                  style={{
+                    padding: '2px 8px',
+                    borderRadius: '12px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    background: '#F3ECE2',
+                    color: '#1F2820',
+                  }}
+                >
                   {history.length}
                 </span>
               </div>
               <button
                 onClick={() => {
-                  if (window.confirm('Hapus semua riwayat link tamu?'))
-                    saveHistory([]);
+                  if (window.confirm('Hapus semua riwayat link tamu?')) saveHistory([]);
                 }}
-                className="text-[11px] text-[#7A746B] hover:text-rose-600 flex items-center gap-1 transition-colors"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '11px',
+                  color: '#7A746B',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
               >
-                <Trash2 className="w-3 h-3" /> Hapus Riwayat
+                <Trash2 size={12} /> Hapus Riwayat
               </button>
             </div>
 
-            <div className="divide-y divide-[#F3ECE2] max-h-80 overflow-y-auto pr-1">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {history.map((item) => (
                 <div
                   key={item.id}
-                  className="py-3 flex items-center justify-between gap-3 group"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '12px 14px',
+                    borderRadius: '10px',
+                    background: '#FAF7F2',
+                    border: '1px solid #E2DBD0',
+                  }}
                 >
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <p className="text-xs font-bold text-[#1F2820] truncate">
+                  <div style={{ minWidth: 0, flex: 1, marginRight: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#1F2820' }}>
                         {item.name}
-                      </p>
-                      {item.isVip && (
-                        <span className="px-1.5 py-0.2 text-[9px] font-bold rounded bg-amber-100 text-amber-800">
-                          VIP
-                        </span>
-                      )}
+                      </span>
+                      {item.isVip && <span className="admin-pill-badge vip">VIP</span>}
                       {item.table && (
-                        <span className="px-1.5 py-0.2 text-[9px] font-medium rounded bg-[#F3ECE2] text-[#7A746B]">
+                        <span
+                          style={{
+                            fontSize: '10px',
+                            fontWeight: 600,
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                            background: '#FFFFFF',
+                            color: '#7A746B',
+                            border: '1px solid #E2DBD0',
+                          }}
+                        >
                           {item.table}
                         </span>
                       )}
                     </div>
-                    <p className="text-[10px] text-[#7A746B] truncate mt-0.5">
+                    <div
+                      style={{
+                        fontSize: '11px',
+                        color: '#7A746B',
+                        fontFamily: 'monospace',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        marginTop: '2px',
+                      }}
+                    >
                       {item.url}
-                    </p>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5 shrink-0">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <button
                       onClick={() => copyToClipboard(item.url, false)}
-                      className="p-2 rounded-lg bg-[#FAF7F2] hover:bg-[#E2DBD0] text-[#1F2820] text-xs transition-colors"
+                      style={{
+                        padding: '8px',
+                        borderRadius: '8px',
+                        background: '#FFFFFF',
+                        border: '1px solid #E2DBD0',
+                        cursor: 'pointer',
+                        color: '#1F2820',
+                      }}
                       title="Salin Link"
                     >
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy size={14} />
                     </button>
                     <a
                       href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
@@ -732,20 +832,36 @@ export default function AdminDashboardPage() {
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-lg bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] transition-colors"
+                      style={{
+                        padding: '8px',
+                        borderRadius: '8px',
+                        background: 'rgba(37, 211, 102, 0.15)',
+                        border: '1px solid rgba(37, 211, 102, 0.3)',
+                        color: '#25D366',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
                       title="Kirim ke WhatsApp"
                     >
-                      <MessageCircle className="w-3.5 h-3.5" />
+                      <MessageCircle size={14} />
                     </a>
                     <button
                       onClick={() => {
                         const updated = history.filter((h) => h.id !== item.id);
                         saveHistory(updated);
                       }}
-                      className="p-2 rounded-lg hover:bg-rose-50 text-[#7A746B] hover:text-rose-600 transition-colors"
+                      style={{
+                        padding: '8px',
+                        borderRadius: '8px',
+                        background: '#FFFFFF',
+                        border: '1px solid #E2DBD0',
+                        cursor: 'pointer',
+                        color: '#7A746B',
+                      }}
                       title="Hapus"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 size={14} />
                     </button>
                   </div>
                 </div>
