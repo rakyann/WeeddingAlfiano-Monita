@@ -19,19 +19,21 @@ export function PolaroidTeaser() {
           onClick={scrollToRsvp}
           title="Klik untuk RSVP"
         >
-          {/* Vintage Polaroid 1 */}
-          <img
-            src="/assets/vintage/images/polaroid_1.png"
-            alt="Polaroid Couple"
-            className="polaroid-card polaroid-1"
-          />
+          {/* Real Photo Polaroid 1 */}
+          <div className="polaroid-custom-frame polaroid-1">
+            <img
+              src="/img/WhatsApp%20Image%202026-08-27%20at%2022.08.40%20(1).jpeg"
+              alt="Alifano & Monita"
+            />
+          </div>
 
-          {/* Vintage Polaroid 2 */}
-          <img
-            src="/assets/vintage/images/polaroid_2.png"
-            alt="Polaroid Couple Reflection"
-            className="polaroid-card polaroid-2"
-          />
+          {/* Real Photo Polaroid 2 */}
+          <div className="polaroid-custom-frame polaroid-2">
+            <img
+              src="/img/cover.jpeg"
+              alt="Alifano & Monita Prewedding"
+            />
+          </div>
 
           {/* Antique Handmade Lace Envelope Base */}
           <div className="stack-envelope-base">
@@ -42,11 +44,11 @@ export function PolaroidTeaser() {
             />
           </div>
 
-          {/* Deep Burgundy Wax Seal Tag */}
+          {/* Deep Red Wax Heart Seal (Tanpa teks RSVP) */}
           <div className="stack-heart-seal">
             <img
               src="/assets/vintage/icons/heart_rsvp_seal.svg"
-              alt="Kindly RSVP - Click Here"
+              alt="Red Heart Wax Seal"
               className="stack-heart-seal-img"
             />
           </div>
