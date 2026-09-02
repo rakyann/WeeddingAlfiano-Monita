@@ -142,7 +142,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 30px 20px 30px;
+  padding: 76px 20px 30px;
   background: url('/assets/vintage/images/calla_lilies_bg.jpg') center center / cover no-repeat;
   color: var(--color-text-light);
   text-align: center;
@@ -161,7 +161,7 @@ body {
 .hero-header {
   position: relative;
   z-index: 2;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .hero-subtitle {
