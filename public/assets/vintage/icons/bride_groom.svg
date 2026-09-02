@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#2c2c2c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Large Flowing Ribbon Bow -->
+  <!-- Knot -->
+  <ellipse cx="50" cy="40" rx="4.5" ry="5.5" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <!-- Left Bow Loop -->
+  <path d="M45.5 38 C32 24 15 32 20 46 C24 55 45.5 43 45.5 43 Z" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <path d="M30 35 C25 40 28 47 38 43" fill="none" stroke="#888" stroke-width="1" />
+  <!-- Right Bow Loop -->
+  <path d="M54.5 38 C68 24 85 32 80 46 C76 55 54.5 43 54.5 43 Z" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <path d="M70 35 C75 40 72 47 62 43" fill="none" stroke="#888" stroke-width="1" />
+  <!-- Ribbon Tails -->
+  <path d="M47 45 C42 62 30 72 24 82 C29 80 34 81 38 85 C44 73 50 56 49 46" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <path d="M53 45 C58 62 70 72 76 82 C71 80 66 81 62 85 C56 73 50 56 51 46" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <!-- Sparkles -->
+  <path d="M50 15 L50 21 M47 18 L53 18" stroke="#C5A880" stroke-width="1.5" />
+  <path d="M18 22 L18 26 M16 24 L20 24" stroke="#C5A880" stroke-width="1.2" />
+  <path d="M82 22 L82 26 M80 24 L84 24" stroke="#C5A880" stroke-width="1.2" />
+</svg>

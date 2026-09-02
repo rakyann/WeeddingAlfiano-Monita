@@ -16,31 +16,23 @@ export const galleryImages = [
 
 export function GallerySection({ onOpenLightbox }: GallerySectionProps) {
   return (
-    <section className="section-card gallery-section">
-      <div className="tuscany-doodle doodle-gal-l">
-        <img src="/assets/tuscany/tuscany40.png" alt="Doodle" />
-      </div>
-      <div className="tuscany-doodle doodle-gal-r">
-        <img src="/assets/tuscany/tuscany41.png" alt="Doodle" />
-      </div>
-
+    <section id="gallery-section" className="wedding-section gallery-section">
       <div className="section-badge-pill">Our Moments</div>
-      <h2 className="tuscany-script-heading">Galeri Kebahagiaan</h2>
+      <h2 className="section-script-title">Galeri Foto</h2>
       <p className="section-intro-text">
         Setiap potret mengabadikan kisah kasih, tawa, dan janji suci kami berdua
       </p>
 
       {/* Gallery Grid */}
-      <div className="tuscany-gallery-grid" id="galleryGrid">
+      <div className="gallery-grid" id="galleryGrid">
         {galleryImages.map((img, idx) => (
           <div
             key={idx}
-            className="gallery-card"
+            className={`gallery-card ${img.span}`}
             onClick={() => onOpenLightbox(idx)}
-            data-index={idx}
           >
             <img src={img.src} alt={img.caption} loading="lazy" />
-            <div className="gallery-card-overlay">
+            <div className="gallery-overlay">
               <i className="fa-solid fa-magnifying-glass-plus" />
             </div>
           </div>

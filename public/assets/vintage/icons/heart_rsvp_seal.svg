@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 120" width="130" height="120" fill="none">
+  <defs>
+    <radialGradient id="heartWax" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#A82032" />
+      <stop offset="65%" stop-color="#7C1221" />
+      <stop offset="100%" stop-color="#550B16" />
+    </radialGradient>
+    <filter id="heartShadow" x="-20%" y="-15%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Plump Heart Shape -->
+  <path d="
+    M 65 24
+    C 55 4, 10 8, 14 46
+    C 18 68, 65 102, 65 102
+    C 65 102, 112 68, 116 46
+    C 120 8, 75 4, 65 24
+    Z"
+    fill="url(#heartWax)"
+    stroke="#BD3347"
+    stroke-width="1.5"
+    filter="url(#heartShadow)"
+  />
+
+  <!-- Subtle Inner Embossed Line -->
+  <path d="
+    M 65 28
+    C 57 12, 22 16, 25 46
+    C 28 62, 65 92, 65 92
+    C 65 92, 102 62, 105 46
+    C 108 16, 73 12, 65 28
+    Z"
+    fill="none"
+    stroke="rgba(255, 255, 255, 0.25)"
+    stroke-width="0.8"
+    stroke-dasharray="2 2"
+  />
+
+  <!-- Script Text "Kindly" -->
+  <text x="65" y="44" 
+        font-family="'Alex Brush', 'Pinyon Script', 'Great Vibes', cursive" 
+        font-size="21" 
+        font-style="italic"
+        fill="#FFFFFF" 
+        text-anchor="middle"
+        style="text-shadow: 0 1px 3px rgba(0,0,0,0.5);">Kindly</text>
+
+  <!-- Script Text "Rsvp" -->
+  <text x="65" y="62" 
+        font-family="'Alex Brush', 'Pinyon Script', 'Great Vibes', cursive" 
+        font-size="22" 
+        font-style="italic"
+        fill="#FFFFFF" 
+        text-anchor="middle"
+        style="text-shadow: 0 1px 3px rgba(0,0,0,0.5);">Rsvp</text>
+
+  <!-- Clean Sans Text "CLICK HERE" -->
+  <text x="65" y="78" 
+        font-family="'Inter', -apple-system, sans-serif" 
+        font-size="7.5" 
+        font-weight="700" 
+        letter-spacing="1.5" 
+        fill="#FAF3EB" 
+        text-anchor="middle">CLICK HERE</text>
+</svg>

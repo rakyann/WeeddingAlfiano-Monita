@@ -2,35 +2,43 @@
 
 import React, { useState, useRef } from 'react';
 import { parseGuestParams } from '@/lib/utils/url';
-import { LoadingOverlay } from '@/components/invitation/LoadingOverlay';
-import { DesktopHeroSide } from '@/components/invitation/DesktopHeroSide';
+import { TopNav } from '@/components/invitation/TopNav';
 import { CoverHero } from '@/components/invitation/CoverHero';
-import { QuranSection } from '@/components/invitation/QuranSection';
+import { MusicPlayerSection } from '@/components/invitation/MusicPlayerSection';
+import { StorySection } from '@/components/invitation/StorySection';
 import { MempelaiSection } from '@/components/invitation/MempelaiSection';
 import { CountdownTimer } from '@/components/invitation/CountdownTimer';
 import { EventDetailsSection } from '@/components/invitation/EventDetailsSection';
+import { PolaroidTeaser } from '@/components/invitation/PolaroidTeaser';
 import { GallerySection, galleryImages } from '@/components/invitation/GallerySection';
-import { RSVPSection } from '@/components/invitation/RSVPSection';
-import { WishesSection } from '@/components/invitation/WishesSection';
+import { TimelineSection } from '@/components/invitation/TimelineSection';
+import { BlessingContactSection } from '@/components/invitation/BlessingContactSection';
 import { DigitalEnvelopeSection } from '@/components/invitation/DigitalEnvelopeSection';
-import { ClosingSection } from '@/components/invitation/ClosingSection';
+import { RSVPSection } from '@/components/invitation/RSVPSection';
+import { PageFooter } from '@/components/invitation/PageFooter';
 import { LightboxModal } from '@/components/invitation/LightboxModal';
 import { QRISModal } from '@/components/invitation/QRISModal';
 import { ToastNotification } from '@/components/invitation/ToastNotification';
 import { AudioPlayer } from '@/components/audio/AudioPlayer';
-import { BackToTop } from '@/components/ui/BackToTop';
 
 export default function InvitationPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { to: guestName } = parseGuestParams(searchParams);
+  const { to: guestName, isVip } = parseGuestParams(searchParams);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState<boolean>(false);
+  const [isAudioMuted, setIsAudioMuted] = useState<boolean>(false);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
+  const [seekPercent, setSeekPercent] = useState<number | null>(null);
+  const [skipDelta, setSkipDelta] = useState<number | null>(null);
+
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [isQrisOpen, setIsQrisOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
   const invitationBodyRef = useRef<HTMLDivElement | null>(null);
 
   const showToast = (message: string) => {
@@ -45,74 +53,106 @@ export default function InvitationPage({
     setIsPlayingAudio(true);
     setTimeout(() => {
       invitationBodyRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 200);
+    }, 300);
+  };
+
+  const handleAudioTimeUpdate = (curr: number, dur: number) => {
+    setCurrentTime(curr);
+    setDuration(dur);
+  };
+
+  const handleSeek = (pct: number) => {
+    setSeekPercent(pct);
+    // Reset seek marker after trigger
+    setTimeout(() => setSeekPercent(null), 50);
+  };
+
+  const handleSkip = (seconds: number) => {
+    setSkipDelta(seconds);
+    setTimeout(() => setSkipDelta(null), 50);
   };
 
   return (
     <>
-      {/* 1. Loading Overlay */}
-      <LoadingOverlay />
+      {/* Desktop Ambient Lighting Backdrop */}
+      <div className="desktop-backdrop" />
 
-      {/* 2. Main Split Layout */}
-      <div className="app-layout">
-        {/* Desktop Left Sidebar Banner */}
-        <DesktopHeroSide />
+      {/* Main Mobile-Framed Web App Viewport */}
+      <div className="app-viewport">
+        {/* Sticky Top Navigation */}
+        <TopNav />
 
-        {/* Right Scrollable Invitation Container */}
-        <main className="invitation-scroll-side" id="invitationContainer">
-          {/* Cover Section */}
-          <CoverHero
-            guestName={guestName || 'Tamu Undangan'}
-            onOpen={handleOpenInvitation}
-          />
+        {/* SECTION 1: Cover Hero with Authentic Vintage Envelope */}
+        <CoverHero
+          guestName={guestName || 'Tamu Undangan'}
+          isVip={isVip}
+          isOpen={isOpen}
+          onOpen={handleOpenInvitation}
+        />
 
-          {/* Invitation Content (revealed after clicking Buka Undangan) */}
-          {isOpen && (
-            <div ref={invitationBodyRef}>
-              {/* Quran Verse */}
-              <QuranSection />
+        {/* Invitation Sections (Unlocked on Open) */}
+        {isOpen && (
+          <div ref={invitationBodyRef}>
+            {/* SECTION 2: Music Player & Couple Banner */}
+            <MusicPlayerSection
+              isPlaying={isPlayingAudio}
+              onTogglePlay={() => setIsPlayingAudio(!isPlayingAudio)}
+              currentTime={currentTime}
+              duration={duration}
+              onSeek={handleSeek}
+              onSkip={handleSkip}
+              isMuted={isAudioMuted}
+              onToggleMute={() => setIsAudioMuted(!isAudioMuted)}
+            />
 
-              {/* Groom & Bride */}
-              <MempelaiSection />
+            {/* SECTION 3: Love Story & Baroque Mirror Photo */}
+            <StorySection />
 
-              {/* Countdown & Save the date */}
-              <CountdownTimer />
+            {/* SECTION 4: Groom & Bride Profiles */}
+            <MempelaiSection />
 
-              {/* Wedding Events & Rundown */}
-              <EventDetailsSection onShowToast={showToast} />
+            {/* SECTION 5: Live Countdown Timer */}
+            <CountdownTimer />
 
-              {/* Gallery */}
-              <GallerySection onOpenLightbox={(idx) => setLightboxIndex(idx)} />
+            {/* SECTION 6: Reception & Akad Location Details */}
+            <EventDetailsSection onShowToast={showToast} />
 
-              {/* RSVP Form */}
-              <RSVPSection
-                guestName={guestName}
-                onShowToast={showToast}
-              />
+            {/* SECTION 7: Polaroid Stack Teaser */}
+            <PolaroidTeaser />
 
-              {/* Wishes Stream */}
-              <WishesSection onShowToast={showToast} />
+            {/* SECTION 8: Prewedding Gallery */}
+            <GallerySection onOpenLightbox={(idx) => setLightboxIndex(idx)} />
 
-              {/* Digital Gift / Wedding Gift */}
-              <DigitalEnvelopeSection
-                onOpenQris={() => setIsQrisOpen(true)}
-                onShowToast={showToast}
-              />
+            {/* SECTION 9: Our Timeline Rundown */}
+            <TimelineSection />
 
-              {/* Closing Section */}
-              <ClosingSection />
-            </div>
-          )}
-        </main>
+            {/* SECTION 10: Blessing Dua & Parents Contact Cards */}
+            <BlessingContactSection />
+
+            {/* SECTION 11: Digital Envelope (Wedding Gift / Tanda Kasih) */}
+            <DigitalEnvelopeSection
+              onOpenQris={() => setIsQrisOpen(true)}
+              onShowToast={showToast}
+            />
+
+            {/* SECTION 12: RSVP Form & Live Wishes Wall */}
+            <RSVPSection guestName={guestName} onShowToast={showToast} />
+
+            {/* Page Footer */}
+            <PageFooter />
+          </div>
+        )}
       </div>
 
-      {/* 3. Modals & Notifications */}
+      {/* Modals & Overlays */}
       <LightboxModal
         currentIndex={lightboxIndex}
         onClose={() => setLightboxIndex(null)}
         onPrev={() => {
           if (lightboxIndex !== null) {
-            setLightboxIndex((lightboxIndex - 1 + galleryImages.length) % galleryImages.length);
+            setLightboxIndex(
+              (lightboxIndex - 1 + galleryImages.length) % galleryImages.length
+            );
           }
         }}
         onNext={() => {
@@ -122,20 +162,19 @@ export default function InvitationPage({
         }}
       />
 
-      <QRISModal
-        isOpen={isQrisOpen}
-        onClose={() => setIsQrisOpen(false)}
-      />
+      <QRISModal isOpen={isQrisOpen} onClose={() => setIsQrisOpen(false)} />
 
       <ToastNotification message={toastMessage} />
 
-      {/* 4. Floating Controls */}
+      {/* Floating Audio Controller */}
       <AudioPlayer
         isPlaying={isPlayingAudio}
         onToggle={() => setIsPlayingAudio(!isPlayingAudio)}
+        onTimeUpdate={handleAudioTimeUpdate}
+        seekPercent={seekPercent}
+        skipDelta={skipDelta}
+        isMuted={isAudioMuted}
       />
-
-      <BackToTop />
     </>
   );
 }

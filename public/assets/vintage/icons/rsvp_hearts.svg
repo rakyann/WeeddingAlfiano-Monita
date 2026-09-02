@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120" fill="none" stroke="#2c2c2c" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Left Heart -->
+  <path d="M60 42 C45 22 25 32 30 52 C35 70 60 85 60 85 C60 85 45 70 40 52" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="2.2" />
+  <!-- Right Heart (Intertwined) -->
+  <path d="M78 42 C93 22 113 32 108 52 C103 70 78 85 78 85 C78 85 93 70 98 52" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="2.2" />
+  <path d="M60 85 C60 85 69 91 78 85" stroke="#2c2c2c" stroke-width="2.2" />
+  
+  <!-- Letters H and A inside hearts -->
+  <text x="44" y="58" font-family="'Playfair Display', 'Cormorant Garamond', Georgia, serif" font-size="18" font-weight="600" fill="#2c2c2c" stroke="none" text-anchor="middle">H</text>
+  <text x="94" y="58" font-family="'Playfair Display', 'Cormorant Garamond', Georgia, serif" font-size="18" font-weight="600" fill="#2c2c2c" stroke="none" text-anchor="middle">A</text>
+  
+  <!-- Floral vines & leaves around the hearts -->
+  <path d="M22 62 C15 55 18 42 26 40 C30 39 34 44 32 48" stroke="#444" stroke-width="1.2" fill="none" />
+  <path d="M116 62 C123 55 120 42 112 40 C108 39 104 44 106 48" stroke="#444" stroke-width="1.2" fill="none" />
+  <path d="M18 48 C14 46 16 42 20 44" fill="#FAF8F5" stroke="#666" stroke-width="1" />
+  <path d="M120 48 C124 46 122 42 118 44" fill="#FAF8F5" stroke="#666" stroke-width="1" />
+  
+  <!-- Little ribbon banner below -->
+  <path d="M42 90 Q69 98 96 90 Q106 96 102 102 Q69 110 36 102 Q32 96 42 90 Z" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.5" />
+  <circle cx="69" cy="98" r="1.5" fill="#C5A880" stroke="none" />
+</svg>

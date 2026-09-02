@@ -7,107 +7,98 @@ interface EventDetailsSectionProps {
 }
 
 export function EventDetailsSection({ onShowToast }: EventDetailsSectionProps) {
-  const handleCopyAddress = (address: string) => {
-    navigator.clipboard.writeText(address).then(() => {
+  const venueTitle = 'Venue Pernikahan Alifano & Monita';
+  const venueAddress = 'Jl. Raya Kebahagiaan No. 13, Jakarta';
+  const mapsUrl = 'https://maps.google.com/?q=Jakarta';
+  const wazeUrl = 'https://waze.com/ul?q=Jakarta';
+
+  const handleCopyAddress = () => {
+    navigator.clipboard.writeText(`${venueTitle}, ${venueAddress}`).then(() => {
       onShowToast('Alamat berhasil disalin ke clipboard!');
     }).catch(() => {
-      onShowToast(`Salin: ${address}`);
+      onShowToast(`Salin: ${venueAddress}`);
     });
   };
 
-  const venueAddress = 'Venue Pernikahan Alifano & Monita';
+  const handleAddToCalendar = () => {
+    const title = encodeURIComponent('The Wedding of Alifano & Monita');
+    const details = encodeURIComponent('Pernikahan Alifano Dwi Cahyo & Monita Ameliani Febriana');
+    const location = encodeURIComponent(`${venueTitle}, ${venueAddress}`);
+    // 2026-09-13 from 08:00 to 13:00 WIB (01:00 to 06:00 UTC)
+    const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20260913T010000Z/20260913T060000Z&details=${details}&location=${location}`;
+    window.open(gCalUrl, '_blank');
+  };
 
   return (
-    <section className="section-card events-section">
-      <div className="tuscany-doodle doodle-ev-t">
-        <img src="/assets/tuscany/untitled_artwork.gif" alt="Doodle" />
-      </div>
+    <section id="reception-section" className="wedding-section reception-section">
+      <div className="section-tag">Wedding Event</div>
+      <h2 className="reception-heading">Waktu &amp; Lokasi</h2>
 
-      <div className="section-badge-pill">Wedding Event</div>
-      <h2 className="tuscany-script-heading">Rangkaian Acara</h2>
-
-      {/* Event 1: Akad Nikah */}
-      <div className="event-card-tuscany">
-        <div className="event-type-badge">
-          <i className="fa-solid fa-ring" /> Akad Nikah
-        </div>
-        <div className="event-time-row">
-          <div className="time-item">
-            <i className="fa-regular fa-calendar" /> Minggu, 13 September 2026
+      <div className="event-details-grid">
+        {/* Event 1: Akad Nikah */}
+        <div className="event-detail-card">
+          <div className="event-type-pill">
+            <i className="fa-solid fa-ring" style={{ marginRight: '6px' }} />
+            Akad Nikah
           </div>
-          <div className="time-item highlight-time">
-            <i className="fa-regular fa-clock" /> 08:00 WIB - Selesai
+          <div className="event-date-val">Minggu, 13 September 2026</div>
+          <div className="event-time-val">
+            <i className="fa-regular fa-clock" style={{ marginRight: '4px' }} />
+            08.00 WIB &ndash; Selesai
           </div>
+          <div className="event-venue-name">{venueTitle}</div>
+          <p className="event-address">{venueAddress}</p>
         </div>
 
-        <div className="event-location-box">
-          <div className="location-icon-wrapper">
-            <img src="/assets/tuscany/Location.gif" alt="Location" className="location-gif-icon" />
+        {/* Event 2: Resepsi */}
+        <div className="event-detail-card">
+          <div className="event-type-pill">
+            <i className="fa-solid fa-champagne-glasses" style={{ marginRight: '6px' }} />
+            Resepsi Pernikahan
           </div>
-          <h4 className="venue-title">Venue Pernikahan</h4>
-          <p className="venue-detail-address">
-            Alamat venue pernikahan Alifano &amp; Monita
-          </p>
-
-          <div className="event-btn-group">
-            <a
-              href="https://maps.google.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-tuscany-outline"
-            >
-              <i className="fa-solid fa-map-location-dot" /> Buka Google Maps
-            </a>
-            <button
-              onClick={() => handleCopyAddress(venueAddress)}
-              className="btn-tuscany-copy-addr"
-            >
-              <i className="fa-regular fa-copy" /> Salin Alamat
-            </button>
+          <div className="event-date-val">Minggu, 13 September 2026</div>
+          <div className="event-time-val">
+            <i className="fa-regular fa-clock" style={{ marginRight: '4px' }} />
+            11.00 &ndash; 13.00 WIB
           </div>
+          <div className="event-venue-name">{venueTitle}</div>
+          <p className="event-address">{venueAddress}</p>
         </div>
       </div>
 
-      {/* Event 2: Resepsi */}
-      <div className="event-card-tuscany">
-        <div className="event-type-badge">
-          <i className="fa-solid fa-champagne-glasses" /> Resepsi Pernikahan
-        </div>
-        <div className="event-time-row">
-          <div className="time-item">
-            <i className="fa-regular fa-calendar" /> Minggu, 13 September 2026
-          </div>
-          <div className="time-item highlight-time">
-            <i className="fa-regular fa-clock" /> 11:00 WIB - 13:00 WIB
-          </div>
-        </div>
+      <div className="map-buttons-grid">
+        <a
+          href={mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-luxury-outline"
+        >
+          <i className="fa-solid fa-location-dot" /> Google Maps
+        </a>
+        <a
+          href={wazeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-luxury-outline"
+        >
+          <i className="fa-brands fa-waze" /> Waze
+        </a>
+        <button
+          onClick={handleCopyAddress}
+          className="btn-luxury-outline"
+        >
+          <i className="fa-regular fa-copy" /> Salin Alamat
+        </button>
+      </div>
 
-        <div className="event-location-box">
-          <div className="location-icon-wrapper">
-            <img src="/assets/tuscany/Location.gif" alt="Location" className="location-gif-icon" />
-          </div>
-          <h4 className="venue-title">Venue Pernikahan</h4>
-          <p className="venue-detail-address">
-            Alamat venue pernikahan Alifano &amp; Monita
-          </p>
-
-          <div className="event-btn-group">
-            <a
-              href="https://maps.google.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-tuscany-outline"
-            >
-              <i className="fa-solid fa-map-location-dot" /> Buka Google Maps
-            </a>
-            <button
-              onClick={() => handleCopyAddress(venueAddress)}
-              className="btn-tuscany-copy-addr"
-            >
-              <i className="fa-regular fa-copy" /> Salin Alamat
-            </button>
-          </div>
-        </div>
+      <div style={{ marginTop: '14px' }}>
+        <button
+          className="btn-luxury-outline"
+          onClick={handleAddToCalendar}
+          style={{ minWidth: '240px' }}
+        >
+          <i className="fa-regular fa-calendar-plus" /> Simpan ke Google Calendar
+        </button>
       </div>
     </section>
   );

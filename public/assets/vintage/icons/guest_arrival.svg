@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#2c2c2c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Easel Legs -->
+  <line x1="25" y1="90" x2="48" y2="15" />
+  <line x1="75" y1="90" x2="52" y2="15" />
+  <line x1="50" y1="15" x2="50" y2="90" stroke-dasharray="2 2" stroke-width="1.2" />
+  <!-- Easel Shelf -->
+  <line x1="20" y1="62" x2="80" y2="62" stroke-width="2.2" />
+  <!-- Welcome Board Frame -->
+  <rect x="26" y="28" width="48" height="34" rx="2" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <!-- Inner Board Border -->
+  <rect x="29" y="31" width="42" height="28" rx="1" fill="none" stroke="#777" stroke-width="0.8" stroke-dasharray="2 1" />
+  <!-- Wedding Text on board -->
+  <text x="50" y="43" font-family="'Playfair Display', serif" font-size="6.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle" stroke="none">WEDDING</text>
+  <path d="M40 48 Q50 45 60 48" fill="none" stroke="#999" stroke-width="0.8" />
+  <!-- Flowers on top left easel -->
+  <path d="M24 26 C20 23 20 18 25 20 C30 18 31 23 27 27 Z" fill="#fff" stroke="#444" stroke-width="1.2" />
+  <circle cx="25" cy="23" r="1.5" fill="#C5A880" stroke="none" />
+  <path d="M22 30 C18 34 20 38 24 35" fill="none" stroke="#555" stroke-width="1.2" />
+</svg>

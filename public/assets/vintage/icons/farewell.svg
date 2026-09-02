@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#2c2c2c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Classic Vintage Getaway Car -->
+  <!-- Car Roof & Windshield -->
+  <path d="M35 48 L42 34 C43 32 46 30 52 30 L66 30 C72 30 75 33 78 40 L84 48" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <!-- Windshield Divider -->
+  <line x1="58" y1="30" x2="60" y2="48" stroke="#444" stroke-width="1.2" />
+  <!-- Car Body Profile -->
+  <path d="M22 56 C22 50 25 48 35 48 L86 48 C92 48 95 52 95 58 L95 64 C95 67 92 68 88 68 L84 68 C84 62 76 62 76 68 L40 68 C40 62 32 62 32 68 L24 68 C22 68 20 66 20 62 L20 58 C20 57 21 56 22 56 Z" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <!-- Wheels -->
+  <circle cx="36" cy="68" r="7" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <circle cx="36" cy="68" r="3" fill="#2c2c2c" />
+  <circle cx="80" cy="68" r="7" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.8" />
+  <circle cx="80" cy="68" r="3" fill="#2c2c2c" />
+  <!-- Headlight & Bumper -->
+  <rect x="94" y="52" width="3" height="6" rx="1.5" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.4" />
+  <!-- Just Married Sign on Back -->
+  <rect x="14" y="50" width="8" height="6" rx="1" fill="#FAF8F5" stroke="#444" stroke-width="1" />
+  <!-- Trailing Strings with Tin Cans -->
+  <path d="M20 62 C16 66 12 70 8 76" stroke="#555" stroke-width="1.2" stroke-dasharray="2 1" />
+  <path d="M22 65 C18 72 15 78 12 84" stroke="#555" stroke-width="1.2" stroke-dasharray="2 1" />
+  <path d="M24 66 C22 75 19 82 17 88" stroke="#555" stroke-width="1.2" stroke-dasharray="2 1" />
+  <!-- Tin Cans -->
+  <rect x="6" y="74" width="4" height="6" rx="1" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.2" transform="rotate(-20 8 77)" />
+  <rect x="10" y="82" width="4" height="6" rx="1" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.2" transform="rotate(15 12 85)" />
+  <rect x="15" y="86" width="4" height="6" rx="1" fill="#FAF8F5" stroke="#2c2c2c" stroke-width="1.2" transform="rotate(-10 17 89)" />
+  <!-- Heart exhaust puffs -->
+  <path d="M12 40 C10 38 7 40 7 43 C7 46 12 48 12 48 C12 48 17 46 17 43 C17 40 14 38 12 40 Z" fill="#FAF8F5" stroke="#999" stroke-width="1" />
+</svg>

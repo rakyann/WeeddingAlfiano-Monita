@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 290 125" fill="none">
+  <defs>
+    <!-- Paper shadow filter -->
+    <filter id="flapShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <!-- Triangular Flap Body with Scalloped Lace Edges -->
+  <path d="
+    M 0 0
+    L 290 0
+    L 290 8
+    C 285 14, 275 14, 270 20
+    C 265 26, 255 26, 250 32
+    C 245 38, 235 38, 230 44
+    C 225 50, 215 50, 210 56
+    C 205 62, 195 62, 190 68
+    C 185 74, 175 74, 170 80
+    C 165 86, 155 86, 150 92
+    C 147 95, 145 98, 145 102
+    C 145 98, 143 95, 140 92
+    C 135 86, 125 86, 120 80
+    C 115 74, 105 74, 100 68
+    C 95 62, 85 62, 80 56
+    C 75 50, 65 50, 60 44
+    C 55 38, 45 38, 40 32
+    C 35 26, 25 26, 20 20
+    C 15 14, 5 14, 0 8
+    Z" 
+    fill="#FCFAF7" 
+    stroke="#EFE9DE" 
+    stroke-width="1.5"
+    filter="url(#flapShadow)"
+  />
+
+  <!-- Embroidered Lace Delicate Stitching Line -->
+  <path d="
+    M 10 12
+    L 145 98
+    L 280 12
+  " 
+    fill="none" 
+    stroke="#D5CBB9" 
+    stroke-width="1" 
+    stroke-dasharray="3 3"
+  />
+
+  <!-- Lace Floral Eyelets along the scalloped trim -->
+  <g fill="#FAF7F2" stroke="#C5BCAE" stroke-width="0.8">
+    <circle cx="25" cy="20" r="2" />
+    <circle cx="45" cy="32" r="2" />
+    <circle cx="65" cy="44" r="2" />
+    <circle cx="85" cy="56" r="2" />
+    <circle cx="105" cy="68" r="2" />
+    <circle cx="125" cy="80" r="2" />
+    
+    <circle cx="145" cy="94" r="2.5" fill="#C5A880" stroke="none" />
+    
+    <circle cx="165" cy="80" r="2" />
+    <circle cx="185" cy="68" r="2" />
+    <circle cx="205" cy="56" r="2" />
+    <circle cx="225" cy="44" r="2" />
+    <circle cx="245" cy="32" r="2" />
+    <circle cx="265" cy="20" r="2" />
+  </g>
+</svg>

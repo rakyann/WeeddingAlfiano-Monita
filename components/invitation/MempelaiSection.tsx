@@ -4,43 +4,25 @@ import React from 'react';
 
 export function MempelaiSection() {
   return (
-    <section className="section-card couple-section">
-      <div className="tuscany-doodle doodle-couple-t">
-        <img src="/assets/tuscany/tuscany19.png" alt="Doodle" />
-      </div>
-
+    <section id="mempelai-section" className="wedding-section mempelai-section">
       <div className="section-badge-pill">Groom &amp; Bride</div>
-      <h2 className="tuscany-script-heading">Pasangan Mempelai</h2>
+      <h2 className="section-script-title">Pasangan Mempelai</h2>
       <p className="section-intro-text">
-        Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Dengan memohon Rahmat dan Ridho Allah SWT, kami bermaksud mengundang Anda dalam momen sakral kami:
+        Maha Suci Allah SWT yang telah menciptakan makhluk-Nya berpasang-pasangan. Dengan memohon Rahmat dan Ridho-Nya, kami bermaksud melangsungkan pernikahan:
       </p>
 
-      {/* Groom Card */}
-      <div className="tuscany-profile-card">
-        <div className="profile-frame-wrap">
-          <div className="profile-photo-arch">
+      <div className="couple-profile-cards">
+        {/* Groom Profile */}
+        <div className="couple-profile-card">
+          <div className="couple-photo-arch">
             <img
               src="/img/alifano.jpeg"
               alt="Alifano Dwi Cahyo"
-              className="profile-img"
             />
           </div>
-          <img
-            src="/assets/tuscany/spaghetti.png"
-            alt="Pasta Doodle"
-            className="profile-decor-sticker pasta-sticker"
-          />
-          <img
-            src="/assets/tuscany/img_5022.gif"
-            alt="Gif Sparkle"
-            className="profile-decor-gif"
-          />
-        </div>
-
-        <div className="profile-text-content">
-          <h3 className="profile-calligraphy-name">Alifano</h3>
-          <h4 className="profile-full-name">Alifano Dwi Cahyo</h4>
-          <p className="profile-parents-info">
+          <h3 className="couple-calligraphy-name">Alifano</h3>
+          <h4 className="couple-full-name">Alifano Dwi Cahyo</h4>
+          <p className="couple-parents-info">
             Putra tercinta dari<br />
             <strong>Bapak Sudir</strong> &amp; <strong>Ibu Estiningsih</strong>
           </p>
@@ -48,46 +30,26 @@ export function MempelaiSection() {
             href="https://instagram.com/alifanodc"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-tuscany-pill"
+            className="btn-ig-pill"
           >
             <i className="fa-brands fa-instagram" /> @alifanodc
           </a>
         </div>
-      </div>
 
-      {/* Ampersand Divider */}
-      <div className="tuscany-ampersand-divider">
-        <img src="/assets/tuscany/lemon.png" alt="Lemon" className="divider-lemon-img" />
-        <span className="divider-and">&amp;</span>
-        <img src="/assets/tuscany/fruits.png" alt="Fruits" className="divider-fruits-img" />
-      </div>
+        {/* Ampersand Divider */}
+        <div className="ampersand-divider">&amp;</div>
 
-      {/* Bride Card */}
-      <div className="tuscany-profile-card">
-        <div className="profile-frame-wrap">
-          <div className="profile-photo-arch">
+        {/* Bride Profile */}
+        <div className="couple-profile-card">
+          <div className="couple-photo-arch">
             <img
               src="/img/Monita.jpeg"
               alt="Monita Ameliani Febriana"
-              className="profile-img"
             />
           </div>
-          <img
-            src="/assets/tuscany/tuscany31.png"
-            alt="Olive Doodle"
-            className="profile-decor-sticker olive-sticker"
-          />
-          <img
-            src="/assets/tuscany/img_5035.gif"
-            alt="Gif Sparkle"
-            className="profile-decor-gif"
-          />
-        </div>
-
-        <div className="profile-text-content">
-          <h3 className="profile-calligraphy-name">Monita</h3>
-          <h4 className="profile-full-name">Monita Ameliani Febriana</h4>
-          <p className="profile-parents-info">
+          <h3 className="couple-calligraphy-name">Monita</h3>
+          <h4 className="couple-full-name">Monita Ameliani Febriana</h4>
+          <p className="couple-parents-info">
             Putri tercinta dari<br />
             <strong>Bapak (Alm) Toto Sugiarto</strong> &amp;<br />
             <strong>Ibu Puji Sistiawati</strong>
@@ -96,7 +58,7 @@ export function MempelaiSection() {
             href="https://instagram.com/monitameliaa"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-tuscany-pill"
+            className="btn-ig-pill"
           >
             <i className="fa-brands fa-instagram" /> @monitameliaa
           </a>

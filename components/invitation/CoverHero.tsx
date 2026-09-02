@@ -1,62 +1,107 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 interface CoverHeroProps {
-  guestName?: string;
+  guestName: string;
+  isVip?: boolean;
   onOpen: () => void;
+  isOpen: boolean;
 }
 
-export function CoverHero({ guestName = 'Tamu Undangan', onOpen }: CoverHeroProps) {
+export function CoverHero({ guestName, isVip, onOpen, isOpen }: CoverHeroProps) {
+  const [isOpening, setIsOpening] = useState(false);
+
+  const handleClick = () => {
+    if (isOpen || isOpening) return;
+    setIsOpening(true);
+    setTimeout(() => {
+      onOpen();
+    }, 600);
+  };
+
   return (
-    <section className="section-card cover-section" id="coverSection">
-      {/* Tuscany Border Arch / Doodles */}
-      <div className="tuscany-doodle doodle-tl">
-        <img src="/assets/tuscany/tuscany14.png" alt="Doodle" />
-      </div>
-      <div className="tuscany-doodle doodle-tr">
-        <img src="/assets/tuscany/tuscany15.png" alt="Doodle" />
-      </div>
-      <div className="tuscany-doodle doodle-bl">
-        <img src="/assets/tuscany/fruits.png" alt="Doodle" />
-      </div>
-      <div className="tuscany-doodle doodle-br">
-        <img src="/assets/tuscany/lemon.png" alt="Doodle" />
+    <section id="cover-section" className="wedding-section hero-cover">
+      {/* Header Monogram & Names */}
+      <div className="hero-header">
+        <p className="hero-subtitle">WE'RE GETTING MARRIED</p>
+        <h1 className="hero-title">
+          Alifano
+          <span className="hero-title-amp">&amp;</span>
+          Monita
+        </h1>
+
+        {/* Dynamic Guest Name Tag */}
+        <div className="guest-invitation-box">
+          <div className="guest-intro-label">Kepada Yth. Bapak/Ibu/Saudara/i:</div>
+          <div className="guest-target-name">{guestName || 'Tamu Undangan'}</div>
+          {isVip && <div className="vip-badge-pill">VIP GUEST</div>}
+        </div>
       </div>
 
-      <div className="cover-inner">
-        <div className="tuscany-script-sub">The Wedding of</div>
-        <h1 className="tuscany-main-title">Alifano &amp; Monita</h1>
-
-        {/* Central Couple Photo inside Tuscany Floral Arch Frame */}
-        <div className="cover-illustration-box">
-          <div className="cover-arch-photo-wrapper">
-            <img
-              src="/img/cover.jpeg"
-              alt="Foto Mempelai Alifano & Monita"
-              className="cover-couple-photo"
-            />
+      {/* Authentic Vintage Lace Envelope */}
+      <div
+        className={`vintage-envelope-trigger ${isOpen || isOpening ? 'unsealed' : ''}`}
+        id="envelopeTrigger"
+        onClick={handleClick}
+      >
+        <div className="envelope-card-stage">
+          {/* Gold foil invitation card sliding out */}
+          <div className="envelope-slide-card" id="cardInside">
+            <div className="envelope-slide-card-inner">
+              <span
+                style={{
+                  fontFamily: 'var(--font-editorial)',
+                  fontSize: '11px',
+                  letterSpacing: '2.5px',
+                  textTransform: 'uppercase',
+                  color: '#8C8478',
+                  marginBottom: '2px',
+                }}
+              >
+                Wedding Invitation
+              </span>
+              <div
+                style={{
+                  fontFamily: 'var(--font-script)',
+                  fontSize: '32px',
+                  fontStyle: 'italic',
+                  color: '#1F2820',
+                  lineHeight: 1,
+                }}
+              >
+                Alifano &amp; Monita
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-editorial)',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  color: '#C5A880',
+                  marginTop: '4px',
+                }}
+              >
+                13 September 2026
+              </div>
+            </div>
           </div>
+
+          {/* Pure Antique Lace Envelope */}
           <img
-            src="/assets/tuscany/img_5008.gif"
-            alt="Sparkle Animated"
-            className="cover-art-gif"
+            src="/assets/vintage/images/vintage_envelope_cutout.png"
+            alt="Luxury Vintage Envelope"
+            className="envelope-main-img"
           />
         </div>
-
-        {/* Guest Card Box */}
-        <div className="guest-card-box">
-          <p className="guest-salutation">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
-          <h2 className="guest-name">{guestName}</h2>
-          <p className="guest-note">*Mohon maaf bila ada kesalahan penulisan nama / gelar</p>
-        </div>
-
-        {/* Open Invitation Button */}
-        <button onClick={onOpen} className="btn-open-invitation" id="openInvitationBtn">
-          <i className="fa-solid fa-envelope-open-text" />
-          <span>Buka Undangan</span>
-        </button>
       </div>
+
+      {/* Pulsing Open Hint Button */}
+      {!isOpen && (
+        <button className="envelope-hint-pill" id="openHintBtn" onClick={handleClick}>
+          <i className="fa-solid fa-envelope-open-text" />
+          <span>KLIK AMPLOP UNTUK MEMBUKA</span>
+        </button>
+      )}
     </section>
   );
 }

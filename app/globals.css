@@ -1,124 +1,34 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-/* ==========================================================================
-   THE WEDDING OF ILHAM & IGO
-   Theme: Viding Tuscany (Theme 179) - Italian Garden & Lemon Doodles
-   Colors: Warm Linen (#fff8e8), Deep Olive (#455645), Tuscany Rose (#c5617a)
-   ========================================================================== */
+/* ===================================================
+   ALIFANO & MONITA - LUXURY VINTAGE WEDDING INVITATION
+   Aesthetic: Moody Botanical, Antique Lace & French Editorial
+   =================================================== */
 
-/* --- Custom Local Fonts --- */
-@font-face {
-  font-family: 'Z-Champignon';
-  src: url('/assets/fonts/z-_champignon_2800.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
 
-@font-face {
-  font-family: 'Milton Bold';
-  src: url('/assets/fonts/milton_bold_1906.otf') format('opentype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Caudex';
-  src: url('/assets/fonts/caudex-regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Caudex';
-  src: url('/assets/fonts/caudex-700.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Caudex';
-  src: url('/assets/fonts/caudex-italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Nunito Sans';
-  src: url('/assets/fonts/nunito-sans-regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Nunito Sans';
-  src: url('/assets/fonts/nunito-sans-600.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Nunito Sans';
-  src: url('/assets/fonts/nunito-sans-700.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* --- Design Tokens & CSS Variables --- */
 :root {
-  --font-script: 'Z-Champignon', cursive, serif;
-  --font-serif: 'Caudex', Georgia, serif;
-  --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Milton Bold', 'Caudex', serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-script: 'Pinyon Script', 'Great Vibes', 'Alex Brush', cursive;
+  --font-editorial: 'Cormorant Garamond', Garamond, Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  --bg-tuscany: #fff8e8;
-  --bg-card: #ffffff;
-  --bg-card-soft: #fffaf0;
-  --bg-dark-olive: #455645;
-  --bg-sage: #637663;
+  --color-bg-cream: #FAF7F2;
+  --color-bg-cream-dark: #F3ECE2;
+  --color-bg-dark: #121813;
+  --color-forest: #1F2820;
+  --color-gold: #C5A880;
+  --color-gold-dark: #9E835E;
+  --color-text-dark: #2C2C2C;
+  --color-text-muted: #6B6965;
+  --color-text-light: #FDFBF7;
+  --color-border-dark: #E2DBD0;
 
-  --color-rose: #c5617a;
-  --color-rose-hover: #b04e66;
-  --color-olive-dark: #2e4a00;
-  --color-olive-mid: #455645;
-  --color-olive-soft: #637663;
-  --color-sage: #a7b8a7;
-  --color-terracotta: #d97768;
-  --color-cream: #fff8e8;
-  --color-gold: #aba58c;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.15);
+  --shadow-deep: 0 20px 40px rgba(0, 0, 0, 0.35);
 
-  --color-text-main: #2e4a00;
-  --color-text-body: #455645;
-  --color-text-muted: #637663;
-  --color-text-light: #8e9e8e;
-
-  --border-light: #eeddc9;
-  --border-dashed: #edd6c8;
-  --border-olive: rgba(69, 86, 69, 0.2);
-
-  --shadow-sm: 0 4px 12px rgba(69, 86, 69, 0.06);
-  --shadow-md: 0 8px 24px rgba(69, 86, 69, 0.1);
-  --shadow-lg: 0 16px 36px rgba(46, 74, 0, 0.12);
-
-  --radius-sm: 10px;
-  --radius-md: 18px;
-  --radius-lg: 28px;
-  --radius-arch: 140px 140px 20px 20px;
-  --radius-pill: 9999px;
-
-  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --transition-bounce: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --max-width: 440px;
 }
 
-/* --- Base & Reset --- */
 * {
   margin: 0;
   padding: 0;
@@ -128,1152 +38,987 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
 }
 
 body {
-  font-family: var(--font-body);
-  color: var(--color-text-body);
-  background-color: var(--bg-tuscany);
-  background-image: url('/assets/tuscany/desktop-bg2.png');
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  line-height: 1.6;
+  width: 100%;
+  min-height: 100%;
+  background-color: #0c100d;
+  font-family: var(--font-sans);
+  color: var(--color-text-dark);
   overflow-x: hidden;
-  min-height: 100vh;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-button, input, select, textarea {
-  font-family: inherit;
-  outline: none;
-}
-
-/* --- Initial Loading Screen --- */
-.loading-overlay {
+/* Background Desktop Ambience */
+.desktop-backdrop {
   position: fixed;
-  inset: 0;
-  background-color: #fff8e8;
-  z-index: 99999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  transition: opacity 0.7s ease, visibility 0.7s ease;
-}
-
-.loading-overlay.fade-out {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.loading-content {
-  text-align: center;
-  color: var(--color-olive-dark);
-  padding: 2rem;
-  max-width: 360px;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.loading-lemon-icon {
-  width: 75px;
-  height: auto;
-  margin-bottom: 1.25rem;
-  animation: floatLemon 3s ease-in-out infinite alternate;
-}
-
-@keyframes floatLemon {
-  0% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(-8px) rotate(8deg); }
-}
-
-.loading-sub {
-  font-family: var(--font-serif);
-  font-size: 0.9rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--color-olive-soft);
-  margin-bottom: 0.25rem;
-}
-
-.loading-title {
-  font-family: var(--font-script);
-  font-size: 3.5rem;
-  font-weight: normal;
-  color: var(--color-rose);
-  line-height: 1;
-  margin-bottom: 1.5rem;
-}
-
-.loading-progress-bar {
-  width: 100%;
-  height: 6px;
-  background: rgba(69, 86, 69, 0.15);
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 0.75rem;
-}
-
-.progress-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, var(--color-rose), #e6a15c, var(--color-olive-soft));
-  border-radius: 10px;
-  transition: width 0.1s linear;
-}
-
-.loading-percentage {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-olive-mid);
-  margin-bottom: 1rem;
-}
-
-.loading-ecofriendly {
-  font-size: 0.75rem;
-  color: var(--color-text-light);
-  line-height: 1.4;
-}
-
-/* --- Floating Actions (Music & Back to Top) --- */
-.floating-music-btn {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid var(--color-olive-mid);
-  color: var(--color-olive-mid);
-  box-shadow: 0 8px 24px rgba(69, 86, 69, 0.3);
-  cursor: pointer;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition-bounce);
-}
-
-.floating-music-btn:hover {
-  transform: scale(1.1);
-  background: var(--bg-tuscany);
-}
-
-.music-disc-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.disc-icon {
-  font-size: 1.7rem;
-  transition: transform 0.3s ease;
-}
-
-.floating-music-btn.playing .disc-icon {
-  animation: spinDisc 3s linear infinite;
-  color: var(--color-rose);
-}
-
-.play-overlay {
-  position: absolute;
-  font-size: 0.7rem;
-  color: var(--color-olive-mid);
-  display: none;
-}
-
-.floating-music-btn.paused .play-overlay {
-  display: block;
-}
-
-.music-note-float {
-  position: absolute;
-  top: -10px;
-  right: -6px;
-  font-size: 0.9rem;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.floating-music-btn.playing .music-note-float {
-  animation: noteFloat 2s ease-in-out infinite;
-}
-
-@keyframes spinDisc {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes noteFloat {
-  0% { transform: translateY(0) scale(0.8); opacity: 0; }
-  50% { opacity: 1; }
-  100% { transform: translateY(-22px) scale(1.2); opacity: 0; }
-}
-
-.floating-top-btn {
-  position: fixed;
-  bottom: 86px;
-  right: 24px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 248, 232, 0.95);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--color-olive-mid);
-  color: var(--color-olive-mid);
-  box-shadow: var(--shadow-md);
-  cursor: pointer;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(15px);
-  transition: var(--transition-smooth);
-}
-
-.floating-top-btn.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.floating-top-btn:hover {
-  background: var(--color-olive-mid);
-  color: #ffffff;
-  transform: translateY(-4px);
-}
-
-/* --- Layout Architecture (Desktop Split Screen) --- */
-.app-layout {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  background-color: var(--bg-tuscany);
-}
-
-/* LEFT DESKTOP HERO SIDEBAR */
-.desktop-hero-side {
-  position: sticky;
   top: 0;
   left: 0;
-  width: 60%;
+  width: 100vw;
   height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  padding: 4.5rem;
-  z-index: 10;
-  background-color: var(--bg-tuscany);
-}
-
-.desktop-bg-layer {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center center;
-  transform: scale(1.02);
-  transition: transform 8s ease;
-}
-
-.desktop-hero-side:hover .desktop-bg-layer {
-  transform: scale(1.06);
-}
-
-.desktop-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(69, 86, 69, 0.25) 0%,
-    rgba(46, 74, 0, 0.45) 50%,
-    rgba(30, 48, 10, 0.8) 100%
-  );
-}
-
-.desktop-doodle {
-  position: absolute;
+  background: radial-gradient(circle at 50% 30%, #1c271e 0%, #080b09 100%);
+  z-index: 0;
   pointer-events: none;
-  z-index: 4;
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
-  animation: floatDoodle 4s ease-in-out infinite alternate;
 }
 
-.d-lemon { top: 12%; left: 10%; width: 90px; animation-delay: 0s; }
-.d-fruits { top: 22%; right: 12%; width: 110px; animation-delay: 1.2s; }
-.d-pasta { bottom: 35%; left: 8%; width: 85px; animation-delay: 2s; }
-.d-gif1 { top: 40%; right: 18%; width: 70px; }
-.d-gif2 { bottom: 18%; right: 10%; width: 75px; }
-
-.desktop-hero-content {
+/* Main Container Frame */
+.app-viewport {
   position: relative;
-  z-index: 5;
-  color: #ffffff;
-  max-width: 600px;
-}
-
-.desktop-tagline {
-  font-family: var(--font-script);
-  font-size: 2.8rem;
-  color: #f7d0d8;
-  display: block;
-  margin-bottom: -0.5rem;
-}
-
-.desktop-couple-names {
-  font-family: var(--font-serif);
-  font-size: 4.2rem;
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.5px;
-  margin-bottom: 1.2rem;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
-.desktop-date {
-  font-size: 1.25rem;
-  color: #f5eedb;
-  margin-bottom: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.desktop-location-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 1.4rem;
-  background: rgba(255, 248, 232, 0.2);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 248, 232, 0.35);
-  border-radius: var(--radius-pill);
-  font-size: 1rem;
-  color: #ffffff;
-}
-
-/* RIGHT INVITATION SCROLL CONTAINER */
-.invitation-scroll-side {
-  width: 40%;
-  min-width: 450px;
-  max-width: 520px;
-  background-color: var(--bg-tuscany);
-  min-height: 100vh;
+  width: 100%;
+  max-width: var(--max-width);
   margin: 0 auto;
-  box-shadow: -10px 0 40px rgba(69, 86, 69, 0.15);
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* --- Section Cards (Tuscany Style) --- */
-.section-card {
-  position: relative;
-  padding: 4.5rem 2rem;
-  text-align: center;
-  background-color: var(--bg-tuscany);
-  border-bottom: 2px dashed var(--border-dashed);
-  overflow: hidden;
-}
-
-.section-card:last-child {
-  border-bottom: none;
-}
-
-/* Tuscany Floating Doodles */
-.tuscany-doodle {
-  position: absolute;
-  pointer-events: none;
-  z-index: 4;
-  user-select: none;
-  filter: drop-shadow(0 2px 6px rgba(69, 86, 69, 0.08));
-}
-
-.tuscany-doodle img {
-  width: 100%;
-  height: auto;
-}
-
-.doodle-tl { top: -10px; left: -10px; width: 110px; }
-.doodle-tr { top: -10px; right: -10px; width: 110px; }
-.doodle-bl { bottom: 10px; left: 8px; width: 85px; }
-.doodle-br { bottom: 10px; right: 8px; width: 80px; }
-
-.doodle-mid-left { top: 15%; left: -15px; width: 75px; }
-.doodle-mid-right { bottom: 15%; right: -15px; width: 75px; }
-
-.doodle-couple-t { top: 12px; right: 12px; width: 95px; }
-.doodle-cd-l { top: 20%; left: -10px; width: 85px; }
-.doodle-cd-r { bottom: 15%; right: -10px; width: 85px; }
-.doodle-ev-t { top: 10px; left: 50%; transform: translateX(-50%); width: 80px; }
-.doodle-gal-l { top: 10%; left: -10px; width: 90px; }
-.doodle-gal-r { bottom: 10%; right: -10px; width: 90px; }
-.doodle-rsvp { bottom: 10px; right: 10px; width: 70px; }
-.doodle-wish-t { top: 10px; left: 10px; width: 90px; }
-.doodle-gift-l { top: 10%; left: 8px; width: 70px; }
-.doodle-gift-r { top: 10%; right: 8px; width: 75px; }
-.doodle-cl-l { top: 15%; left: 10px; width: 75px; }
-.doodle-cl-r { top: 15%; right: 10px; width: 75px; }
-
-@keyframes floatDoodle {
-  0% { transform: translateY(0px) rotate(0deg); }
-  100% { transform: translateY(-8px) rotate(5deg); }
-}
-
-/* --- Typography & Headings --- */
-.section-badge-pill {
-  display: inline-block;
-  padding: 0.35rem 1.2rem;
-  background: var(--bg-dark-olive);
-  color: #ffffff;
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  border-radius: var(--radius-pill);
-  margin-bottom: 0.75rem;
-}
-
-.tuscany-script-sub {
-  font-family: var(--font-script);
-  font-size: 2.8rem;
-  color: var(--color-rose);
-  line-height: 1;
-  margin-bottom: 0.25rem;
-}
-
-.tuscany-main-title {
-  font-family: var(--font-serif);
-  font-size: 3.2rem;
-  font-weight: 700;
-  color: var(--color-olive-dark);
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.5px;
-}
-
-.tuscany-script-heading {
-  font-family: var(--font-script);
-  font-size: 3.5rem;
-  font-weight: normal;
-  color: var(--color-rose);
-  line-height: 1.25;
-  margin-top: 0.25rem;
-  margin-bottom: 1.25rem;
-  display: block;
-}
-
-.section-intro-text {
-  font-size: 0.95rem;
-  color: var(--color-olive-soft);
-  max-width: 380px;
-  margin: 0 auto 2.25rem;
-  line-height: 1.6;
-}
-
-/* --- SECTION 1: COVER SECTION --- */
-.cover-section {
   min-height: 100vh;
+  background-color: var(--color-bg-cream);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+/* Sticky Top Navigation Bar */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--max-width);
+  height: 52px;
+  background: rgba(250, 247, 242, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at 50% 35%, #ffffff 0%, #fff8e8 100%);
-  padding: 3.5rem 1.5rem;
+  justify-content: space-around;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  padding: 0 10px;
+  transition: all 0.3s ease;
 }
 
-.cover-inner {
+.nav-link {
+  color: #55524E;
+  text-decoration: none;
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 20px;
+  transition: all 0.25s ease;
   position: relative;
-  z-index: 10;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.nav-link.active {
+  color: #1A1A1A;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 2px;
+  background-color: #2C2C2C;
+  border-radius: 2px;
+}
+
+/* ===================================================
+   SECTION 1: COVER HERO SCREEN
+   =================================================== */
+.hero-cover {
+  position: relative;
   width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.cover-illustration-box {
-  position: relative;
-  width: 250px;
-  max-width: 85%;
-  margin: 0.5rem auto 1.5rem;
-}
-
-.cover-arch-photo-wrapper {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  border-radius: 120px 120px 16px 16px;
+  justify-content: space-between;
+  padding: 30px 20px 30px;
+  background: url('/assets/vintage/images/calla_lilies_bg.jpg') center center / cover no-repeat;
+  color: var(--color-text-light);
+  text-align: center;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(69, 86, 69, 0.15);
-  background-color: var(--bg-card-soft);
-  border: 4px solid #ffffff;
+  box-sizing: border-box;
 }
 
-.cover-couple-photo {
+.hero-cover::before {
+  content: '';
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, rgba(14, 20, 15, 0.5) 0%, rgba(14, 20, 15, 0.8) 100%);
+  z-index: 1;
 }
 
-.cover-arch-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
+.hero-header {
+  position: relative;
   z-index: 2;
-  transform: scale(1.04);
+  margin-top: 10px;
 }
 
-.cover-art-gif {
-  position: absolute;
-  top: -15px;
-  right: -15px;
-  width: 60px;
+.hero-subtitle {
+  font-family: var(--font-editorial);
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.hero-title {
+  font-family: var(--font-script);
+  font-size: 58px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 0.95;
+  color: #FFFFFF;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+}
+
+.hero-title-amp {
+  display: block;
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 24px;
+  margin: 2px 0;
+  opacity: 0.9;
+}
+
+/* Dynamic Guest Invitation Card Box */
+.guest-invitation-box {
+  position: relative;
+  z-index: 2;
+  margin-top: 12px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  max-width: 320px;
+}
+
+.guest-intro-label {
+  font-family: var(--font-editorial);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2px;
+}
+
+.guest-target-name {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.5px;
+}
+
+.vip-badge-pill {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #c5a880, #e9d3b0);
+  color: #1a231c;
+  border-radius: 10px;
+}
+
+/* ===================================================
+   CINEMATIC LUXURY VINTAGE ENVELOPE ON COVER
+   =================================================== */
+.vintage-envelope-trigger {
+  position: relative;
+  z-index: 2;
+  width: 290px;
+  cursor: pointer;
+  margin: 20px auto 15px;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  user-select: none;
+}
+
+.vintage-envelope-trigger:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.envelope-card-stage {
+  position: relative;
+  width: 100%;
+  border-radius: 6px;
+  overflow: visible;
+}
+
+.envelope-main-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.65));
+  transition: filter 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
   z-index: 3;
 }
 
-.guest-card-box {
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 1.25rem 1.75rem;
-  margin-bottom: 1.75rem;
-  width: 90%;
-  max-width: 350px;
-  box-shadow: var(--shadow-sm);
-  text-align: center;
-  position: relative;
-}
-
-.guest-salutation {
-  font-size: 0.8rem;
-  color: var(--color-text-light);
-  margin-bottom: 0.3rem;
-}
-
-.guest-name {
-  font-family: var(--font-serif);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--color-olive-dark);
-  margin-bottom: 0.3rem;
-  word-break: break-word;
-}
-
-.guest-note {
-  font-size: 0.72rem;
-  color: var(--color-text-light);
-  font-style: italic;
-}
-
-.btn-open-invitation {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.95rem 2.4rem;
-  background: var(--bg-dark-olive);
-  color: #ffffff;
-  border: none;
-  border-radius: var(--radius-pill);
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(69, 86, 69, 0.35);
-  transition: var(--transition-bounce);
-}
-
-.btn-open-invitation:hover {
-  background: var(--color-rose);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 24px rgba(197, 97, 122, 0.45);
-}
-
-/* Invitation reveal */
-.invitation-body.hidden-before-open {
-  display: none;
-}
-
-.invitation-body.revealed {
-  display: block;
-  animation: fadeInContent 0.8s ease forwards;
-}
-
-@keyframes fadeInContent {
-  0% { opacity: 0; transform: translateY(25px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-/* --- SECTION 2: QURAN VERSE --- */
-.quran-section {
-  background-color: var(--bg-card-soft);
-}
-
-.quote-card-box {
-  background: #ffffff;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 2.25rem 1.85rem;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.olive-branch-icon {
-  width: 90px;
-  margin: 0 auto 1.25rem;
-}
-
-.olive-branch-img {
-  width: 100%;
-}
-
-.quran-verse-text {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 0.95rem;
-  line-height: 1.85;
-  color: var(--color-olive-dark);
-  margin-bottom: 1.25rem;
-}
-
-.quran-reference {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--color-rose);
-}
-
-/* --- SECTION 3: COUPLE PROFILES --- */
-.tuscany-profile-card {
+.envelope-slide-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  height: 180px;
+  background: #FCFAF7;
+  border: 1px solid #D8CFC2;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
+  justify-content: center;
+  padding: 14px;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+  pointer-events: none;
 }
 
-.profile-frame-wrap {
-  position: relative;
-  width: 210px;
-  height: 250px;
-  margin-bottom: 1.5rem;
-}
-
-.profile-photo-arch {
+.envelope-slide-card-inner {
   width: 100%;
   height: 100%;
-  border-radius: var(--radius-arch);
-  overflow: hidden;
-  border: 3px solid var(--color-olive-mid);
-  box-shadow: var(--shadow-md);
-  background: #ffffff;
+  border: 1px solid rgba(197, 168, 128, 0.5);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  text-align: center;
 }
 
-.profile-photo-arch .profile-img {
+.vintage-envelope-trigger.unsealed {
+  animation: envelopeOpenPulse 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.vintage-envelope-trigger.unsealed .envelope-slide-card {
+  opacity: 1;
+  transform: translateY(-115px) scale(1.03);
+  z-index: 10;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.vintage-envelope-trigger.unsealed .envelope-main-img {
+  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.75));
+}
+
+@keyframes envelopeOpenPulse {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.96); }
+  100% { transform: scale(1.03); }
+}
+
+.envelope-hint-pill {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 30px;
+  color: #FFFFFF;
+  font-family: var(--font-editorial);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  animation: pulseHint 2.2s infinite ease-in-out;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: opacity 0.3s ease;
+  border: none;
+}
+
+@keyframes pulseHint {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+}
+
+/* ===================================================
+   SECTION 2: MUSIC PLAYER & COUPLE BANNER
+   =================================================== */
+.music-banner {
+  position: relative;
+  background: url('/assets/vintage/images/calla_lilies_bg.jpg') center center / cover no-repeat;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 50px 20px 40px;
+  overflow: hidden;
+}
+
+.music-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, rgba(14, 20, 15, 0.65) 0%, rgba(14, 20, 15, 0.88) 100%);
+  z-index: 1;
+}
+
+.music-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.music-couple-names {
+  font-family: var(--font-script);
+  font-size: 48px;
+  font-style: italic;
+  line-height: 1;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+}
+
+.music-sub {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: #E8E2D5;
+  margin-bottom: 24px;
+}
+
+.music-player-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 16px;
+  padding: 16px 20px;
+  max-width: 320px;
+  margin: 0 auto;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.player-title {
+  font-family: var(--font-editorial);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.player-progress-wrap {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 3px;
+  position: relative;
+  transition: width 0.1s linear;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: -3px;
+  width: 11px;
+  height: 11px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+}
+
+.player-time-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 5px;
+  font-family: var(--font-sans);
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.player-btn {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-btn:hover {
+  opacity: 0.85;
+  transform: scale(1.1);
+}
+
+.player-btn-main {
+  width: 40px;
+  height: 40px;
+  background: #FFFFFF;
+  color: #1A231C;
+  border-radius: 50%;
+  font-size: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* ===================================================
+   SECTION 3: LOVE STORY & BAROQUE FRAME
+   =================================================== */
+.story-section {
+  background-color: var(--color-bg-cream);
+  padding: 50px 24px 45px;
+  text-align: center;
+}
+
+.mirror-frame-wrap {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  margin: 0 auto 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 4px solid #EAE3D5;
+}
+
+.mirror-frame-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.story-body {
+  font-family: var(--font-editorial);
+  font-size: 17px;
+  line-height: 1.8;
+  color: #4A4640;
+  max-width: 350px;
+  margin: 0 auto 24px;
+}
+
+.story-body p {
+  margin-bottom: 16px;
+}
+
+.story-quote-italic {
+  font-style: italic;
+  color: #2F2D2A;
+  font-weight: 500;
+}
+
+.story-signature-prefix {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.story-signature {
+  font-family: var(--font-script);
+  font-size: 46px;
+  font-style: italic;
+  color: var(--color-text-dark);
+  line-height: 1;
+}
+
+/* ===================================================
+   SECTION: GROOM & BRIDE PROFILES (MEMPELAI)
+   =================================================== */
+.mempelai-section {
+  background-color: var(--color-bg-cream-dark);
+  padding: 50px 20px 45px;
+  text-align: center;
+  border-top: 1px solid var(--color-border-dark);
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+.section-badge-pill {
+  display: inline-block;
+  font-family: var(--font-editorial);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #7A746B;
+  margin-bottom: 8px;
+}
+
+.section-script-title {
+  font-family: var(--font-script);
+  font-size: 48px;
+  font-style: italic;
+  color: var(--color-text-dark);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.section-intro-text {
+  font-family: var(--font-editorial);
+  font-size: 15px;
+  line-height: 1.7;
+  color: #55524E;
+  max-width: 340px;
+  margin: 0 auto 30px;
+}
+
+.couple-profile-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+}
+
+.couple-profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.couple-photo-arch {
+  width: 170px;
+  height: 230px;
+  border-radius: 90px 90px 8px 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: 3px solid #FAF7F2;
+  margin-bottom: 16px;
+}
+
+.couple-photo-arch img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.profile-decor-sticker {
-  position: absolute;
-  z-index: 5;
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.1));
-}
-
-.pasta-sticker { bottom: -12px; right: -15px; width: 70px; }
-.olive-sticker { bottom: -12px; left: -15px; width: 70px; }
-.profile-decor-gif {
-  position: absolute;
-  top: -15px;
-  right: -15px;
-  width: 50px;
-  z-index: 5;
-}
-
-.profile-calligraphy-name {
+.couple-calligraphy-name {
   font-family: var(--font-script);
-  font-size: 3.2rem;
-  font-weight: normal;
-  color: var(--color-rose);
+  font-size: 40px;
+  font-style: italic;
+  color: #1F2820;
   line-height: 1;
-  margin-bottom: 0.25rem;
+  margin-bottom: 4px;
 }
 
-.profile-full-name {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
+.couple-full-name {
+  font-family: var(--font-editorial);
+  font-size: 18px;
   font-weight: 700;
-  color: var(--color-olive-dark);
-  margin-bottom: 0.5rem;
+  color: #2F2D2A;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
 }
 
-.profile-parents-info {
-  font-size: 0.9rem;
-  color: var(--color-olive-soft);
-  line-height: 1.5;
-  margin-bottom: 1.25rem;
+.couple-parents-info {
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6B6965;
+  margin-bottom: 12px;
 }
 
-.profile-parents-info strong {
-  color: var(--color-olive-dark);
-}
-
-.btn-tuscany-pill {
+.btn-ig-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 1.5rem;
-  background: #ffffff;
-  border: 1.5px solid var(--color-olive-mid);
-  border-radius: var(--radius-pill);
-  color: var(--color-olive-dark);
-  font-size: 0.85rem;
-  font-weight: 700;
+  gap: 6px;
+  padding: 6px 16px;
+  border: 1px solid #C5A880;
+  border-radius: 20px;
+  font-family: var(--font-editorial);
+  font-size: 13px;
+  color: #4A4640;
   text-decoration: none;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-smooth);
+  transition: all 0.2s ease;
 }
 
-.btn-tuscany-pill:hover {
-  background: var(--bg-dark-olive);
-  color: #ffffff;
-  transform: translateY(-2px);
+.btn-ig-pill:hover {
+  background: #C5A880;
+  color: #FFFFFF;
 }
 
-.tuscany-ampersand-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin: 1.5rem 0 3rem;
-}
-
-.divider-lemon-img, .divider-fruits-img {
-  width: 50px;
-}
-
-.divider-and {
+.ampersand-divider {
   font-family: var(--font-script);
-  font-size: 3.2rem;
-  color: var(--color-rose);
+  font-size: 38px;
+  font-style: italic;
+  color: #C5A880;
+  margin: 5px 0;
 }
 
-/* --- SECTION 4: COUNTDOWN & SAVE THE DATE --- */
-.countdown-section {
-  background-color: var(--bg-card-soft);
+/* ===================================================
+   SECTION 4: COUNTDOWN TIMER BANNER
+   =================================================== */
+.countdown-banner {
+  position: relative;
+  background: url('/assets/vintage/images/calla_lilies_bg.jpg') center center / cover no-repeat;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 45px 20px;
 }
 
-.tuscany-countdown-widget {
-  display: inline-flex;
-  align-items: center;
+.countdown-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(14, 20, 15, 0.82);
+  z-index: 1;
+}
+
+.countdown-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.countdown-title {
+  font-family: var(--font-script);
+  font-size: 44px;
+  font-style: italic;
+  font-weight: 400;
+  color: #FFFFFF;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.countdown-grid {
+  display: flex;
   justify-content: center;
-  gap: 0.65rem;
-  background: var(--bg-dark-olive);
-  padding: 1.1rem 1.75rem;
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-md);
-  margin-bottom: 2.25rem;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
 .countdown-unit {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 45px;
+  min-width: 48px;
 }
 
-.cd-num {
+.countdown-number {
   font-family: var(--font-serif);
-  font-size: 1.85rem;
-  font-weight: 700;
-  color: var(--color-cream);
-  line-height: 1;
-}
-
-.cd-lbl {
-  font-size: 0.72rem;
-  color: var(--color-sage);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 30px;
   font-weight: 600;
-}
-
-.countdown-sep {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  color: var(--color-sage);
-  font-weight: 700;
-  margin-top: -12px;
-}
-
-.tuscany-calendar-card {
-  background: #ffffff;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 2rem 1.75rem;
-  max-width: 380px;
-  margin: 0 auto;
-  box-shadow: var(--shadow-sm);
-}
-
-.cal-top-banner {
-  margin-bottom: 1.25rem;
-}
-
-.cal-badge-month {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--color-rose);
-  text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 0.25rem;
-}
-
-.cal-main-date {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-olive-dark);
-}
-
-.cal-grid-mini {
-  margin-bottom: 1.5rem;
-}
-
-.cal-days-header, .cal-days-numbers {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.35rem;
-  text-align: center;
-}
-
-.cal-days-header {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--color-text-light);
-  margin-bottom: 0.75rem;
-}
-
-.cal-days-header .sun-active {
-  color: var(--color-rose);
-}
-
-.cal-days-numbers {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--color-olive-mid);
-  align-items: center;
-}
-
-.cal-target-day {
-  background: var(--color-rose);
-  color: #ffffff;
-  border-radius: 50%;
-  width: 38px;
-  height: 38px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(197, 97, 122, 0.4);
-}
-
-.cal-target-day .day-n {
-  font-weight: 800;
+  color: #FFFFFF;
   line-height: 1;
-  font-size: 0.9rem;
 }
 
-.cal-target-day .cal-heart {
-  font-size: 0.55rem;
-  margin-top: 1px;
+.countdown-label {
+  font-family: var(--font-editorial);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 6px;
 }
 
-.btn-tuscany-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 0.85rem 1.8rem;
-  background: var(--bg-dark-olive);
-  color: #ffffff;
-  border: none;
-  border-radius: var(--radius-pill);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-bounce);
-  text-decoration: none;
+.countdown-colon {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 16px;
 }
 
-.btn-tuscany-primary:hover {
-  background: var(--color-rose);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-tuscany-primary.full-width {
-  width: 100%;
-}
-
-/* --- SECTION 5: WEDDING EVENTS --- */
-.event-card-tuscany {
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 2rem 1.75rem;
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow-sm);
+/* ===================================================
+   SECTION 5: RECEPTION & AKAD LOCATION & MAPS
+   =================================================== */
+.reception-section {
+  background-color: var(--color-bg-cream);
+  padding: 50px 24px 45px;
   text-align: center;
-  position: relative;
+  border-bottom: 1px solid var(--color-border-dark);
 }
 
-.event-type-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 1.3rem;
-  background: var(--bg-tuscany);
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-pill);
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--color-olive-dark);
-  margin-bottom: 1.25rem;
+.section-tag {
+  font-family: var(--font-editorial);
+  font-size: 15px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #7A746B;
+  margin-bottom: 4px;
 }
 
-.event-time-row {
+.reception-heading {
+  font-family: var(--font-script);
+  font-size: 52px;
+  font-style: italic;
+  color: var(--color-text-dark);
+  line-height: 1;
+  margin-bottom: 28px;
+}
+
+.event-details-grid {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
-  color: var(--color-olive-soft);
+  gap: 24px;
+  margin-bottom: 30px;
 }
 
-.highlight-time {
+.event-detail-card {
+  background: #FFFFFF;
+  border: 1px solid #E8E2D5;
+  border-radius: 12px;
+  padding: 20px 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.event-type-pill {
+  display: inline-block;
+  font-family: var(--font-editorial);
+  font-size: 13px;
   font-weight: 700;
-  color: var(--color-rose);
-  font-size: 1.05rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1F2820;
+  margin-bottom: 10px;
+  padding: 3px 12px;
+  background: #F3ECE2;
+  border-radius: 16px;
 }
 
-.location-icon-wrapper {
-  width: 50px;
-  margin: 0 auto 0.75rem;
+.event-date-val {
+  font-family: var(--font-editorial);
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
 }
 
-.location-gif-icon {
-  width: 100%;
+.event-time-val {
+  font-family: var(--font-editorial);
+  font-size: 15px;
+  color: #6B6965;
+  margin-bottom: 12px;
 }
 
-.venue-title {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
+.event-venue-name {
+  font-family: var(--font-editorial);
+  font-size: 17px;
   font-weight: 700;
-  color: var(--color-olive-dark);
-  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1A1A1A;
+  margin-bottom: 6px;
 }
 
-.venue-detail-address {
-  font-size: 0.88rem;
-  color: var(--color-olive-soft);
-  line-height: 1.55;
-  margin-bottom: 1.5rem;
-}
-
-.event-btn-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.btn-tuscany-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.4rem;
-  background: var(--bg-dark-olive);
-  color: #ffffff;
-  border: none;
-  border-radius: var(--radius-pill);
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: var(--transition-smooth);
-}
-
-.btn-tuscany-outline:hover {
-  background: var(--color-rose);
-}
-
-.btn-tuscany-copy-addr {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.4rem;
-  background: var(--bg-card-soft);
-  border: 1px solid var(--border-light);
-  color: var(--color-olive-dark);
-  border-radius: var(--radius-pill);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-
-.btn-tuscany-copy-addr:hover {
-  background: var(--border-light);
-}
-
-/* Live streaming card */
-.live-stream-card {
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 1.75rem;
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow-sm);
-}
-
-.live-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #cc181e;
-  margin-bottom: 0.75rem;
-}
-
-.live-desc {
-  font-size: 0.88rem;
-  color: var(--color-olive-soft);
-  margin-bottom: 1.25rem;
-  line-height: 1.5;
-}
-
-.btn-tuscany-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.8rem;
-  background: #cc181e;
-  color: #ffffff;
-  border-radius: var(--radius-pill);
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: var(--transition-smooth);
-}
-
-.btn-tuscany-live:hover {
-  background: #a31217;
-  transform: translateY(-2px);
-}
-
-/* Dresscode */
-.dresscode-tuscany-box {
-  background: #ffffff;
-  border: 1px dashed var(--border-dashed);
-  border-radius: var(--radius-md);
-  padding: 1.75rem 1.5rem;
-}
-
-.dresscode-icon {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.dresscode-title {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--color-olive-dark);
-  margin-bottom: 0.35rem;
-}
-
-.dresscode-subtitle {
-  font-size: 0.85rem;
-  color: var(--color-olive-soft);
-  margin-bottom: 1.2rem;
-}
-
-.palette-swatches {
-  display: flex;
-  justify-content: center;
-  gap: 1.25rem;
-}
-
-.swatch-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.swatch {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  border: 2px solid #ffffff;
-}
-
-.swatch.c-olive { background: #455645; }
-.swatch.c-terracotta { background: #c5617a; }
-.swatch.c-cream { background: #fff8e8; border: 1px solid #ebd8c8; }
-.swatch.c-sage { background: #a7b8a7; }
-
-.swatch-item small {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-olive-soft);
-}
-
-/* --- SECTION 6: GALLERY --- */
-.tuscany-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.65rem;
-  max-width: 440px;
+.event-address {
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  max-width: 310px;
   margin: 0 auto;
+}
+
+.map-buttons-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn-luxury-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid #2C2C2C;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #2C2C2C;
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-luxury-outline:hover {
+  background-color: #2C2C2C;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ===================================================
+   SECTION 6: VINTAGE POLAROID STACK & GALLERY
+   =================================================== */
+.rsvp-teaser-section {
+  position: relative;
+  background: url('/assets/vintage/images/calla_lilies_bg.jpg') center center / cover no-repeat;
+  padding: 60px 20px 50px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.rsvp-teaser-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(14, 20, 15, 0.82);
+  z-index: 1;
+}
+
+.rsvp-teaser-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.polaroid-envelope-stack {
+  position: relative;
+  width: 310px;
+  height: 290px;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.polaroid-envelope-stack:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+.polaroid-card {
+  position: absolute;
+  width: 140px;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.45));
+  transition: transform 0.4s ease;
+  user-select: none;
+}
+
+.polaroid-1 {
+  top: -10px;
+  left: 15px;
+  transform: rotate(-12deg);
+  z-index: 1;
+}
+
+.polaroid-2 {
+  top: -24px;
+  right: 25px;
+  transform: rotate(10deg);
+  z-index: 2;
+}
+
+.polaroid-envelope-stack:hover .polaroid-1 {
+  transform: rotate(-16deg) translateY(-8px);
+}
+
+.polaroid-envelope-stack:hover .polaroid-2 {
+  transform: rotate(14deg) translateY(-10px);
+}
+
+.stack-envelope-base {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 210px;
+  z-index: 3;
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6));
+}
+
+.stack-envelope-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+.stack-heart-seal {
+  position: absolute;
+  top: 50px;
+  right: 15px;
+  width: 115px;
+  height: 105px;
+  z-index: 5;
+  transform: rotate(8deg);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+  filter: drop-shadow(0 10px 20px rgba(85, 11, 22, 0.5));
+}
+
+.polaroid-envelope-stack:hover .stack-heart-seal {
+  transform: rotate(12deg) scale(1.06);
+}
+
+.stack-heart-seal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Gallery Grid */
+.gallery-section {
+  background-color: var(--color-bg-cream);
+  padding: 50px 20px 45px;
+  text-align: center;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 25px;
 }
 
 .gallery-card {
   position: relative;
-  aspect-ratio: 1 / 1;
-  border-radius: var(--radius-sm);
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  aspect-ratio: 4/5;
   cursor: pointer;
+}
+
+.gallery-card.item-tall {
+  grid-row: span 2;
+  aspect-ratio: auto;
+}
+
+.gallery-card.item-wide {
+  grid-column: span 2;
+  aspect-ratio: 16/9;
 }
 
 .gallery-card img {
@@ -1284,581 +1029,725 @@ button, input, select, textarea {
 }
 
 .gallery-card:hover img {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
-.gallery-card-overlay {
+.gallery-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(69, 86, 69, 0.4);
+  background: rgba(0,0,0,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-size: 1.2rem;
   opacity: 0;
   transition: opacity 0.3s ease;
+  color: #FFFFFF;
+  font-size: 20px;
 }
 
-.gallery-card:hover .gallery-card-overlay {
+.gallery-card:hover .gallery-overlay {
   opacity: 1;
 }
 
-/* --- SECTION 7: RSVP FORM --- */
-.rsvp-section {
-  background-color: var(--bg-card-soft);
-}
-
-.tuscany-form {
-  background: #ffffff;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 2rem 1.75rem;
-  box-shadow: var(--shadow-sm);
-  max-width: 400px;
-  margin: 0 auto;
-  text-align: left;
-}
-
-.form-field {
-  margin-bottom: 1.25rem;
-}
-
-.form-field label {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--color-olive-dark);
-  margin-bottom: 0.4rem;
-}
-
-.form-field input,
-.form-field select,
-.form-field textarea {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: var(--bg-tuscany);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  color: var(--color-olive-dark);
-  font-size: 0.9rem;
-  transition: border-color 0.2s ease;
-}
-
-.form-field input:focus,
-.form-field select:focus,
-.form-field textarea:focus {
-  border-color: var(--color-olive-mid);
-  background: #ffffff;
-}
-
-.stepper-wrap {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  background: var(--bg-tuscany);
-  overflow: hidden;
-  max-width: 150px;
-}
-
-.btn-step {
-  width: 42px;
-  height: 42px;
-  background: transparent;
-  border: none;
-  color: var(--color-olive-mid);
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.btn-step:hover {
-  background: rgba(69, 86, 69, 0.1);
-}
-
-.stepper-wrap input {
+/* ===================================================
+   SECTION 7: WEDDING TIMELINE / SCHEDULE
+   =================================================== */
+.timeline-section {
+  background-color: var(--color-bg-cream-dark);
+  padding: 50px 20px 45px;
   text-align: center;
-  border: none;
-  background: transparent;
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 0;
-  width: 50px;
+  border-top: 1px solid var(--color-border-dark);
+  border-bottom: 1px solid var(--color-border-dark);
 }
 
-/* --- SECTION 8: WISHES STREAM --- */
-.wishes-stream-container {
-  margin-top: 2.5rem;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+.timeline-title {
+  font-family: var(--font-script);
+  font-size: 50px;
+  font-style: italic;
+  color: var(--color-text-dark);
+  margin-bottom: 35px;
 }
 
-.wishes-stream-header {
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--color-olive-dark);
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.wishes-stream-list {
+.timeline-items-grid {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.wish-card-item {
-  background: #ffffff;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 1.25rem 1.4rem;
-  text-align: left;
-  box-shadow: var(--shadow-sm);
-}
-
-.wish-header-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-}
-
-.wish-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--bg-dark-olive);
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.wish-author-name {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--color-olive-dark);
-}
-
-.wish-message-body {
-  font-size: 0.88rem;
-  color: var(--color-olive-soft);
-  line-height: 1.55;
-  margin-bottom: 0.5rem;
-}
-
-.wish-time-tag {
-  font-size: 0.75rem;
-  color: var(--color-text-light);
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.wishes-pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-}
-
-.page-nav-btn, .page-num-btn {
-  padding: 0.45rem 0.85rem;
-  background: #ffffff;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-pill);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-olive-mid);
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-
-.page-num-btn.active {
-  background: var(--bg-dark-olive);
-  color: #ffffff;
-  border-color: var(--bg-dark-olive);
-}
-
-.page-nav-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* --- SECTION 9: DIGITAL GIFT --- */
-.tuscany-bank-cards-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  max-width: 380px;
+  gap: 28px;
+  max-width: 320px;
   margin: 0 auto;
 }
 
-.tuscany-bank-card {
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  text-align: left;
-  box-shadow: var(--shadow-sm);
-}
-
-.bank-header {
+.timeline-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  justify-content: space-around;
+  gap: 15px;
 }
 
-.bank-pill {
-  font-weight: 800;
-  letter-spacing: 1px;
-  padding: 0.25rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
+.timeline-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.bank-pill.bca {
-  background: #0060af;
-  color: #ffffff;
+.timeline-icon-box {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
 }
 
-.bank-pill.bni {
-  background: #f15a24;
-  color: #ffffff;
+.timeline-icon-box:hover {
+  transform: scale(1.08);
 }
 
-.bank-pill.mandiri {
-  background: #003066;
-  color: #f7ca18;
+.timeline-icon-box img, .timeline-icon-box svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.bank-pill.qris-badge {
-  background: #ed1c24;
-  color: #ffffff;
-}
-
-.bank-header i {
-  font-size: 1.3rem;
-  color: var(--color-olive-soft);
-}
-
-.bank-acc-label {
-  font-size: 0.75rem;
-  color: var(--color-text-light);
-  text-transform: uppercase;
+.timeline-time {
+  font-family: var(--font-editorial);
+  font-size: 15px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 3px;
   letter-spacing: 0.5px;
 }
 
-.bank-acc-number {
-  font-family: monospace;
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--color-olive-dark);
-  letter-spacing: 1px;
-  margin-bottom: 0.25rem;
+.timeline-event-name {
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  color: #55524E;
+  line-height: 1.3;
 }
 
-.bank-acc-name {
-  font-size: 0.9rem;
+/* ===================================================
+   SECTION 8: BLESSING DUA & PARENTS CONTACT
+   =================================================== */
+.blessing-section {
+  background-color: var(--color-bg-cream);
+  padding: 50px 20px 45px;
+  text-align: center;
+}
+
+.blessing-inner {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.blessing-frame-wrap {
+  width: 240px;
+  height: 240px;
+  margin: 0 auto 25px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 4px solid #EAE3D5;
+}
+
+.blessing-frame-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blessing-dua-text {
+  font-family: var(--font-editorial);
+  font-size: 17px;
+  line-height: 1.8;
+  color: #4A4640;
+  margin-bottom: 12px;
+}
+
+.blessing-aamiin {
+  font-family: var(--font-editorial);
+  font-size: 20px;
   font-weight: 600;
-  color: var(--color-olive-soft);
-  margin-bottom: 1.2rem;
+  color: #2F2D2A;
+  margin-bottom: 35px;
+}
+
+.parents-contact-box {
+  border-top: 1px solid var(--color-border-dark);
+  padding-top: 35px;
+}
+
+.contact-monogram {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #2F2D2A;
+  margin-bottom: 10px;
+}
+
+.contact-subtitle {
+  font-family: var(--font-editorial);
+  font-size: 15px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.parents-grid {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.parent-card {
+  flex: 1;
+  min-width: 120px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 12px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.parent-name {
+  font-family: var(--font-editorial);
+  font-size: 15px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 2px;
+}
+
+.parent-role {
+  font-family: var(--font-editorial);
+  font-size: 13px;
+  color: #7A746B;
+  margin-bottom: 12px;
+}
+
+.btn-whatsapp-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #25D366;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.35);
+}
+
+.btn-whatsapp-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 14px rgba(37, 211, 102, 0.5);
+}
+
+/* ===================================================
+   SECTION: DIGITAL ENVELOPE / WEDDING GIFT (TANDA KASIH)
+   =================================================== */
+.gift-section {
+  background-color: var(--color-bg-cream-dark);
+  padding: 50px 20px 45px;
+  text-align: center;
+  border-top: 1px solid var(--color-border-dark);
+}
+
+.bank-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 320px;
+  margin: 25px auto 0;
+}
+
+.bank-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 12px;
+  padding: 18px 20px;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.bank-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.bank-name-badge {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  color: #FFFFFF;
+}
+
+.bank-name-badge.bca {
+  background-color: #0060AF;
+}
+
+.bank-name-badge.bni {
+  background-color: #F15A24;
+}
+
+.bank-number {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  color: #1F2820;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.bank-holder {
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  color: #6B6965;
+  margin-bottom: 12px;
 }
 
 .btn-copy-rekening {
   width: 100%;
-  padding: 0.7rem;
-  background: var(--bg-tuscany);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-pill);
-  color: var(--color-olive-dark);
-  font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  transition: var(--transition-smooth);
+  gap: 8px;
+  padding: 8px;
+  border: 1px dashed #C5A880;
+  border-radius: 6px;
+  background: #FAF7F2;
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F2820;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .btn-copy-rekening:hover {
-  background: var(--bg-dark-olive);
-  color: #ffffff;
-  border-color: var(--bg-dark-olive);
+  background: #C5A880;
+  color: #FFFFFF;
 }
 
-.tuscany-qris-card {
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
+.qris-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 12px;
+  padding: 18px 20px;
   text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
-.qris-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-olive-soft);
-  margin-bottom: 0.75rem;
-}
-
-.qris-desc-text {
-  font-size: 0.85rem;
-  color: var(--color-olive-soft);
-  margin-bottom: 1.2rem;
-}
-
-.btn-open-qris {
-  width: 100%;
-  padding: 0.7rem;
-  background: var(--bg-dark-olive);
-  color: #ffffff;
-  border: none;
-  border-radius: var(--radius-pill);
-  font-size: 0.85rem;
+.qris-title {
+  font-family: var(--font-editorial);
+  font-size: 16px;
   font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  transition: var(--transition-smooth);
+  color: #1A1A1A;
+  margin-bottom: 4px;
 }
 
-.btn-open-qris:hover {
-  background: var(--color-rose);
+.qris-desc {
+  font-family: var(--font-editorial);
+  font-size: 13px;
+  color: #6B6965;
+  margin-bottom: 12px;
 }
 
-/* --- SECTION 10: CLOSING & THANK YOU --- */
-.closing-section {
-  background: radial-gradient(circle at 50% 50%, #ffffff 0%, #fff4e0 100%);
-  padding-bottom: 2.5rem;
+/* ===================================================
+   SECTION 9: RSVP SECTION & WISHES WALL
+   =================================================== */
+.rsvp-section-wrap {
+  background-color: var(--color-bg-cream);
+  padding: 55px 20px 50px;
+  text-align: center;
+  border-top: 1px solid var(--color-border-dark);
 }
 
-.thank-you-title {
+.rsvp-page-title {
   font-family: var(--font-script);
-  font-size: 3.8rem;
-  line-height: 1.25;
-  color: var(--color-rose);
-  margin-top: 0.5rem;
-  margin-bottom: 0.75rem;
+  font-size: 52px;
+  font-style: italic;
+  color: var(--color-text-dark);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.rsvp-page-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 15px;
+}
+
+.rsvp-page-icon img {
+  width: 100%;
+  height: 100%;
+}
+
+.rsvp-intro-text {
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4A4640;
+  max-width: 330px;
+  margin: 0 auto 16px;
+}
+
+.rsvp-deadline-alert {
+  font-family: var(--font-editorial);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8C8478;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.rsvp-form {
+  max-width: 340px;
+  margin: 0 auto 40px;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
   display: block;
+  font-family: var(--font-editorial);
+  font-size: 15px;
+  font-weight: 600;
+  color: #2F2D2A;
+  margin-bottom: 8px;
 }
 
-.closing-sub {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--color-olive-soft);
-  margin-bottom: 2.25rem;
-  line-height: 1.5;
+.form-input-text, .form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 8px;
+  background: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #222222;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
-.closing-photo-arch-wrap {
-  position: relative;
-  width: 230px;
-  max-width: 80%;
-  margin: 0 auto 2.25rem;
+.form-input-text:focus, .form-textarea:focus {
+  border-color: #1F2820;
+}
+
+.form-textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.attendance-options {
+  display: flex;
+  gap: 10px;
+}
+
+.attendance-pill {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 8px;
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  color: #55524E;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
 }
 
-.closing-couple-img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 10px 20px rgba(69, 86, 69, 0.12));
+.attendance-pill input {
+  display: none;
 }
 
-.closing-decor-fruits {
-  position: absolute;
-  bottom: -10px;
-  left: -20px;
-  width: 75px;
-  z-index: 3;
-}
-
-.closing-decor-lemon {
-  position: absolute;
-  top: -10px;
-  right: -15px;
-  width: 60px;
-  z-index: 3;
-}
-
-.closing-paragraph {
-  font-size: 0.95rem;
-  color: var(--color-olive-soft);
-  max-width: 380px;
-  margin: 0 auto 2rem;
-  line-height: 1.7;
-}
-
-.closing-sign-names {
-  font-family: var(--font-script);
-  font-size: 3.5rem;
-  line-height: 1.3;
-  color: var(--color-rose);
-  margin-bottom: 2.5rem;
-}
-
-.tuscany-footer {
-  border-top: 1px dashed var(--border-dashed);
-  padding-top: 1.75rem;
-  font-size: 0.8rem;
-  color: var(--color-text-light);
-}
-
-.footer-copy {
-  margin-bottom: 0.25rem;
+.attendance-pill.selected {
+  background: #1F2820;
+  color: #FFFFFF;
+  border-color: #1F2820;
   font-weight: 600;
-  color: var(--color-olive-soft);
 }
 
-/* --- Modals & Lightbox --- */
+.btn-rsvp-submit {
+  width: 100%;
+  padding: 14px;
+  background: #1F2820;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-rsvp-submit:hover {
+  background-color: #2E3B2F;
+  transform: translateY(-2px);
+}
+
+.wishes-wall-section {
+  max-width: 340px;
+  margin: 30px auto 0;
+  text-align: left;
+}
+
+.wishes-wall-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-editorial);
+  font-size: 18px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-border-dark);
+  padding-bottom: 8px;
+}
+
+.wishes-count-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #7A746B;
+}
+
+.wishes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.wishes-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.wishes-sender-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.wishes-sender-name {
+  font-family: var(--font-editorial);
+  font-size: 15px;
+  font-weight: 700;
+  color: #1F2820;
+}
+
+.wishes-status-tag {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wishes-status-tag.attending {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.wishes-status-tag.declined {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+.wishes-message {
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4A4640;
+}
+
+/* ===================================================
+   FLOATING AUDIO DISC CONTROLLER
+   =================================================== */
+.floating-audio-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #1F2820;
+  color: #FFFFFF;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 99;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.floating-audio-toggle.spinning {
+  animation: discSpin 4s linear infinite;
+}
+
+@keyframes discSpin {
+  100% { transform: rotate(360deg); }
+}
+
+/* ===================================================
+   PAGE FOOTER
+   =================================================== */
+.page-footer {
+  background-color: #121813;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 35px 20px;
+  text-align: center;
+  font-family: var(--font-editorial);
+  font-size: 13px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-credit {
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ===================================================
+   MODALS, LIGHTBOX & TOAST NOTIFICATION
+   =================================================== */
+.toast-notification {
+  position: fixed;
+  bottom: 85px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(18, 24, 19, 0.95);
+  color: #FFFFFF;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  animation: toastFade 0.3s ease;
+}
+
+@keyframes toastFade {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(5px);
-  z-index: 99999;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.modal-overlay.show {
-  opacity: 1;
-  visibility: visible;
+  padding: 20px;
 }
 
 .modal-card {
-  background: #ffffff;
-  border-radius: var(--radius-md);
-  padding: 2rem 1.5rem;
-  max-width: 360px;
-  width: 100%;
-  text-align: center;
   position: relative;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  background: #FAF7F2;
+  border: 1px solid #E2DBD0;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 360px;
+  padding: 24px 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 .modal-close-btn {
   position: absolute;
   top: 12px;
   right: 14px;
-  background: transparent;
+  background: none;
   border: none;
-  font-size: 1.8rem;
-  color: var(--color-olive-soft);
+  font-size: 24px;
+  color: #55524E;
   cursor: pointer;
 }
 
+.modal-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
 .modal-title {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  color: var(--color-olive-dark);
-  margin-bottom: 0.25rem;
+  font-family: var(--font-editorial);
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F2820;
 }
 
 .modal-desc {
-  font-size: 0.8rem;
-  color: var(--color-text-light);
-  margin-bottom: 1.25rem;
-}
-
-.qris-image-wrapper {
-  background: #ffffff;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.qris-img {
-  width: 100%;
-  height: auto;
+  font-family: var(--font-editorial);
+  font-size: 13px;
+  color: #6B6965;
+  margin-top: 4px;
 }
 
 .qris-note {
-  font-size: 0.85rem;
-  color: var(--color-olive-dark);
+  text-align: center;
+  font-family: var(--font-editorial);
+  font-size: 14px;
+  color: #1F2820;
+  margin-top: 12px;
 }
 
-/* Lightbox Modal */
 .lightbox-modal {
   position: fixed;
   inset: 0;
-  background: rgba(15, 18, 15, 0.92);
-  z-index: 999999;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.lightbox-modal.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.lightbox-content {
-  max-width: 600px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.lightbox-content img {
-  max-width: 100%;
-  max-height: 75vh;
-  object-fit: contain;
-  border-radius: var(--radius-sm);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.lightbox-caption {
-  color: #ffffff;
-  font-size: 0.95rem;
-  margin-top: 1rem;
-  text-align: center;
-  font-family: var(--font-serif);
 }
 
 .lightbox-close {
   position: absolute;
   top: 20px;
   right: 25px;
-  background: transparent;
+  background: none;
   border: none;
-  color: #ffffff;
-  font-size: 2.2rem;
+  font-size: 36px;
+  color: #FFFFFF;
   cursor: pointer;
+  z-index: 10;
 }
 
 .lightbox-nav {
@@ -1867,230 +1756,49 @@ button, input, select, textarea {
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.15);
   border: none;
-  color: #ffffff;
-  font-size: 1.5rem;
-  width: 50px;
-  height: 50px;
+  color: #FFFFFF;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  cursor: pointer;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
 }
 
 .lightbox-nav:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
-.lightbox-prev { left: 20px; }
-.lightbox-next { right: 20px; }
-
-/* Toast */
-.toast-notification {
-  position: fixed;
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-100px);
-  background: #ffffff;
-  border: 1.5px solid var(--color-olive-mid);
-  color: var(--color-olive-dark);
-  padding: 0.85rem 1.6rem;
-  border-radius: var(--radius-pill);
-  font-size: 0.9rem;
-  font-weight: 700;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  z-index: 9999999;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  pointer-events: none;
+.lightbox-prev {
+  left: 20px;
 }
 
-.toast-notification.show {
-  transform: translateX(-50%) translateY(0);
+.lightbox-next {
+  right: 20px;
 }
 
-/* ==========================================================================
-   RESPONSIVE DESIGN (Mobile & Tablets)
-   ========================================================================== */
-@media (max-width: 991px) {
-  .app-layout {
-    flex-direction: column;
-    background-color: var(--bg-tuscany);
-  }
-
-  .desktop-hero-side {
-    display: none;
-  }
-
-  .invitation-scroll-side {
-    width: 100%;
-    max-width: 540px;
-    box-shadow: none;
-  }
-
-  .section-card {
-    padding: 3.75rem 1.5rem;
-  }
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 80vh;
+  text-align: center;
 }
 
-@media (max-width: 576px) {
-  .section-card {
-    padding: 3.25rem 1.15rem;
-  }
-
-  /* Scale down doodles & make sure they never block text */
-  .tuscany-doodle {
-    z-index: 1;
-    opacity: 0.75;
-  }
-
-  .doodle-tl { width: 75px; top: -5px; left: -5px; }
-  .doodle-tr { width: 75px; top: -5px; right: -5px; }
-  .doodle-bl { width: 55px; bottom: 5px; left: 5px; }
-  .doodle-br { width: 55px; bottom: 5px; right: 5px; }
-
-  .doodle-mid-left { width: 50px; left: -10px; opacity: 0.6; }
-  .doodle-mid-right { width: 50px; right: -10px; opacity: 0.6; }
-
-  .doodle-couple-t { width: 65px; top: 5px; right: 5px; opacity: 0.65; }
-  .doodle-cd-l { width: 55px; left: -10px; opacity: 0.6; }
-  .doodle-cd-r { width: 55px; right: -10px; opacity: 0.6; }
-  .doodle-ev-t { width: 60px; top: 5px; opacity: 0.65; }
-
-  .doodle-gal-l { width: 60px; top: 0%; left: -10px; opacity: 0.55; }
-  .doodle-gal-r { width: 60px; bottom: 0%; right: -10px; opacity: 0.55; }
-
-  .doodle-rsvp { width: 50px; bottom: 5px; right: 5px; opacity: 0.65; }
-  .doodle-wish-t { width: 65px; top: 5px; left: 5px; opacity: 0.6; }
-  .doodle-gift-l { width: 50px; left: 5px; opacity: 0.6; }
-  .doodle-gift-r { width: 50px; right: 5px; opacity: 0.6; }
-  .doodle-cl-l { width: 50px; left: 5px; opacity: 0.6; }
-  .doodle-cl-r { width: 50px; right: 5px; opacity: 0.6; }
-
-  /* Ensure content is always crisp above doodles */
-  .section-badge-pill,
-  .tuscany-script-heading,
-  .section-intro-text,
-  .quote-card-box,
-  .tuscany-profile-card,
-  .tuscany-calendar-card,
-  .event-card-tuscany,
-  .tuscany-gallery-grid,
-  .tuscany-form,
-  .wishes-stream-container,
-  .tuscany-bank-cards-grid,
-  .closing-photo-arch-wrap,
-  .closing-paragraph,
-  .closing-sign-names,
-  .guest-card-box,
-  .cover-illustration-box {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Typography responsive scaling */
-  .tuscany-script-sub {
-    font-size: 2.3rem;
-  }
-
-  .tuscany-main-title {
-    font-size: 2.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .tuscany-script-heading {
-    font-size: 2.8rem;
-    line-height: 1.2;
-    margin-top: 0.15rem;
-    margin-bottom: 0.85rem;
-  }
-
-  .thank-you-title {
-    font-size: 3.2rem;
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
-  }
-
-  .closing-sign-names {
-    font-size: 2.9rem;
-    margin-bottom: 2rem;
-  }
-
-  .profile-calligraphy-name {
-    font-size: 2.6rem;
-  }
-
-  .profile-frame-wrap {
-    width: 185px;
-    height: 220px;
-  }
-
-  .cover-illustration-box {
-    width: 210px;
-  }
-
-  .closing-photo-arch-wrap {
-    width: 190px;
-    margin-bottom: 1.75rem;
-  }
-
-  /* Countdown widget compact styling */
-  .tuscany-countdown-widget {
-    padding: 0.75rem 1.1rem;
-    gap: 0.4rem;
-    margin-bottom: 1.75rem;
-  }
-
-  .countdown-unit {
-    min-width: 36px;
-  }
-
-  .cd-num {
-    font-size: 1.45rem;
-  }
-
-  .cd-lbl {
-    font-size: 0.65rem;
-  }
-
-  .countdown-sep {
-    font-size: 1.2rem;
-    margin-top: -8px;
-  }
-
-  /* Cards and forms */
-  .quote-card-box,
-  .tuscany-calendar-card,
-  .event-card-tuscany,
-  .tuscany-form,
-  .tuscany-bank-card,
-  .tuscany-qris-card,
-  .live-stream-card {
-    padding: 1.5rem 1.15rem;
-  }
-
-  .tuscany-gallery-grid {
-    gap: 0.45rem;
-  }
-
-  /* Floating controls */
-  .floating-music-btn {
-    bottom: 16px;
-    right: 16px;
-    width: 46px;
-    height: 46px;
-  }
-
-  .floating-top-btn {
-    bottom: 70px;
-    right: 16px;
-    width: 38px;
-    height: 38px;
-  }
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-
+.lightbox-caption {
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 12px;
+  letter-spacing: 0.5px;
+}
 
